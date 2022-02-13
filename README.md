@@ -20,6 +20,11 @@ Screen resolution: 1080p.
     [Theme]
     Current=sddm-astronaut-theme
     ```
+3. Copy fonts.
+
+    ```sh
+    sudo cp ./Fonts/* /usr/share/fonts/
+    ```
 
 ### Credits
 
