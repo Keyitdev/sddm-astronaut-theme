@@ -12,11 +12,10 @@ Screen resolution: 1080p.
 
 ### Install
 
-1. Clone this repository, copy files to `/usr/share/sddm/themes/` and fonts to `/usr/share/fonts/`:
+1. Clone this repository, copy fonts to `/usr/share/fonts/`:
 
    ```sh
-   sudo git clone https://github.com/keyitdev/sddm-astronaut-theme.git
-   sudo cp -fdr sddm-astronaut-theme /usr/share/sddm/themes/
+   sudo git clone https://github.com/keyitdev/sddm-astronaut-theme.git /usr/share/sddm/themes/sddm-astronaut-theme                                         
    sudo cp /usr/share/sddm/themes/sddm-astronaut-theme/Fonts/* /usr/share/fonts/
    ```
 
