@@ -8,7 +8,9 @@ Screen resolution: 1080p.
 
 ### Dependencies
 
-[`sddm >= 0.18.0`](https://github.com/sddm/sddm), [`qt5 >= 5.11.0`](http://doc.qt.io/qt-5/index.html), [`qt5-quickcontrols2 >= 5.11.0`](http://doc.qt.io/qt-5/qtquickcontrols2-index.html), [`qt5-svg >= 5.11.0`](https://doc.qt.io/qt-5/qtsvg-index.html)
+```sh
+qt5-graphicaleffects qt5-quickcontrols2 qt5-svg sddm
+```
 
 ### Install
 
