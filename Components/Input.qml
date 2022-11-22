@@ -297,6 +297,7 @@ Column {
                 anchors.left: indicator.right
                 anchors.leftMargin: indicator.width / 2
                 font.pointSize: root.font.pointSize * 0.8
+                font.family: root.font.family
                 color: root.palette.text
             }
 
@@ -452,6 +453,7 @@ Column {
                 text: parent.text
                 color: config.OverrideLoginButtonTextColor != "" ? config.OverrideLoginButtonTextColor : root.palette.highlight.hslLightness >= 0.7 ? "#444" : "white"
                 font.pointSize: root.font.pointSize
+                font.family: root.font.family
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 opacity: 0.5
