@@ -4,7 +4,7 @@
 // Config created by https://github.com/MarianArlt
 // Config modified by keyitdev https://github.com/keyitdev
 
-import QtQuick 2.11
+import QtQuick 2.15
 import QtQuick.VirtualKeyboard 2.3
 
 InputPanel {
