@@ -4,9 +4,9 @@
 // Config created by https://github.com/MarianArlt
 // Config modified by keyitdev https://github.com/keyitdev
 
-import QtQuick 2.11
-import QtQuick.Controls 2.4
-import QtGraphicalEffects 1.0
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import Qt5Compat.GraphicalEffects
 
 Item {
     id: sessionButton

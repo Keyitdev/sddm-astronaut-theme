@@ -4,9 +4,9 @@
 // Config created by https://github.com/MarianArlt
 // Config modified by keyitdev https://github.com/keyitdev
 
-import QtQuick 2.11
-import QtQuick.Layouts 1.11
-import QtQuick.Controls 2.4
+import QtQuick 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Controls 2.15
 
 RowLayout {
 
@@ -28,7 +28,7 @@ RowLayout {
             text: modelData[1]
             font.pointSize: root.font.pointSize * 0.8
             Layout.alignment: Qt.AlignHCenter
-            icon.source: modelData ? Qt.resolvedUrl("../Assets/" + modelData[0] + ".svgz") : ""
+            icon.source: modelData ? Qt.resolvedUrl("../Assets/" + modelData[0] + ".svg") : ""
             icon.height: 2 * Math.round((root.font.pointSize * 3) / 2)
             icon.width: 2 * Math.round((root.font.pointSize * 3) / 2)
             display: AbstractButton.TextUnderIcon
