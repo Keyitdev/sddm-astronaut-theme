@@ -4,10 +4,10 @@
 // Config created by https://github.com/MarianArlt
 // Config modified by keyitdev https://github.com/keyitdev
 
-import QtQuick 2.11
-import QtQuick.Layouts 1.11
-import QtQuick.Controls 2.4
-import QtGraphicalEffects 1.0
+import QtQuick 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Controls 2.15
+import Qt5Compat.GraphicalEffects
 
 Column {
     id: inputContainer
@@ -78,7 +78,7 @@ Column {
                     icon.width: parent.height * 0.25
                     enabled: false
                     icon.color: root.palette.text
-                    icon.source: Qt.resolvedUrl("../Assets/User.svgz")
+                    icon.source: Qt.resolvedUrl("../Assets/User.svg")
             }
 
             background: Rectangle {
