@@ -9,8 +9,10 @@ Screen resolution: 1080p.
 ### Dependencies
 
 ```sh
-qt5-graphicaleffects qt5-quickcontrols2 qt5-svg sddm
+qt6-5compat qt6-declarative qt6-svg sddm
 ```
+> qt6-declarative replaces qt6-quickcontrols2
+> https://archlinux.org/packages/extra/x86_64/qt6-declarative/
 
 ### Install
 

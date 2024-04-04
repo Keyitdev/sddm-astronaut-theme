@@ -69,16 +69,21 @@ Column {
 
             indicator: Button {
                     id: usernameIcon
-                    width: selectUser.height * 0.8
+                    width: selectUser.height * 1
                     height: parent.height
                     anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
-                    anchors.leftMargin: selectUser.height * 0.125
+                    anchors.leftMargin: selectUser.height * 0
                     icon.height: parent.height * 0.25
                     icon.width: parent.height * 0.25
                     enabled: false
                     icon.color: root.palette.text
                     icon.source: Qt.resolvedUrl("../Assets/User.svg")
+                    
+                    background: Rectangle {
+                        color: "transparent"
+                        border.color: "transparent"
+                    }
             }
 
             background: Rectangle {
