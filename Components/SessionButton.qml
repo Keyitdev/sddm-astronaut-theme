@@ -13,7 +13,6 @@ Item {
     height: root.font.pointSize
     width: parent.width / 2
     anchors.horizontalCenter: parent.horizontalCenter
-
     property var selectedSession: selectSession.currentIndex
     property string textConstantSession
     property int loginButtonWidth
@@ -68,7 +67,7 @@ Item {
 
         contentItem: Text {
             id: displayedItem
-            text: (config.TranslateSession || (textConstantSession + ":")) + " " + selectSession.currentText
+            text: selectSession.currentText
             color: root.palette.text
             verticalAlignment: Text.AlignVCenter
             anchors.left: parent.left

@@ -31,6 +31,7 @@ RowLayout {
             icon.source: modelData ? Qt.resolvedUrl("../Assets/" + modelData[0] + ".svg") : ""
             icon.height: 2 * Math.round((root.font.pointSize * 3) / 2)
             icon.width: 2 * Math.round((root.font.pointSize * 3) / 2)
+            icon.color: config.IconColor
             display: AbstractButton.TextUnderIcon
             visible: config.ForceHideSystemButtons != "true" && modelData[2]
             hoverEnabled: true
@@ -57,10 +58,12 @@ RowLayout {
                     when: parent.children[index].down
                     PropertyChanges {
                         target: parent.children[index]
+                        icon.color: root.palette.highlight
                         palette.buttonText: Qt.darker(root.palette.highlight, 1.1)
                     }
                     PropertyChanges {
                         target: parent.children[index].background
+                        icon.color: root.palette.highlight
                         border.color: Qt.darker(root.palette.highlight, 1.1)
                     }
                 },
@@ -69,10 +72,12 @@ RowLayout {
                     when: parent.children[index].hovered
                     PropertyChanges {
                         target: parent.children[index]
+                        icon.color: root.palette.highlight
                         palette.buttonText: Qt.lighter(root.palette.highlight, 1.1)
                     }
                     PropertyChanges {
                         target: parent.children[index].background
+                        icon.color: root.palette.highlight
                         border.color: Qt.lighter(root.palette.highlight, 1.1)
                     }
                 },
@@ -81,10 +86,12 @@ RowLayout {
                     when: parent.children[index].activeFocus
                     PropertyChanges {
                         target: parent.children[index]
+                        icon.color: root.palette.highlight
                         palette.buttonText: root.palette.highlight
                     }
                     PropertyChanges {
                         target: parent.children[index].background
+                        icon.color: root.palette.highlight
                         border.color: root.palette.highlight
                     }
                 }
