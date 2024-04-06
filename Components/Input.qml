@@ -190,7 +190,7 @@ Column {
                 radius: config.RoundCorners || 0
             }
             onAccepted: loginButton.clicked()
-            KeyNavigation.down: password
+            KeyNavigation.down: showPassword
             z: 1
 
             states: [
@@ -219,7 +219,7 @@ Column {
 
         Button {
 
-            id: revealSecret
+            id: showPassword
             z: 2
             width: selectUser.height * 1
                     height: parent.height
@@ -239,44 +239,44 @@ Column {
             states: [
                 State {
                     name: "visiblePasswordFocused"
-                    when: revealSecret.checked && revealSecret.activeFocus
+                    when: showPassword.checked && showPassword.activeFocus
                     PropertyChanges {
-                        target: revealSecret
+                        target: showPassword
                         icon.source: Qt.resolvedUrl("../Assets/Password.svg")
                         icon.color: root.palette.highlight
                     }
                 },
                 State {
                     name: "visiblePasswordHovered"
-                    when: revealSecret.checked && revealSecret.hovered
+                    when: showPassword.checked && showPassword.hovered
                     PropertyChanges {
-                        target: revealSecret
+                        target: showPassword
                         icon.source: Qt.resolvedUrl("../Assets/Password.svg")
                         icon.color: root.palette.highlight
                     }
                 },
                 State {
                     name: "visiblePassword"
-                    when: revealSecret.checked
+                    when: showPassword.checked
                     PropertyChanges {
-                        target: revealSecret
+                        target: showPassword
                         icon.source: Qt.resolvedUrl("../Assets/Password.svg")
                     }
                 },
                 State {
                     name: "hiddenPasswordFocused"
-                    when:  revealSecret.enabled && revealSecret.activeFocus
+                    when:  showPassword.enabled && showPassword.activeFocus
                     PropertyChanges {
-                        target: revealSecret
+                        target: showPassword
                         icon.source: Qt.resolvedUrl("../Assets/Password2.svg")
                         icon.color: root.palette.highlight
                     }
                 },
                 State {
                     name: "hiddenPasswordHovered"
-                    when: revealSecret.hovered
+                    when: showPassword.hovered
                     PropertyChanges {
-                        target: revealSecret
+                        target: showPassword
                         icon.source: Qt.resolvedUrl("../Assets/Password2.svg")
                         icon.color: root.palette.highlight
                     }
@@ -286,7 +286,7 @@ Column {
             onClicked: toggle()
             Keys.onReturnPressed: toggle()
             Keys.onEnterPressed: toggle()
-            KeyNavigation.down: loginButton
+            KeyNavigation.down: password
 
         }
 
@@ -298,7 +298,7 @@ Column {
             font.bold: true
             focus: config.ForcePasswordFocus == "true" ? true : false
             selectByMouse: true
-            echoMode: revealSecret.checked ? TextInput.Normal : TextInput.Password
+            echoMode: showPassword.checked ? TextInput.Normal : TextInput.Password
             placeholderText: config.TranslatePlaceholderPassword || textConstants.password
             placeholderTextColor: config.placeholderColor
             horizontalAlignment: TextInput.AlignHCenter
@@ -312,8 +312,8 @@ Column {
                 border.width: parent.activeFocus ? 2 : 1
                 radius: config.RoundCorners || 0
             }
-            onAccepted: loginButton.clicked()
-            KeyNavigation.down: revealSecret
+            onAccepted: config.AllowBadUsernames == "false" ? sddm.login(username.text.toLowerCase(), password.text, sessionSelect.selectedSession) : sddm.login(username.text, password.text, sessionSelect.selectedSession)
+            KeyNavigation.down: loginButton
         }
 
         states: [
