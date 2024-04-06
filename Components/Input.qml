@@ -1,8 +1,7 @@
-// SDDM Sugar Candy is free software: you can redistribute it and/or modify it
-// under the terms of the GNU General Public License as published by the
-// Free Software Foundation, either version 3 of the License, or any later version.
-// Config created by https://github.com/MarianArlt
-// Config modified by keyitdev https://github.com/keyitdev
+// Config created by Keyitdev https://github.com/Keyitdev/sddm-astronaut-theme
+// Copyright (C) 2022-2024 Keyitdev
+// Based on https://github.com/MarianArlt/sddm-sugar-dark
+// Distributed under the GPLv3+ License https://www.gnu.org/licenses/gpl-3.0.html
 
 import QtQuick 2.15
 import QtQuick.Layouts 1.15
@@ -15,6 +14,49 @@ Column {
 
     property Control exposeSession: sessionSelect.exposeSession
     property bool failed
+
+    Item {
+        // change also in selectSession
+        height: root.font.pointSize * 2
+        width: parent.width / 2
+        anchors.horizontalCenter: parent.horizontalCenter
+        Label {
+            id: errorMessage
+            width: parent.width
+            text: failed ? config.TranslateLoginFailedWarning || textConstants.loginFailed + "!" : keyboard.capsLock ? config.TranslateCapslockWarning || textConstants.capslockWarning : null
+            horizontalAlignment: Text.AlignHCenter
+            font.pointSize: root.font.pointSize * 0.8
+            font.italic: true
+            color: root.palette.text
+            opacity: 0
+            states: [
+                State {
+                    name: "fail"
+                    when: failed
+                    PropertyChanges {
+                        target: errorMessage
+                        opacity: 1
+                    }
+                },
+                State {
+                    name: "capslock"
+                    when: keyboard.capsLock
+                    PropertyChanges {
+                        target: errorMessage
+                        opacity: 1
+                    }
+                }
+            ]
+            transitions: [
+                Transition {
+                    PropertyAnimation {
+                        properties: "opacity"
+                        duration: 100
+                    }
+                }
+            ]
+        }
+    }
 
     Item {
         id: usernameField
@@ -189,7 +231,7 @@ Column {
                 border.width: parent.activeFocus ? 2 : 1
                 radius: config.RoundCorners || 0
             }
-            onAccepted: loginButton.clicked()
+            onAccepted: config.AllowBadUsernames == "false" ? sddm.login(username.text.toLowerCase(), password.text, sessionSelect.selectedSession) : sddm.login(username.text, password.text, sessionSelect.selectedSession)
             KeyNavigation.down: showPassword
             z: 1
 
@@ -216,20 +258,19 @@ Column {
         height: root.font.pointSize * 4.5
         width: parent.width / 2
         anchors.horizontalCenter: parent.horizontalCenter
-
+        
         Button {
-
             id: showPassword
             z: 2
             width: selectUser.height * 1
-                    height: parent.height
-                    anchors.left: parent.left
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.leftMargin: selectUser.height * 0
-                    icon.height: parent.height * 0.25
-                    icon.width: parent.height * 0.25
-                    icon.color: root.palette.text
-                    icon.source: Qt.resolvedUrl("../Assets/Password2.svg")
+            height: parent.height
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.leftMargin: selectUser.height * 0
+            icon.height: parent.height * 0.25
+            icon.width: parent.height * 0.25
+            icon.color: root.palette.text
+            icon.source: Qt.resolvedUrl("../Assets/Password2.svg")
 
             background: Rectangle {
                 color: "transparent"
@@ -342,56 +383,17 @@ Column {
     }
 
     Item {
-        height: root.font.pointSize * 2.3
-        width: parent.width / 2
-        anchors.horizontalCenter: parent.horizontalCenter
-        Label {
-            id: errorMessage
-            width: parent.width
-            text: failed ? config.TranslateLoginFailedWarning || textConstants.loginFailed + "!" : keyboard.capsLock ? config.TranslateCapslockWarning || textConstants.capslockWarning : null
-            horizontalAlignment: Text.AlignHCenter
-            font.pointSize: root.font.pointSize * 0.8
-            font.italic: true
-            color: root.palette.text
-            opacity: 0
-            states: [
-                State {
-                    name: "fail"
-                    when: failed
-                    PropertyChanges {
-                        target: errorMessage
-                        opacity: 1
-                    }
-                },
-                State {
-                    name: "capslock"
-                    when: keyboard.capsLock
-                    PropertyChanges {
-                        target: errorMessage
-                        opacity: 1
-                    }
-                }
-            ]
-            transitions: [
-                Transition {
-                    PropertyAnimation {
-                        properties: "opacity"
-                        duration: 100
-                    }
-                }
-            ]
-        }
-    }
-
-    Item {
         id: login
-        height: root.font.pointSize * 3
+        // important
+        height: root.font.pointSize * 9
         width: parent.width / 2
         anchors.horizontalCenter: parent.horizontalCenter
-
+        visible: config.HideLoginButton == "true"  ? false : true
         Button {
+            
             id: loginButton
             anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
             text: config.TranslateLogin || textConstants.login
             height: root.font.pointSize * 3
             implicitWidth: parent.width
