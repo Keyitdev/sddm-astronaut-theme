@@ -216,71 +216,77 @@ Column {
         height: root.font.pointSize * 4.5
         width: parent.width / 2
         anchors.horizontalCenter: parent.horizontalCenter
-    
 
         Button {
 
-            id: secretCheckBox
-
-            width: parent.height
-            height: parent.height
-            anchors.left: parent.left
-            z: 2
-
-            background: Rectangle {
-                color: "transparent"
-                border.color: "transparent"
-            }
-
-            CheckBox {
             id: revealSecret
-            width: parent.width
-            height: parent.height
-            hoverEnabled: true
-        
-            indicator: Button {
-                    id: passwordIcon
-                    width: selectUser.height * 1
+            z: 2
+            width: selectUser.height * 1
                     height: parent.height
                     anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.leftMargin: selectUser.height * 0
                     icon.height: parent.height * 0.25
                     icon.width: parent.height * 0.25
-                    enabled: false
                     icon.color: root.palette.text
-                    icon.source: Qt.resolvedUrl("../Assets/Password.svg")
-                    
-                    background: Rectangle {
-                        color: "transparent"
-                        border.color: "transparent"
-                    }
+                    icon.source: Qt.resolvedUrl("../Assets/Password2.svg")
+
+            background: Rectangle {
+                color: "transparent"
+                border.color: "transparent"
             }
 
             states: [
                 State {
-                    name: "unchecked"
+                    name: "visiblePasswordFocused"
+                    when: revealSecret.checked && revealSecret.activeFocus
+                    PropertyChanges {
+                        target: revealSecret
+                        icon.source: Qt.resolvedUrl("../Assets/Password.svg")
+                        icon.color: root.palette.highlight
+                    }
+                },
+                State {
+                    name: "visiblePasswordHovered"
+                    when: revealSecret.checked && revealSecret.hovered
+                    PropertyChanges {
+                        target: revealSecret
+                        icon.source: Qt.resolvedUrl("../Assets/Password.svg")
+                        icon.color: root.palette.highlight
+                    }
+                },
+                State {
+                    name: "visiblePassword"
                     when: revealSecret.checked
                     PropertyChanges {
-                        target: passwordIcon
+                        target: revealSecret
                         icon.source: Qt.resolvedUrl("../Assets/Password.svg")
                     }
                 },
                 State {
-                    name: "checked"
-                    when: revealSecret.enabled
+                    name: "hiddenPasswordFocused"
+                    when:  revealSecret.enabled && revealSecret.activeFocus
                     PropertyChanges {
-                        target: passwordIcon
+                        target: revealSecret
                         icon.source: Qt.resolvedUrl("../Assets/Password2.svg")
+                        icon.color: root.palette.highlight
+                    }
+                },
+                State {
+                    name: "hiddenPasswordHovered"
+                    when: revealSecret.hovered
+                    PropertyChanges {
+                        target: revealSecret
+                        icon.source: Qt.resolvedUrl("../Assets/Password2.svg")
+                        icon.color: root.palette.highlight
                     }
                 }
             ]
 
+            onClicked: toggle()
             Keys.onReturnPressed: toggle()
             Keys.onEnterPressed: toggle()
             KeyNavigation.down: loginButton
-
-        }
 
         }
 
@@ -471,7 +477,6 @@ Column {
                     }
                 }
             ]
-
             onClicked: config.AllowBadUsernames == "false" ? sddm.login(username.text.toLowerCase(), password.text, sessionSelect.selectedSession) : sddm.login(username.text, password.text, sessionSelect.selectedSession)
             Keys.onReturnPressed: clicked()
             Keys.onEnterPressed: clicked()
