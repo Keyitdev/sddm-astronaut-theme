@@ -21,6 +21,7 @@ Pane {
     padding: config.ScreenPadding
     palette.button: "transparent"
     palette.highlight: config.AccentColor
+    palette.highlightedText: config.OverrideTextFieldColor !== "" ? config.OverrideTextFieldColor : root.palette.highlight
     palette.text: config.MainColor
     palette.buttonText: config.MainColor
     palette.window: config.BackgroundColor
