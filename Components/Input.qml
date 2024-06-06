@@ -245,7 +245,7 @@ Column {
                     }
                     PropertyChanges {
                         target: username
-                        color: root.palette.highlight
+                        color: root.palette.highlightedText
                     }
                 }
             ]
@@ -367,7 +367,7 @@ Column {
                 }
                 PropertyChanges {
                     target: password
-                    color: root.palette.highlight
+                    color: root.palette.highlightedText
                 }
             }
         ]
