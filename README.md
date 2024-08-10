@@ -17,11 +17,17 @@ Here are some examples:
 
 ### Dependencies
 
+Arch:
 ```sh
 qt6-5compat qt6-declarative qt6-svg sddm
 ```
 > qt6-declarative replaces qt6-quickcontrols2
 > https://archlinux.org/packages/extra/x86_64/qt6-declarative/
+
+Fedora:
+```sh
+qt6-qt5compat qt6-qtdeclarative qt6-qtsvg
+```
 
 ### Install
 
