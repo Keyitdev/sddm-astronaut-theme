@@ -5,7 +5,6 @@
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import Qt5Compat.GraphicalEffects
 
 Item {
     id: usernameField
@@ -89,15 +88,6 @@ Item {
                 radius: 10
                 color: root.palette.window
                 layer.enabled: true
-                layer.effect: DropShadow {
-                    transparentBorder: true
-                    horizontalOffset: 0
-                    verticalOffset: 0
-                    radius: 100
-                    samples: 201
-                    cached: true
-                    color: "#88000000"
-                }
             }
 
             enter: Transition {
