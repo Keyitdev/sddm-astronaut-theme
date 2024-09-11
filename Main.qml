@@ -81,25 +81,35 @@ Pane {
         LoginForm {
             id: form
 
-            height: virtualKeyboard.state == "visible" ? parent.height - virtualKeyboard.implicitHeight : parent.height
+            height: parent.height
             width: parent.width / 2.5
             anchors.horizontalCenter: config.FormPosition == "center" ? parent.horizontalCenter : undefined
             anchors.left: config.FormPosition == "left" ? parent.left : undefined
             anchors.right: config.FormPosition == "right" ? parent.right : undefined
-            virtualKeyboardActive: virtualKeyboard.state == "visible" ? true : false
             z: 1
         }
 
         Button {
             id: vkb
+            checkable: true
             onClicked: virtualKeyboard.switchState()
+           
+            Keys.onReturnPressed: {
+                toggle();
+                virtualKeyboard.switchState();
+            }
+            Keys.onEnterPressed: {
+                toggle();
+                virtualKeyboard.switchState();
+            }
             visible: virtualKeyboard.status == Loader.Ready && config.ForceHideVirtualKeyboardButton == "false"
             anchors.bottom: parent.bottom
             anchors.bottomMargin: implicitHeight
             anchors.horizontalCenter: form.horizontalCenter
             z: 1
             contentItem: Text {
-                text: config.TranslateVirtualKeyboardButton || "Virtual Keyboard"
+                id: buttonVirtualKeyboard
+                text: config.TranslateVirtualKeyboardButtonOff || "Virtual Keyboard (off)"
                 color: parent.visualFocus ? palette.highlight : palette.text
                 font.pointSize: root.font.pointSize * 0.8
             }
@@ -107,6 +117,16 @@ Pane {
                 id: vkbbg
                 color: "transparent"
             }
+            states: [
+                State {
+                    name: "checked"
+                    when: vkb.checked
+                    PropertyChanges {
+                        target: buttonVirtualKeyboard
+                        text: config.TranslateVirtualKeyboardButtonOn || "Virtual Keyboard (on)"
+                    }
+                }
+            ]
         }
 
         Loader {
@@ -114,18 +134,14 @@ Pane {
             source: "Components/VirtualKeyboard.qml"
             state: "hidden"
             property bool keyboardActive: item ? item.active : false
-            onKeyboardActiveChanged: keyboardActive ? state = "visible" : state = "hidden"
-            width: parent.width
+            // x * 0.4 = x / 2.5
+            width: config.KeyboardSize == "" ? parent.width * 0.4 : parent.width * config.KeyboardSize
+            anchors.horizontalCenter: parent.horizontalCenter
             z: 1
-            function switchState() { state = state == "hidden" ? "visible" : "hidden" }
+            function switchState() { state = state == "hidden" ? "visible" : "hidden"}
             states: [
                 State {
                     name: "visible"
-                    PropertyChanges {
-                        target: form
-                        systemButtonVisibility: false
-                        clockVisibility: false
-                    }
                     PropertyChanges {
                         target: virtualKeyboard
                         y: root.height - virtualKeyboard.height
@@ -186,6 +202,7 @@ Pane {
                         }
                         ScriptAction {
                             script: {
+                                virtualKeyboard.item.activated = false;
                                 Qt.inputMethod.hide();
                             }
                         }

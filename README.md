@@ -17,8 +17,17 @@ Here are some examples:
 
 ### Dependencies
 
+#### Arch, Void
 ```sh
-qt6-declarative qt6-svg sddm
+sddm qt6-svg
+```
+#### Fedora
+```sh
+sddm qt6-qtsvg
+```
+#### OpenSUSE
+```sh
+sddm-qt6 qt6-svg
 ```
 
 ### Install
@@ -35,6 +44,24 @@ qt6-declarative qt6-svg sddm
     ```sh
     echo "[Theme]
     Current=sddm-astronaut-theme" | sudo tee /etc/sddm.conf
+    ```
+
+
+### Virtual keyboard
+
+![Preview](./Previews/preview5.png)
+
+#### Arch
+1. Install package.
+    ```sh
+    sddm qt6-virtualkeyboard
+    ```
+
+2. Then edit `/etc/sddm.conf.d/virtualkbd.conf`, so that it looks like this:
+
+    ```sh
+    [General]
+    InputMethod=qtvirtualkeyboard
     ```
 
 ### Credits
