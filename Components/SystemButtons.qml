@@ -32,7 +32,7 @@ RowLayout {
             icon.width: 2 * Math.round((root.font.pointSize * 3) / 2)
             icon.color: config.IconColor
             display: AbstractButton.TextUnderIcon
-            visible: config.ForceHideSystemButtons != "true" && modelData[2]
+            visible: config.HideSystemButtons != "true" && modelData[2]
             hoverEnabled: true
             palette.buttonText: root.palette.text
             background: Rectangle {

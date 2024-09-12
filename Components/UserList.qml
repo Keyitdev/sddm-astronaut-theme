@@ -71,7 +71,7 @@ Item {
 
         popup: Popup {
             y: parent.height - username.height / 3
-            rightMargin: config.ForceRightToLeft == "true" ? usernameField.width / 2 : undefined
+            rightMargin: config.RightToLeftLayout == "true" ? usernameField.width / 2 : undefined
             width: usernameField.width
             implicitHeight: contentItem.implicitHeight
             padding: 10

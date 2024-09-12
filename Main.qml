@@ -16,7 +16,7 @@ Pane {
     height: config.ScreenHeight || Screen.height
     width: config.ScreenWidth || Screen.ScreenWidth
 
-    LayoutMirroring.enabled: config.ForceRightToLeft == "true" ? true : Qt.application.layoutDirection === Qt.RightToLeft
+    LayoutMirroring.enabled: config.RightToLeftLayout == "true" ? true : Qt.application.layoutDirection === Qt.RightToLeft
     LayoutMirroring.childrenInherit: true
 
     padding: config.ScreenPadding
@@ -34,22 +34,22 @@ Pane {
     property bool leftleft: config.HaveFormBackground == "true" &&
                             config.PartialBlur == "false" &&
                             config.FormPosition == "left" &&
-                            config.BackgroundImageHAlignment == "left"
+                            config.BackgroundHorizontalAlignment == "left"
 
     property bool leftcenter: config.HaveFormBackground == "true" &&
                               config.PartialBlur == "false" &&
                               config.FormPosition == "left" &&
-                              config.BackgroundImageHAlignment == "center"
+                              config.BackgroundHorizontalAlignment == "center"
 
     property bool rightright: config.HaveFormBackground == "true" &&
                               config.PartialBlur == "false" &&
                               config.FormPosition == "right" &&
-                              config.BackgroundImageHAlignment == "right"
+                              config.BackgroundHorizontalAlignment == "right"
 
     property bool rightcenter: config.HaveFormBackground == "true" &&
                                config.PartialBlur == "false" &&
                                config.FormPosition == "right" &&
-                               config.BackgroundImageHAlignment == "center"
+                               config.BackgroundHorizontalAlignment == "center"
 
     Item {
         id: sizeHelper
@@ -64,7 +64,7 @@ Pane {
             width: parent.width
             height: parent.height
             color: "black"
-            opacity: config.DimBackgroundImage
+            opacity: config.DimBackground
             z: 1
         }
 
@@ -102,7 +102,7 @@ Pane {
                 toggle();
                 virtualKeyboard.switchState();
             }
-            visible: virtualKeyboard.status == Loader.Ready && config.ForceHideVirtualKeyboardButton == "false"
+            visible: virtualKeyboard.status == Loader.Ready && config.HideVirtualKeyboard == "false"
             anchors.bottom: parent.bottom
             anchors.bottomMargin: implicitHeight
             anchors.horizontalCenter: form.horizontalCenter
@@ -224,18 +224,18 @@ Pane {
                            rightcenter ?
                                 formBackground.left : undefined
 
-            horizontalAlignment: config.BackgroundImageHAlignment == "left" ?
+            horizontalAlignment: config.BackgroundHorizontalAlignment == "left" ?
                                  Image.AlignLeft :
-                                 config.BackgroundImageHAlignment == "right" ?
+                                 config.BackgroundHorizontalAlignment == "right" ?
                                  Image.AlignRight : Image.AlignHCenter
 
-            verticalAlignment: config.BackgroundImageVAlignment == "top" ?
+            verticalAlignment: config.BackgroundVerticalAlignment == "top" ?
                                Image.AlignTop :
-                               config.BackgroundImageVAlignment == "bottom" ?
+                               config.BackgroundVerticalAlignment == "bottom" ?
                                Image.AlignBottom : Image.AlignVCenter
 
             source: config.background || config.Background
-            fillMode: config.ScaleImageCropped == "true" ? Image.PreserveAspectCrop : Image.PreserveAspectFit
+            fillMode: config.CropBackground == "true" ? Image.PreserveAspectCrop : Image.PreserveAspectFit
             asynchronous: true
             cache: true
             clip: true

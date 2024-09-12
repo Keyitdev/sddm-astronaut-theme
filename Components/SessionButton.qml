@@ -91,7 +91,7 @@ Item {
         popup: Popup {
             id: popupHandler
             y: parent.height - 1
-            x: config.ForceRightToLeft == "true" ? -loginButtonWidth + displayedItem.width : 0
+            x: config.RightToLeftLayout == "true" ? -loginButtonWidth + displayedItem.width : 0
             width: sessionButton.width
             implicitHeight: contentItem.implicitHeight
             padding: 10

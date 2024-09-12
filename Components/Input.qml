@@ -72,7 +72,7 @@ Column {
             height: parent.height
             anchors.left: parent.left
 
-            property var popkey: config.ForceRightToLeft == "true" ? Qt.Key_Right : Qt.Key_Left
+            property var popkey: config.RightToLeftLayout == "true" ? Qt.Key_Right : Qt.Key_Left
             Keys.onPressed: {
                 if (event.key == Qt.Key_Down && !popup.opened)
                     username.forceActiveFocus();
@@ -134,8 +134,8 @@ Column {
 
             popup: Popup {
                 y: parent.height - username.height / 3
-                x: config.ForceRightToLeft == "true" ? -loginButton.width + selectUser.width : 0
-                rightMargin: config.ForceRightToLeft == "true" ? root.padding + usernameField.width / 2 : undefined
+                x: config.RightToLeftLayout == "true" ? -loginButton.width + selectUser.width : 0
+                rightMargin: config.RightToLeftLayout == "true" ? root.padding + usernameField.width / 2 : undefined
                 width: usernameField.width
                 implicitHeight: contentItem.implicitHeight
                 padding: 10
@@ -201,12 +201,12 @@ Column {
             id: username
             text: config.ForceLastUser == "true" ? selectUser.currentText : null
             font.bold: true
-            font.capitalization: config.AllowBadUsernames == "false" ? Font.AllLowercase : Font.MixedCase
+            font.capitalization: config.AllowUppercaseLettersInUsernames == "false" ? Font.AllLowercase : Font.MixedCase
             anchors.centerIn: parent
             height: root.font.pointSize * 3
             width: parent.width
             placeholderText: config.TranslatePlaceholderUsername || textConstants.userName
-            placeholderTextColor: config.placeholderColor
+            placeholderTextColor: config.PlaceholderColor
             selectByMouse: true
             horizontalAlignment: TextInput.AlignHCenter
             renderType: Text.QtRendering
@@ -221,7 +221,7 @@ Column {
                 border.width: parent.activeFocus ? 2 : 1
                 radius: config.RoundCorners || 0
             }
-            onAccepted: config.AllowBadUsernames == "false" ? sddm.login(username.text.toLowerCase(), password.text, sessionSelect.selectedSession) : sddm.login(username.text, password.text, sessionSelect.selectedSession)
+            onAccepted: config.AllowUppercaseLettersInUsernames == "false" ? sddm.login(username.text.toLowerCase(), password.text, sessionSelect.selectedSession) : sddm.login(username.text, password.text, sessionSelect.selectedSession)
             KeyNavigation.down: showPassword
             z: 1
 
@@ -327,14 +327,14 @@ Column {
             height: root.font.pointSize * 3
             width: parent.width
             font.bold: true
-            focus: config.ForcePasswordFocus == "true" ? true : false
+            focus: config.PasswordFocus == "true" ? true : false
             selectByMouse: true
             echoMode: showPassword.checked ? TextInput.Normal : TextInput.Password
             placeholderText: config.TranslatePlaceholderPassword || textConstants.password
-            placeholderTextColor: config.placeholderColor
+            placeholderTextColor: config.PlaceholderColor
             horizontalAlignment: TextInput.AlignHCenter
             passwordCharacter: "•"
-            passwordMaskDelay: config.ForceHideCompletePassword == "true" ? undefined : 1000
+            passwordMaskDelay: config.HideCompletePassword == "true" ? undefined : 1000
             renderType: Text.QtRendering
             background: Rectangle {
                 color: "#222222"
@@ -343,7 +343,7 @@ Column {
                 border.width: parent.activeFocus ? 2 : 1
                 radius: config.RoundCorners || 0
             }
-            onAccepted: config.AllowBadUsernames == "false" ? sddm.login(username.text.toLowerCase(), password.text, sessionSelect.selectedSession) : sddm.login(username.text, password.text, sessionSelect.selectedSession)
+            onAccepted: config.AllowUppercaseLettersInUsernames == "false" ? sddm.login(username.text.toLowerCase(), password.text, sessionSelect.selectedSession) : sddm.login(username.text, password.text, sessionSelect.selectedSession)
             KeyNavigation.down: loginButton
         }
 
@@ -469,7 +469,7 @@ Column {
                     }
                 }
             ]
-            onClicked: config.AllowBadUsernames == "false" ? sddm.login(username.text.toLowerCase(), password.text, sessionSelect.selectedSession) : sddm.login(username.text, password.text, sessionSelect.selectedSession)
+            onClicked: config.AllowUppercaseLettersInUsernames == "false" ? sddm.login(username.text.toLowerCase(), password.text, sessionSelect.selectedSession) : sddm.login(username.text, password.text, sessionSelect.selectedSession)
             Keys.onReturnPressed: clicked()
             Keys.onEnterPressed: clicked()
             KeyNavigation.down: sessionSelect.exposeSession
