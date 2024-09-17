@@ -30,7 +30,7 @@ RowLayout {
             icon.source: modelData ? Qt.resolvedUrl("../Assets/" + modelData[0] + ".svg") : ""
             icon.height: 2 * Math.round((root.font.pointSize * 3) / 2)
             icon.width: 2 * Math.round((root.font.pointSize * 3) / 2)
-            icon.color: config.IconColor
+            icon.color: config.SystemButtonsIconColor
             display: AbstractButton.TextUnderIcon
             visible: config.HideSystemButtons != "true" && modelData[2]
             hoverEnabled: true

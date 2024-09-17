@@ -106,7 +106,7 @@ Item {
 
             background: Rectangle {
                 radius: config.RoundCorners / 2
-                color: config.BackgroundColor
+                color: root.palette.alternateBase
                 layer.enabled: true
             }
 

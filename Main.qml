@@ -21,11 +21,15 @@ Pane {
 
     padding: config.ScreenPadding
     palette.button: "transparent"
-    palette.highlight: config.AccentColor
-    palette.highlightedText: config.OverrideTextFieldColor !== "" ? config.OverrideTextFieldColor : root.palette.highlight
-    palette.text: config.MainColor
-    palette.buttonText: config.MainColor
+    palette.highlight: config.HighlightColor
     palette.window: config.BackgroundColor
+    palette.text: config.TextColor
+    palette.shadow: config.PlaceholderColor
+    palette.buttonText: root.palette.text
+    palette.highlightedText: config.HighlightTextColor == "" ? root.palette.highlight : config.HighlightTextColor
+    palette.link: config.LoginButtonBackgroundColor == "" ? root.palette.highlight : config.LoginButtonBackgroundColor
+    palette.mid: config.LoginButtonTextColor == "" ? root.palette.text : config.LoginButtonTextColor
+    palette.alternateBase: config.BackgroundListColor == "" ? root.palette.window : config.BackgroundListColor
 
     font.family: config.Font
     font.pointSize: config.FontSize !== "" ? config.FontSize : parseInt(height / 80)

@@ -150,7 +150,7 @@ Column {
 
                 background: Rectangle {
                     radius: config.RoundCorners / 2
-                    color: root.palette.window
+                    color: root.palette.alternateBase
                     layer.enabled: true
                 }
 
@@ -206,7 +206,7 @@ Column {
             height: root.font.pointSize * 3
             width: parent.width
             placeholderText: config.TranslatePlaceholderUsername || textConstants.userName
-            placeholderTextColor: config.PlaceholderColor
+            placeholderTextColor: root.palette.shadow
             selectByMouse: true
             horizontalAlignment: TextInput.AlignHCenter
             renderType: Text.QtRendering
@@ -331,7 +331,7 @@ Column {
             selectByMouse: true
             echoMode: showPassword.checked ? TextInput.Normal : TextInput.Password
             placeholderText: config.TranslatePlaceholderPassword || textConstants.password
-            placeholderTextColor: config.PlaceholderColor
+            placeholderTextColor: root.palette.shadow
             horizontalAlignment: TextInput.AlignHCenter
             passwordCharacter: "•"
             passwordMaskDelay: config.HideCompletePassword == "true" ? undefined : 1000
@@ -392,7 +392,7 @@ Column {
 
             contentItem: Text {
                 text: parent.text
-                color: config.OverrideLoginButtonTextColor != "" ? config.OverrideLoginButtonTextColor : root.palette.highlight.hslLightness >= 0.7 ? "#444" : "white"
+                color: root.palette.mid
                 font.pointSize: root.font.pointSize
                 font.family: root.font.family
                 horizontalAlignment: Text.AlignHCenter
@@ -413,7 +413,7 @@ Column {
                     when: loginButton.down
                     PropertyChanges {
                         target: buttonBackground
-                        color: Qt.darker(root.palette.highlight, 1.1)
+                        color: Qt.darker(root.palette.link, 1.1)
                         opacity: 1
                     }
                     PropertyChanges {
@@ -425,7 +425,7 @@ Column {
                     when: loginButton.hovered
                     PropertyChanges {
                         target: buttonBackground
-                        color: Qt.lighter(root.palette.highlight, 1.15)
+                        color: Qt.lighter(root.palette.link, 1.15)
                         opacity: 1
                     }
                     PropertyChanges {
@@ -438,7 +438,7 @@ Column {
                     when: loginButton.activeFocus
                     PropertyChanges {
                         target: buttonBackground
-                        color: Qt.lighter(root.palette.highlight, 1.2)
+                        color: Qt.lighter(root.palette.link, 1.2)
                         opacity: 1
                     }
                     PropertyChanges {
@@ -451,7 +451,7 @@ Column {
                     when: loginButton.enabled
                     PropertyChanges {
                         target: buttonBackground;
-                        color: root.palette.highlight;
+                        color: root.palette.link;
                         opacity: 1
                     }
                     PropertyChanges {
