@@ -140,7 +140,11 @@ Pane {
             property bool keyboardActive: item ? item.active : false
             // x * 0.4 = x / 2.5
             width: config.KeyboardSize == "" ? parent.width * 0.4 : parent.width * config.KeyboardSize
-            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.bottom
+            anchors.left: config.VirtualKeyboardPosition == "left" ? parent.left : undefined;
+            anchors.horizontalCenter: config.VirtualKeyboardPosition == "center" ? parent.horizontalCenter : undefined;
+            anchors.right: config.VirtualKeyboardPosition == "right" ? parent.right : undefined;
+
             z: 1
             function switchState() { state = state == "hidden" ? "visible" : "hidden"}
             states: [
