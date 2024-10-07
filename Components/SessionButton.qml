@@ -22,7 +22,7 @@ Item {
         // change also in errorMessage
         height: root.font.pointSize * 2
         hoverEnabled: true
-        anchors.left: parent.left
+        anchors.horizontalCenter: parent.horizontalCenter
         Keys.onPressed: {
             if (event.key == Qt.Key_Up && loginButton.state != "enabled" && !popup.opened)
                 revealSecret.focus = true,
@@ -67,11 +67,9 @@ Item {
 
         contentItem: Text {
             id: displayedItem
-            text: selectSession.currentText
+            text: (config.TranslateSessionSelection || "Session") + " (" + selectSession.currentText + ")"
             color: root.palette.text
             verticalAlignment: Text.AlignVCenter
-            anchors.left: parent.left
-            anchors.leftMargin: 3
             font.pointSize: root.font.pointSize * 0.8
             font.family: root.font.family
             Keys.onReleased: parent.popup.open()
@@ -90,9 +88,10 @@ Item {
 
         popup: Popup {
             id: popupHandler
-            y: parent.height - 1
-            x: config.RightToLeftLayout == "true" ? -loginButtonWidth + displayedItem.width : 0
             width: sessionButton.width
+            y: parent.height - 1
+            x:  -popupHandler.width/2 + displayedItem.width/2
+            // x: config.RightToLeftLayout == "true" ? -loginButtonWidth + displayedItem.width : 0
             implicitHeight: contentItem.implicitHeight
             padding: 10
 

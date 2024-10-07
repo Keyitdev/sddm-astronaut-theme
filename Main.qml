@@ -25,11 +25,11 @@ Pane {
     palette.window: config.BackgroundColor
     palette.text: config.TextColor
     palette.shadow: config.PlaceholderColor
-    palette.buttonText: root.palette.text
-    palette.highlightedText: config.HighlightTextColor == "" ? root.palette.highlight : config.HighlightTextColor
-    palette.link: config.LoginButtonBackgroundColor == "" ? root.palette.highlight : config.LoginButtonBackgroundColor
-    palette.mid: config.LoginButtonTextColor == "" ? root.palette.text : config.LoginButtonTextColor
-    palette.alternateBase: config.BackgroundListColor == "" ? root.palette.window : config.BackgroundListColor
+    palette.buttonText: config.TextColor
+    palette.highlightedText: config.HighlightTextColor == "" ? config.HighlightColor : config.HighlightTextColor
+    palette.link: config.LoginButtonBackgroundColor == "" ? config.HighlightColor : config.LoginButtonBackgroundColor
+    palette.mid: config.LoginButtonTextColor == "" ? config.TextColor : config.LoginButtonTextColor
+    palette.alternateBase: config.BackgroundListColor == "" ? config.BackgroundColor: config.BackgroundListColor
 
     font.family: config.Font
     font.pointSize: config.FontSize !== "" ? config.FontSize : parseInt(height / 80)
@@ -91,8 +91,14 @@ Pane {
             anchors.left: config.FormPosition == "left" ? parent.left : undefined
             anchors.right: config.FormPosition == "right" ? parent.right : undefined
             z: 1
+            
+            SessionButton {
+                id: sessionSelect
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 70
+            }
         }
-
+        
         Button {
             id: vkb
             checkable: true

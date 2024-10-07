@@ -11,17 +11,17 @@ RowLayout {
 
     spacing: root.font.pointSize
 
+    property var shutdown: ["Shutdown", config.TranslateShutdown || textConstants.shutdown, sddm.canPowerOff]
+    property var reboot: ["Reboot", config.TranslateReboot || textConstants.reboot, sddm.canReboot]
     property var suspend: ["Suspend", config.TranslateSuspend || textConstants.suspend, sddm.canSuspend]
     property var hibernate: ["Hibernate", config.TranslateHibernate || textConstants.hibernate, sddm.canHibernate]
-    property var reboot: ["Reboot", config.TranslateReboot || textConstants.reboot, sddm.canReboot]
-    property var shutdown: ["Shutdown", config.TranslateShutdown || textConstants.shutdown, sddm.canPowerOff]
 
     property Control exposedSession
 
     Repeater {
 
         id: systemButtons
-        model: [suspend, hibernate, reboot, shutdown]
+        model: [shutdown, reboot, suspend, hibernate]
 
         RoundButton {
             text: modelData[1]
@@ -34,7 +34,7 @@ RowLayout {
             display: AbstractButton.TextUnderIcon
             visible: config.HideSystemButtons != "true" && modelData[2]
             hoverEnabled: true
-            palette.buttonText: root.palette.text
+            palette.buttonText: config.SystemButtonsIconColor
             background: Rectangle {
                 height: 2
                 color: "transparent"
@@ -46,7 +46,7 @@ RowLayout {
             Keys.onReturnPressed: clicked()
             onClicked: {
                 parent.forceActiveFocus()
-                index == 0 ? sddm.suspend() : index == 1 ? sddm.hibernate() : index == 2 ? sddm.reboot() : sddm.powerOff()
+                index == 0 ? sddm.powerOff() : index == 1 ? sddm.reboot() : index == 2 ? sddm.suspend() : sddm.hibernate()
             }
             KeyNavigation.up: exposedSession
             KeyNavigation.left: parent.children[index-1]
