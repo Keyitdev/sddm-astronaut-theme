@@ -120,11 +120,11 @@ Item {
                 when: selectSession.down
                 PropertyChanges {
                     target: displayedItem
-                    color: Qt.darker(root.palette.highlight, 1.1)
+                    color: Qt.darker(root.palette.toolTipBase, 1.1)
                 }
                 PropertyChanges {
                     target: selectSession.background
-                    border.color: Qt.darker(root.palette.highlight, 1.1)
+                    border.color: Qt.darker(root.palette.toolTipBase, 1.1)
                 }
             },
             State {
@@ -132,11 +132,11 @@ Item {
                 when: selectSession.hovered
                 PropertyChanges {
                     target: displayedItem
-                    color: Qt.lighter(root.palette.highlight, 1.1)
+                    color: Qt.lighter(root.palette.toolTipBase, 1.1)
                 }
                 PropertyChanges {
                     target: selectSession.background
-                    border.color: Qt.lighter(root.palette.highlight, 1.1)
+                    border.color: Qt.lighter(root.palette.toolTipBase, 1.1)
                 }
             },
             State {
@@ -144,11 +144,11 @@ Item {
                 when: selectSession.visualFocus
                 PropertyChanges {
                     target: displayedItem
-                    color: root.palette.highlight
+                    color: root.palette.toolTipBase
                 }
                 PropertyChanges {
                     target: selectSession.background
-                    border.color: root.palette.highlight
+                    border.color: root.palette.toolTipBase
                 }
             }
         ]

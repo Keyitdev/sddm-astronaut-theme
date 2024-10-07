@@ -375,6 +375,7 @@ Column {
     Item {
         id: login
         // important
+        // try 4 or 9 ...
         height: root.font.pointSize * 9
         width: parent.width / 2
         anchors.horizontalCenter: parent.horizontalCenter

@@ -15,11 +15,11 @@ Pane {
 
     height: config.ScreenHeight || Screen.height
     width: config.ScreenWidth || Screen.ScreenWidth
+    padding: config.ScreenPadding
 
     LayoutMirroring.enabled: config.RightToLeftLayout == "true" ? true : Qt.application.layoutDirection === Qt.RightToLeft
     LayoutMirroring.childrenInherit: true
 
-    padding: config.ScreenPadding
     palette.button: "transparent"
     palette.highlight: config.HighlightColor
     palette.window: config.BackgroundColor
@@ -30,7 +30,8 @@ Pane {
     palette.link: config.LoginButtonBackgroundColor == "" ? config.HighlightColor : config.LoginButtonBackgroundColor
     palette.mid: config.LoginButtonTextColor == "" ? config.TextColor : config.LoginButtonTextColor
     palette.alternateBase: config.BackgroundListColor == "" ? config.BackgroundColor: config.BackgroundListColor
-
+    palette.toolTipBase: config.HoverSessionAndVirtualKeyboard == "" ? config.HighlightColor : config.HoverSessionAndVirtualKeyboard
+    
     font.family: config.Font
     font.pointSize: config.FontSize !== "" ? config.FontSize : parseInt(height / 80)
     focus: true
@@ -95,7 +96,7 @@ Pane {
             SessionButton {
                 id: sessionSelect
                 anchors.bottom: parent.bottom
-                anchors.bottomMargin: 70
+                anchors.bottomMargin: parent.height/16
             }
         }
         
@@ -129,11 +130,29 @@ Pane {
             }
             states: [
                 State {
+                    name: "HoveredAndChecked"
+                    when: vkb.checked && vkb.hovered
+                    PropertyChanges {
+                        target: buttonVirtualKeyboard
+                        text: config.TranslateVirtualKeyboardButtonOn || "Virtual Keyboard (on)"
+                        color: root.palette.toolTipBase
+                    }
+                },
+                State {
                     name: "checked"
                     when: vkb.checked
                     PropertyChanges {
                         target: buttonVirtualKeyboard
                         text: config.TranslateVirtualKeyboardButtonOn || "Virtual Keyboard (on)"
+                    }
+                },
+                State {
+                    name: "hovered"
+                    when: vkb.hovered
+                    PropertyChanges {
+                        target: buttonVirtualKeyboard
+                        text: config.TranslateVirtualKeyboardButtonOff || "Virtual Keyboard (off)"
+                        color: root.palette.toolTipBase
                     }
                 }
             ]
