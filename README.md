@@ -7,7 +7,7 @@ A theme for the [SDDM login manager](https://github.com/sddm/sddm).
 
 ### Preview
 
-You can easily change how it looks in **[config](./theme.conf)**. 
+You can easily change how it looks in **[config](./Themes/theme1.conf)**. 
 Here are some examples:
 
 ![Preview](./Previews/preview1.png)
