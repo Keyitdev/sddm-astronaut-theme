@@ -51,13 +51,13 @@ Item {
                 text: model.name
                 font.pointSize: root.font.pointSize * 0.8
                 font.family: root.font.family
-                color: selectSession.highlightedIndex === index ? root.palette.highlight.hslLightness >= 0.7 ? "#444444" : "white" : root.palette.window.hslLightness >= 0.8 ? root.palette.highlight.hslLightness >= 0.8 ? "#444444" : root.palette.highlight : "white"
+                color: config.DropdownTextColor
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
             }
             highlighted: parent.highlightedIndex === index
             background: Rectangle {
-                color: selectSession.highlightedIndex === index ? root.palette.highlight : "transparent"
+                color: selectSession.highlightedIndex === index ? config.DropdownSelectedBackgroundColor : "transparent"
             }
         }
 
@@ -68,7 +68,7 @@ Item {
         contentItem: Text {
             id: displayedItem
             text: (config.TranslateSessionSelection || "Session") + " (" + selectSession.currentText + ")"
-            color: root.palette.text
+            color: config.SessionButtonTextColor
             verticalAlignment: Text.AlignVCenter
             font.pointSize: root.font.pointSize * 0.8
             font.family: root.font.family
@@ -105,7 +105,7 @@ Item {
 
             background: Rectangle {
                 radius: config.RoundCorners / 2
-                color: root.palette.alternateBase
+                color: config.DropdownBackgroundColor
                 layer.enabled: true
             }
 
@@ -120,11 +120,11 @@ Item {
                 when: selectSession.down
                 PropertyChanges {
                     target: displayedItem
-                    color: Qt.darker(root.palette.toolTipBase, 1.1)
+                    color: Qt.darker(config.HoverSessionButtonTextColor, 1.1)
                 }
                 PropertyChanges {
                     target: selectSession.background
-                    border.color: Qt.darker(root.palette.toolTipBase, 1.1)
+                    border.color: Qt.darker(config.HoverSessionButtonTextColor, 1.1)
                 }
             },
             State {
@@ -132,11 +132,11 @@ Item {
                 when: selectSession.hovered
                 PropertyChanges {
                     target: displayedItem
-                    color: Qt.lighter(root.palette.toolTipBase, 1.1)
+                    color: Qt.lighter(config.HoverSessionButtonTextColor, 1.1)
                 }
                 PropertyChanges {
                     target: selectSession.background
-                    border.color: Qt.lighter(root.palette.toolTipBase, 1.1)
+                    border.color: Qt.lighter(config.HoverSessionButtonTextColor, 1.1)
                 }
             },
             State {
@@ -144,11 +144,11 @@ Item {
                 when: selectSession.visualFocus
                 PropertyChanges {
                     target: displayedItem
-                    color: root.palette.toolTipBase
+                    color: config.HoverSessionButtonTextColor
                 }
                 PropertyChanges {
                     target: selectSession.background
-                    border.color: root.palette.toolTipBase
+                    border.color: config.HoverSessionButtonTextColor
                 }
             }
         ]

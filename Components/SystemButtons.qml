@@ -30,11 +30,11 @@ RowLayout {
             icon.source: modelData ? Qt.resolvedUrl("../Assets/" + modelData[0] + ".svg") : ""
             icon.height: 2 * Math.round((root.font.pointSize * 3) / 2)
             icon.width: 2 * Math.round((root.font.pointSize * 3) / 2)
-            icon.color: config.SystemButtonsIconColor
+            icon.color: config.SystemButtonsIconsColor
             display: AbstractButton.TextUnderIcon
             visible: config.HideSystemButtons != "true" && modelData[2]
             hoverEnabled: true
-            palette.buttonText: config.SystemButtonsIconColor
+            palette.buttonText: config.SystemButtonsIconsColor
             background: Rectangle {
                 height: 2
                 color: "transparent"
@@ -57,13 +57,13 @@ RowLayout {
                     when: parent.children[index].down
                     PropertyChanges {
                         target: parent.children[index]
-                        icon.color: root.palette.highlight
-                        palette.buttonText: Qt.darker(root.palette.highlight, 1.1)
+                        icon.color: root.palette.buttonText
+                        palette.buttonText: Qt.darker(root.palette.buttonText, 1.1)
                     }
                     PropertyChanges {
                         target: parent.children[index].background
-                        icon.color: root.palette.highlight
-                        border.color: Qt.darker(root.palette.highlight, 1.1)
+                        icon.color: root.palette.buttonText
+                        border.color: Qt.darker(root.palette.buttonText, 1.1)
                     }
                 },
                 State {
@@ -71,13 +71,13 @@ RowLayout {
                     when: parent.children[index].hovered
                     PropertyChanges {
                         target: parent.children[index]
-                        icon.color: root.palette.highlight
-                        palette.buttonText: Qt.lighter(root.palette.highlight, 1.1)
+                        icon.color: root.palette.buttonText
+                        palette.buttonText: Qt.lighter(root.palette.buttonText, 1.1)
                     }
                     PropertyChanges {
                         target: parent.children[index].background
-                        icon.color: root.palette.highlight
-                        border.color: Qt.lighter(root.palette.highlight, 1.1)
+                        icon.color: root.palette.buttonText
+                        border.color: Qt.lighter(root.palette.buttonText, 1.1)
                     }
                 },
                 State {
@@ -85,13 +85,13 @@ RowLayout {
                     when: parent.children[index].activeFocus
                     PropertyChanges {
                         target: parent.children[index]
-                        icon.color: root.palette.highlight
-                        palette.buttonText: root.palette.highlight
+                        icon.color: root.palette.buttonText
+                        palette.buttonText: root.palette.buttonText
                     }
                     PropertyChanges {
                         target: parent.children[index].background
-                        icon.color: root.palette.highlight
-                        border.color: root.palette.highlight
+                        icon.color: root.palette.buttonText
+                        border.color: root.palette.buttonText
                     }
                 }
             ]

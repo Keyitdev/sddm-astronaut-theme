@@ -20,17 +20,10 @@ Pane {
     LayoutMirroring.enabled: config.RightToLeftLayout == "true" ? true : Qt.application.layoutDirection === Qt.RightToLeft
     LayoutMirroring.childrenInherit: true
 
-    palette.button: "transparent"
-    palette.highlight: config.HighlightColor
     palette.window: config.BackgroundColor
-    palette.text: config.TextColor
-    palette.shadow: config.PlaceholderColor
-    palette.buttonText: config.TextColor
-    palette.highlightedText: config.HighlightTextColor == "" ? config.HighlightColor : config.HighlightTextColor
-    palette.link: config.LoginButtonBackgroundColor == "" ? config.HighlightColor : config.LoginButtonBackgroundColor
-    palette.mid: config.LoginButtonTextColor == "" ? config.TextColor : config.LoginButtonTextColor
-    palette.alternateBase: config.BackgroundListColor == "" ? config.BackgroundColor: config.BackgroundListColor
-    palette.toolTipBase: config.HoverSessionAndVirtualKeyboard == "" ? config.HighlightColor : config.HoverSessionAndVirtualKeyboard
+    palette.highlight: config.HighlightBackgroundColor
+    palette.highlightedText: config.HighlightTextColor
+    palette.buttonText: config.HoverSystemButtonsIconsColor
     
     font.family: config.Font
     font.pointSize: config.FontSize !== "" ? config.FontSize : parseInt(height / 80)
@@ -62,13 +55,12 @@ Pane {
         anchors.fill: parent
         height: parent.height
         width: parent.width
-
+        
         Rectangle {
             id: tintLayer
             anchors.fill: parent
             width: parent.width
             height: parent.height
-            color: "black"
             opacity: config.DimBackground
             z: 1
         }
@@ -77,7 +69,7 @@ Pane {
             id: formBackground
             anchors.fill: form
             anchors.centerIn: form
-            color: root.palette.window
+            color: config.FormBackgroundColor
             visible: config.HaveFormBackground == "true" ? true : false
             opacity: config.PartialBlur == "true" ? 0.3 : 1
             z: 1
@@ -85,7 +77,6 @@ Pane {
 
         LoginForm {
             id: form
-
             height: parent.height
             width: parent.width / 2.5
             anchors.horizontalCenter: config.FormPosition == "center" ? parent.horizontalCenter : undefined
@@ -121,7 +112,7 @@ Pane {
             contentItem: Text {
                 id: buttonVirtualKeyboard
                 text: config.TranslateVirtualKeyboardButtonOff || "Virtual Keyboard (off)"
-                color: parent.visualFocus ? palette.highlight : palette.text
+                color: parent.visualFocus ? config.HoverVirtualKeyboardButtonTextColor : config.VirtualKeyboardButtonTextColor
                 font.pointSize: root.font.pointSize * 0.8
             }
             background: Rectangle {
@@ -135,7 +126,7 @@ Pane {
                     PropertyChanges {
                         target: buttonVirtualKeyboard
                         text: config.TranslateVirtualKeyboardButtonOn || "Virtual Keyboard (on)"
-                        color: root.palette.toolTipBase
+                        color: config.HoverVirtualKeyboardButtonTextColor
                     }
                 },
                 State {
@@ -152,7 +143,7 @@ Pane {
                     PropertyChanges {
                         target: buttonVirtualKeyboard
                         text: config.TranslateVirtualKeyboardButtonOff || "Virtual Keyboard (off)"
-                        color: root.palette.toolTipBase
+                        color: config.HoverVirtualKeyboardButtonTextColor
                     }
                 }
             ]

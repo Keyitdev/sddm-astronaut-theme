@@ -26,7 +26,7 @@ Column {
             horizontalAlignment: Text.AlignHCenter
             font.pointSize: root.font.pointSize * 0.8
             font.italic: true
-            color: root.palette.text
+            color: config.WarningColor
             opacity: 0
             states: [
                 State {
@@ -98,13 +98,13 @@ Column {
                     text: model.name
                     font.pointSize: root.font.pointSize * 0.8
                     font.capitalization: Font.AllLowercase
-                    color: selectUser.highlightedIndex === index ? root.palette.highlight.hslLightness >= 0.7 ? "#444" : "white" : root.palette.window.hslLightness >= 0.8 ? root.palette.highlight.hslLightness >= 0.8 ? "#444" : root.palette.highlight : "white"
+                    color: config.DropdownTextColor
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                 }
                 highlighted: parent.highlightedIndex === index
                 background: Rectangle {
-                    color: selectUser.highlightedIndex === index ? root.palette.highlight : "transparent"
+                    color: selectUser.highlightedIndex === index ? config.DropdownSelectedBackgroundColor : "transparent"
                 }
             }
 
@@ -118,7 +118,7 @@ Column {
                     icon.height: parent.height * 0.25
                     icon.width: parent.height * 0.25
                     enabled: false
-                    icon.color: root.palette.text
+                    icon.color: config.UserIconColor
                     icon.source: Qt.resolvedUrl("../Assets/User.svg")
                     
                     background: Rectangle {
@@ -150,7 +150,7 @@ Column {
 
                 background: Rectangle {
                     radius: config.RoundCorners / 2
-                    color: root.palette.alternateBase
+                    color: config.DropdownBackgroundColor
                     layer.enabled: true
                 }
 
@@ -165,7 +165,7 @@ Column {
                     when: selectUser.down
                     PropertyChanges {
                         target: usernameIcon
-                        icon.color: Qt.lighter(root.palette.highlight, 1.1)
+                        icon.color: Qt.lighter(config.HoverUserIconColor, 1.1)
                     }
                 },
                 State {
@@ -173,7 +173,7 @@ Column {
                     when: selectUser.hovered
                     PropertyChanges {
                         target: usernameIcon
-                        icon.color: Qt.lighter(root.palette.highlight, 1.2)
+                        icon.color: Qt.lighter(config.HoverUserIconColor, 1.2)
                     }
                 },
                 State {
@@ -181,7 +181,7 @@ Column {
                     when: selectUser.activeFocus
                     PropertyChanges {
                         target: usernameIcon
-                        icon.color: root.palette.highlight
+                        icon.color: config.HoverUserIconColor
                     }
                 }
             ]
@@ -200,13 +200,14 @@ Column {
         TextField {
             id: username
             text: config.ForceLastUser == "true" ? selectUser.currentText : null
+            color: config.LoginFieldTextColor
             font.bold: true
             font.capitalization: config.AllowUppercaseLettersInUsernames == "false" ? Font.AllLowercase : Font.MixedCase
             anchors.centerIn: parent
             height: root.font.pointSize * 3
             width: parent.width
             placeholderText: config.TranslatePlaceholderUsername || textConstants.userName
-            placeholderTextColor: root.palette.shadow
+            placeholderTextColor: config.PlacholderTextColor
             selectByMouse: true
             horizontalAlignment: TextInput.AlignHCenter
             renderType: Text.QtRendering
@@ -215,7 +216,7 @@ Column {
                     selectAll()
             }
             background: Rectangle {
-                color: "#222222"
+                color: config.LoginFieldBackgroundColor
                 opacity: 0.2
                 border.color: "transparent"
                 border.width: parent.activeFocus ? 2 : 1
@@ -231,11 +232,11 @@ Column {
                     when: username.activeFocus
                     PropertyChanges {
                         target: username.background
-                        border.color: root.palette.highlight
+                        border.color: config.HighlightBorderColor
                     }
                     PropertyChanges {
                         target: username
-                        color: root.palette.highlightedText
+                        color: Qt.lighter(config.LoginFieldTextColor, 1.15)
                     }
                 }
             ]
@@ -259,7 +260,7 @@ Column {
             anchors.leftMargin: selectUser.height * 0
             icon.height: parent.height * 0.25
             icon.width: parent.height * 0.25
-            icon.color: root.palette.text
+            icon.color: config.PasswordIconColor
             icon.source: Qt.resolvedUrl("../Assets/Password2.svg")
 
             background: Rectangle {
@@ -274,7 +275,7 @@ Column {
                     PropertyChanges {
                         target: showPassword
                         icon.source: Qt.resolvedUrl("../Assets/Password.svg")
-                        icon.color: root.palette.highlight
+                        icon.color: config.HoverPasswordIconColor
                     }
                 },
                 State {
@@ -283,7 +284,7 @@ Column {
                     PropertyChanges {
                         target: showPassword
                         icon.source: Qt.resolvedUrl("../Assets/Password.svg")
-                        icon.color: root.palette.highlight
+                        icon.color: config.HoverPasswordIconColor
                     }
                 },
                 State {
@@ -300,7 +301,7 @@ Column {
                     PropertyChanges {
                         target: showPassword
                         icon.source: Qt.resolvedUrl("../Assets/Password2.svg")
-                        icon.color: root.palette.highlight
+                        icon.color: config.HoverPasswordIconColor
                     }
                 },
                 State {
@@ -309,7 +310,7 @@ Column {
                     PropertyChanges {
                         target: showPassword
                         icon.source: Qt.resolvedUrl("../Assets/Password2.svg")
-                        icon.color: root.palette.highlight
+                        icon.color: config.HoverPasswordIconColor
                     }
                 }
             ]
@@ -324,6 +325,7 @@ Column {
         TextField {
             id: password
             anchors.centerIn: parent
+            color: config.PasswordFieldTextColor
             height: root.font.pointSize * 3
             width: parent.width
             font.bold: true
@@ -331,13 +333,13 @@ Column {
             selectByMouse: true
             echoMode: showPassword.checked ? TextInput.Normal : TextInput.Password
             placeholderText: config.TranslatePlaceholderPassword || textConstants.password
-            placeholderTextColor: root.palette.shadow
+            placeholderTextColor: config.PlacholderTextColor
             horizontalAlignment: TextInput.AlignHCenter
             passwordCharacter: "•"
             passwordMaskDelay: config.HideCompletePassword == "true" ? undefined : 1000
             renderType: Text.QtRendering
             background: Rectangle {
-                color: "#222222"
+                color: config.PasswordFieldBackgroundColor
                 opacity: 0.2
                 border.color: "transparent"
                 border.width: parent.activeFocus ? 2 : 1
@@ -353,11 +355,11 @@ Column {
                 when: password.activeFocus
                 PropertyChanges {
                     target: password.background
-                    border.color: root.palette.highlight
+                    border.color: config.HighlightBorderColor
                 }
                 PropertyChanges {
                     target: password
-                    color: root.palette.highlightedText
+                    color: Qt.lighter(config.LoginFieldTextColor, 1.15)
                 }
             }
         ]
@@ -393,7 +395,7 @@ Column {
 
             contentItem: Text {
                 text: parent.text
-                color: root.palette.mid
+                color: config.LoginButtonTextColor
                 font.pointSize: root.font.pointSize
                 font.family: root.font.family
                 horizontalAlignment: Text.AlignHCenter
@@ -403,7 +405,7 @@ Column {
 
             background: Rectangle {
                 id: buttonBackground
-                color: "white"
+                color: config.LoginButtonBackgroundColor
                 opacity: 0.2
                 radius: config.RoundCorners || 0
             }
@@ -414,7 +416,7 @@ Column {
                     when: loginButton.down
                     PropertyChanges {
                         target: buttonBackground
-                        color: Qt.darker(root.palette.link, 1.1)
+                        color: Qt.darker(config.LoginButtonBackgroundColor, 1.1)
                         opacity: 1
                     }
                     PropertyChanges {
@@ -426,7 +428,7 @@ Column {
                     when: loginButton.hovered
                     PropertyChanges {
                         target: buttonBackground
-                        color: Qt.lighter(root.palette.link, 1.15)
+                        color: Qt.lighter(config.LoginButtonBackgroundColor, 1.15)
                         opacity: 1
                     }
                     PropertyChanges {
@@ -439,7 +441,7 @@ Column {
                     when: loginButton.activeFocus
                     PropertyChanges {
                         target: buttonBackground
-                        color: Qt.lighter(root.palette.link, 1.2)
+                        color: Qt.lighter(config.LoginButtonBackgroundColor, 1.2)
                         opacity: 1
                     }
                     PropertyChanges {
@@ -452,7 +454,7 @@ Column {
                     when: loginButton.enabled
                     PropertyChanges {
                         target: buttonBackground;
-                        color: root.palette.link;
+                        color: config.LoginButtonBackgroundColor;
                         opacity: 1
                     }
                     PropertyChanges {
