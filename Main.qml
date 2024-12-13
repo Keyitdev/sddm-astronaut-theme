@@ -114,6 +114,7 @@ Pane {
                 text: config.TranslateVirtualKeyboardButtonOff || "Virtual Keyboard (off)"
                 color: parent.visualFocus ? config.HoverVirtualKeyboardButtonTextColor : config.VirtualKeyboardButtonTextColor
                 font.pointSize: root.font.pointSize * 0.8
+                font.family: root.font.family
             }
             background: Rectangle {
                 id: vkbbg

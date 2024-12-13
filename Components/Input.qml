@@ -98,6 +98,7 @@ Column {
                     text: model.name
                     font.pointSize: root.font.pointSize * 0.8
                     font.capitalization: Font.AllLowercase
+                    font.family: root.font.family
                     color: config.DropdownTextColor
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
@@ -394,6 +395,7 @@ Column {
             hoverEnabled: true
 
             contentItem: Text {
+                font.bold: true
                 text: parent.text
                 color: config.LoginButtonTextColor
                 font.pointSize: root.font.pointSize
