@@ -11,7 +11,7 @@ ColumnLayout {
     id: formContainer
     SDDM.TextConstants { id: textConstants }
 
-    property int p: config.ScreenPadding
+    property int p: config.ScreenPadding == "" ? 0 : config.ScreenPadding
     property string a: config.FormPosition
 
     Clock {

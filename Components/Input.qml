@@ -11,7 +11,7 @@ Column {
     id: inputContainer
     Layout.fillWidth: true
 
-    property Control exposeSession: sessionSelect.exposeSession
+    property ComboBox exposeSession: sessionSelect.exposeSession
     property bool failed
 
     Item {
