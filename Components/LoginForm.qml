@@ -33,17 +33,19 @@ ColumnLayout {
     SystemButtons {
         id: systemButtons
         Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
-        Layout.preferredHeight: root.height / 5
-        Layout.maximumHeight: root.height / 5
+        Layout.preferredHeight: root.height / 4
+        Layout.maximumHeight: root.height / 4
         Layout.leftMargin: p != "0" ? a == "left" ? -p : a == "right" ? p : 0 : 0
         exposedSession: input.exposeSession
     }
-
+    
     SessionButton {
         id: sessionSelect
-        Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
-        Layout.preferredHeight: root.height / 14
-        Layout.maximumHeight: root.height / 14
+        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+        // Layout.preferredHeight: root.height / 16
+        // Layout.maximumHeight: root.height / 16
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: parent.height/16
         Layout.leftMargin: p != "0" ? a == "left" ? -p : a == "right" ? p : 0 : 0
     }
 
