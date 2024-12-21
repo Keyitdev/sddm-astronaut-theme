@@ -26,7 +26,8 @@ Pane {
     palette.buttonText: config.HoverSystemButtonsIconsColor
     
     font.family: config.Font
-    font.pointSize: config.FontSize !== "" ? config.FontSize : parseInt(height / 80)
+    font.pointSize: config.FontSize !== "" ? config.FontSize : parseInt(height / 80) || 13
+    
     focus: true
 
     property bool leftleft: config.HaveFormBackground == "true" &&
@@ -83,12 +84,6 @@ Pane {
             anchors.left: config.FormPosition == "left" ? parent.left : undefined
             anchors.right: config.FormPosition == "right" ? parent.right : undefined
             z: 1
-            
-            SessionButton {
-                id: sessionSelect
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: parent.height/16
-            }
         }
         
         Button {

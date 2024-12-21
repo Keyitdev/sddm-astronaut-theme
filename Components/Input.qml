@@ -73,7 +73,7 @@ Column {
             anchors.left: parent.left
 
             property var popkey: config.RightToLeftLayout == "true" ? Qt.Key_Right : Qt.Key_Left
-            Keys.onPressed: {
+            Keys.onPressed: function(event) {
                 if (event.key == Qt.Key_Down && !popup.opened)
                     username.forceActiveFocus();
                 if ((event.key == Qt.Key_Up || event.key == popkey) && !popup.opened)
@@ -92,8 +92,9 @@ Column {
             }
 
             delegate: ItemDelegate {
-                width: parent.width
-                anchors.horizontalCenter: parent.horizontalCenter
+                //  minus padding
+                width: popupHandler.width - 20
+                anchors.horizontalCenter: popupHandler.horizontalCenter
                 contentItem: Text {
                     text: model.name
                     font.pointSize: root.font.pointSize * 0.8
@@ -103,7 +104,7 @@ Column {
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                 }
-                highlighted: parent.highlightedIndex === index
+                // highlighted: parent.highlightedIndex === index
                 background: Rectangle {
                     color: selectUser.highlightedIndex === index ? config.DropdownSelectedBackgroundColor : "transparent"
                 }
@@ -134,6 +135,7 @@ Column {
             }
 
             popup: Popup {
+                id: popupHandler
                 y: parent.height - username.height / 3
                 x: config.RightToLeftLayout == "true" ? -loginButton.width + selectUser.width : 0
                 rightMargin: config.RightToLeftLayout == "true" ? root.padding + usernameField.width / 2 : undefined

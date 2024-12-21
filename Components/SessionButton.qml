@@ -10,7 +10,7 @@ Item {
     id: sessionButton
     height: root.font.pointSize
     width: parent.width / 2
-    anchors.horizontalCenter: parent.horizontalCenter
+    // anchors.horizontalCenter: parent.horizontalCenter
     property var selectedSession: selectSession.currentIndex
     property string textConstantSession
     property int loginButtonWidth
@@ -23,21 +23,25 @@ Item {
         height: root.font.pointSize * 2
         hoverEnabled: true
         anchors.horizontalCenter: parent.horizontalCenter
-        Keys.onPressed: {
-            if (event.key == Qt.Key_Up && loginButton.state != "enabled" && !popup.opened)
-                revealSecret.focus = true,
-                revealSecret.state = "focused",
-                currentIndex = currentIndex + 1;
-            if (event.key == Qt.Key_Up && loginButton.state == "enabled" && !popup.opened)
-                loginButton.focus = true,
-                loginButton.state = "focused",
-                currentIndex = currentIndex + 1;
-            if (event.key == Qt.Key_Down && !popup.opened)
-                systemButtons.children[0].focus = true,
-                systemButtons.children[0].state = "focused",
-                currentIndex = currentIndex - 1;
-            if ((event.key == Qt.Key_Left || event.key == Qt.Key_Right) && !popup.opened)
-                popup.open();
+        Keys.onPressed: function(event) {
+        if (event.key == Qt.Key_Up && loginButton.state != "enabled" && !popup.opened) {
+            revealSecret.focus = true;
+            revealSecret.state = "focused";
+            currentIndex = currentIndex + 1;
+        }
+        if (event.key == Qt.Key_Up && loginButton.state == "enabled" && !popup.opened) {
+            loginButton.focus = true;
+            loginButton.state = "focused";
+            currentIndex = currentIndex + 1;
+        }
+        if (event.key == Qt.Key_Down && !popup.opened) {
+            systemButtons.children[0].focus = true;
+            systemButtons.children[0].state = "focused";
+            currentIndex = currentIndex - 1;
+        }
+        if ((event.key == Qt.Key_Left || event.key == Qt.Key_Right) && !popup.opened) {
+            popup.open();
+        }
         }
 
         model: sessionModel
@@ -45,8 +49,9 @@ Item {
         textRole: "name"
 
         delegate: ItemDelegate {
-            width: parent.width
-            anchors.horizontalCenter: parent.horizontalCenter
+            // minus padding
+            width: popupHandler.width - 20
+            anchors.horizontalCenter: popupHandler.horizontalCenter
             contentItem: Text {
                 text: model.name
                 font.pointSize: root.font.pointSize * 0.8
@@ -55,7 +60,7 @@ Item {
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
             }
-            highlighted: parent.highlightedIndex === index
+            // highlighted: parent.highlightedIndex === index
             background: Rectangle {
                 color: selectSession.highlightedIndex === index ? config.DropdownSelectedBackgroundColor : "transparent"
             }
@@ -77,13 +82,11 @@ Item {
 
         background: Rectangle {
             color: "transparent"
-            border.width: parent.visualFocus ? 1 : 0
-            border.color: "transparent"
             height: parent.visualFocus ? 2 : 0
             width: displayedItem.implicitWidth
-            anchors.top: parent.bottom
-            anchors.left: parent.left
-            anchors.leftMargin: 3
+            // anchors.top: parent.bottom
+            // anchors.left: parent.left
+            // anchors.leftMargin: 3
         }
 
         popup: Popup {
@@ -91,7 +94,6 @@ Item {
             width: sessionButton.width
             y: parent.height - 1
             x:  -popupHandler.width/2 + displayedItem.width/2
-            // x: config.RightToLeftLayout == "true" ? -loginButtonWidth + displayedItem.width : 0
             implicitHeight: contentItem.implicitHeight
             padding: 10
 
@@ -122,10 +124,6 @@ Item {
                     target: displayedItem
                     color: Qt.darker(config.HoverSessionButtonTextColor, 1.1)
                 }
-                PropertyChanges {
-                    target: selectSession.background
-                    border.color: Qt.darker(config.HoverSessionButtonTextColor, 1.1)
-                }
             },
             State {
                 name: "hovered"
@@ -133,10 +131,6 @@ Item {
                 PropertyChanges {
                     target: displayedItem
                     color: Qt.lighter(config.HoverSessionButtonTextColor, 1.1)
-                }
-                PropertyChanges {
-                    target: selectSession.background
-                    border.color: Qt.lighter(config.HoverSessionButtonTextColor, 1.1)
                 }
             },
             State {
@@ -146,17 +140,13 @@ Item {
                     target: displayedItem
                     color: config.HoverSessionButtonTextColor
                 }
-                PropertyChanges {
-                    target: selectSession.background
-                    border.color: config.HoverSessionButtonTextColor
-                }
             }
         ]
 
         transitions: [
             Transition {
                 PropertyAnimation {
-                    properties: "color, border.color"
+                    properties: "color"
                     duration: 150
                 }
             }
