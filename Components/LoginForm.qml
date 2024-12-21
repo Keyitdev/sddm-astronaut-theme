@@ -41,9 +41,6 @@ ColumnLayout {
 
     SessionButton {
         id: sessionSelect
-        // anchors.bottom: parent.bottom
-        // anchors.bottomMargin: parent.height/16
-        // Layout.bottomMargin: parent.height/16
         Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
         Layout.preferredHeight: root.height / 14
         Layout.maximumHeight: root.height / 14
