@@ -384,9 +384,8 @@ Column {
         height: root.font.pointSize * 9
         width: parent.width / 2
         anchors.horizontalCenter: parent.horizontalCenter
-        visible: config.HideLoginButton == "true"  ? false : true
+        visible: config.HideLoginButton == "true" ? false : true
         Button {
-            
             id: loginButton
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter

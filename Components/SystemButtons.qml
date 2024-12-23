@@ -32,24 +32,21 @@ RowLayout {
             icon.width: 2 * Math.round((root.font.pointSize * 3) / 2)
             icon.color: config.SystemButtonsIconsColor
             display: AbstractButton.TextUnderIcon
-            visible: config.HideSystemButtons != "true" && modelData[2]
+            visible: config.HideSystemButtons != "true" && (config.BypassSystemButtonsChecks == "true" ? 1 : modelData[2])
             hoverEnabled: true
             palette.buttonText: config.SystemButtonsIconsColor
             background: Rectangle {
                 height: 2
                 color: "transparent"
                 width: parent.width
-                border.width: parent.activeFocus ? 1 : 0
-                border.color: "transparent"
-                anchors.top: parent.bottom
             }
+
             Keys.onReturnPressed: clicked()
             onClicked: {
                 parent.forceActiveFocus()
                 index == 0 ? sddm.powerOff() : index == 1 ? sddm.reboot() : index == 2 ? sddm.suspend() : sddm.hibernate()
             }
-            KeyNavigation.up: exposedSession
-            KeyNavigation.left: parent.children[index-1]
+            KeyNavigation.left: index > 0 ? parent.children[index-1] : null
 
             states: [
                 State {
@@ -60,11 +57,6 @@ RowLayout {
                         icon.color: root.palette.buttonText
                         palette.buttonText: Qt.darker(root.palette.buttonText, 1.1)
                     }
-                    PropertyChanges {
-                        target: parent.children[index].background
-                        icon.color: root.palette.buttonText
-                        border.color: Qt.darker(root.palette.buttonText, 1.1)
-                    }
                 },
                 State {
                     name: "hovered"
@@ -74,11 +66,6 @@ RowLayout {
                         icon.color: root.palette.buttonText
                         palette.buttonText: Qt.lighter(root.palette.buttonText, 1.1)
                     }
-                    PropertyChanges {
-                        target: parent.children[index].background
-                        icon.color: root.palette.buttonText
-                        border.color: Qt.lighter(root.palette.buttonText, 1.1)
-                    }
                 },
                 State {
                     name: "focused"
@@ -87,11 +74,6 @@ RowLayout {
                         target: parent.children[index]
                         icon.color: root.palette.buttonText
                         palette.buttonText: root.palette.buttonText
-                    }
-                    PropertyChanges {
-                        target: parent.children[index].background
-                        icon.color: root.palette.buttonText
-                        border.color: root.palette.buttonText
                     }
                 }
             ]
