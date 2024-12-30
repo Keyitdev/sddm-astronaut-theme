@@ -24,7 +24,7 @@ Pane {
     palette.highlight: config.HighlightBackgroundColor
     palette.highlightedText: config.HighlightTextColor
     palette.buttonText: config.HoverSystemButtonsIconsColor
-    
+
     font.family: config.Font
     font.pointSize: config.FontSize !== "" ? config.FontSize : parseInt(height / 80) || 13
     
@@ -53,35 +53,40 @@ Pane {
     Item {
         id: sizeHelper
 
-        anchors.fill: parent
         height: parent.height
         width: parent.width
+        anchors.fill: parent
         
         Rectangle {
             id: tintLayer
-            anchors.fill: parent
-            width: parent.width
+
             height: parent.height
-            opacity: config.DimBackground
+            width: parent.width
+            anchors.fill: parent
             z: 1
+
+            opacity: config.DimBackground
         }
 
         Rectangle {
             id: formBackground
+
             anchors.fill: form
             anchors.centerIn: form
+            z: 1
+
             color: config.FormBackgroundColor
             visible: config.HaveFormBackground == "true" ? true : false
             opacity: config.PartialBlur == "true" ? 0.3 : 1
-            z: 1
         }
 
         LoginForm {
             id: form
+
             height: parent.height
             width: parent.width / 2.5
-            anchors.horizontalCenter: config.FormPosition == "center" ? parent.horizontalCenter : undefined
             anchors.left: config.FormPosition == "left" ? parent.left : undefined
+            anchors.horizontalCenter: config.FormPosition == "center" ? parent.horizontalCenter : undefined
             anchors.right: config.FormPosition == "right" ? parent.right : undefined
             z: 1
         }
@@ -89,16 +94,18 @@ Pane {
         Loader {
             id: virtualKeyboard
             source: "Components/VirtualKeyboard.qml"
-            state: "hidden"
-            property bool keyboardActive: item ? item.active : false
+
             // x * 0.4 = x / 2.5
             width: config.KeyboardSize == "" ? parent.width * 0.4 : parent.width * config.KeyboardSize
             anchors.bottom: parent.bottom
             anchors.left: config.VirtualKeyboardPosition == "left" ? parent.left : undefined;
             anchors.horizontalCenter: config.VirtualKeyboardPosition == "center" ? parent.horizontalCenter : undefined;
             anchors.right: config.VirtualKeyboardPosition == "right" ? parent.right : undefined;
-
             z: 1
+            
+            state: "hidden"
+            property bool keyboardActive: item ? item.active : false
+
             function switchState() { state = state == "hidden" ? "visible" : "hidden"}
             states: [
                 State {
@@ -177,13 +184,8 @@ Pane {
 
             height: parent.height
             width: config.HaveFormBackground == "true" && config.FormPosition != "center" && config.PartialBlur != "true" ? parent.width - formBackground.width : parent.width
-            anchors.left: leftleft ||
-                          leftcenter ?
-                                formBackground.right : undefined
-
-            anchors.right: rightright ||
-                           rightcenter ?
-                                formBackground.left : undefined
+            anchors.left: leftleft || leftcenter ? formBackground.right : undefined
+            anchors.right: rightright || rightcenter ? formBackground.left : undefined
 
             horizontalAlignment: config.BackgroundHorizontalAlignment == "left" ?
                                  Image.AlignLeft :
@@ -211,10 +213,11 @@ Pane {
         ShaderEffectSource {
             id: blurMask
 
-            sourceItem: backgroundImage
-            width: form.width
             height: parent.height
+            width: form.width
             anchors.centerIn: form
+
+            sourceItem: backgroundImage
             sourceRect: Qt.rect(x,y,width,height)
             visible: config.FullBlur == "true" || config.PartialBlur == "true" ? true : false
         }
@@ -224,12 +227,13 @@ Pane {
 
             height: parent.height
             width: config.FullBlur == "true" ? parent.width : form.width
+            anchors.centerIn: config.FullBlur == "true" ? parent : form
+
             source: config.FullBlur == "true" ? backgroundImage : blurMask
             blurEnabled: true
             autoPaddingEnabled: false
             blur: config.Blur == "" ? 2.0 : config.Blur
             blurMax: config.BlurMax == "" ? 48 : config.BlurMax
-            anchors.centerIn: config.FullBlur == "true" ? parent : form
             visible: config.FullBlur == "true" || config.PartialBlur == "true" ? true : false
         }
     }

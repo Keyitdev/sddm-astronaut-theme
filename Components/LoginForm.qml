@@ -16,6 +16,7 @@ ColumnLayout {
 
     Clock {
         id: clock
+
         Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
         // important
         Layout.preferredHeight: root.height / 3
@@ -24,6 +25,7 @@ ColumnLayout {
 
     Input {
         id: input
+
         Layout.alignment: Qt.AlignVCenter
         Layout.preferredHeight: root.height / 10
         Layout.leftMargin: p != "0" ? a == "left" ? -p : a == "right" ? p : 0 : 0
@@ -32,15 +34,18 @@ ColumnLayout {
 
     SystemButtons {
         id: systemButtons
+
         Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
         Layout.preferredHeight: root.height / 5
         Layout.maximumHeight: root.height / 5
         Layout.leftMargin: p != "0" ? a == "left" ? -p : a == "right" ? p : 0 : 0
+        
         exposedSession: input.exposeSession
     }
     
     SessionButton {
         id: sessionSelect
+
         Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
         Layout.preferredHeight: root.height / 54
         Layout.maximumHeight: root.height / 54
@@ -49,6 +54,7 @@ ColumnLayout {
 
     VirtualKeyboardButton {
         id: virtualKeyboardButton
+
         Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
         Layout.preferredHeight: root.height / 27
         Layout.maximumHeight: root.height / 27

@@ -19,27 +19,30 @@ RowLayout {
     property ComboBox exposedSession
 
     Repeater {
-
         id: systemButtons
+        
         model: [shutdown, reboot, suspend, hibernate]
 
         RoundButton {
-            text: modelData[1]
-            font.pointSize: root.font.pointSize * 0.8
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             Layout.topMargin: root.font.pointSize * 6.5
+
+            text: modelData[1]
+            font.pointSize: root.font.pointSize * 0.8
             icon.source: modelData ? Qt.resolvedUrl("../Assets/" + modelData[0] + ".svg") : ""
             icon.height: 2 * Math.round((root.font.pointSize * 3) / 2)
             icon.width: 2 * Math.round((root.font.pointSize * 3) / 2)
             icon.color: config.SystemButtonsIconsColor
+            palette.buttonText: config.SystemButtonsIconsColor
             display: AbstractButton.TextUnderIcon
             visible: config.HideSystemButtons != "true" && (config.BypassSystemButtonsChecks == "true" ? 1 : modelData[2])
             hoverEnabled: true
-            palette.buttonText: config.SystemButtonsIconsColor
+            
             background: Rectangle {
                 height: 2
-                color: "transparent"
                 width: parent.width
+
+                color: "transparent"
             }
 
             Keys.onReturnPressed: clicked()
@@ -48,7 +51,7 @@ RowLayout {
                 index == 0 ? sddm.powerOff() : index == 1 ? sddm.reboot() : index == 2 ? sddm.suspend() : sddm.hibernate()
             }
             KeyNavigation.left: index > 0 ? parent.children[index-1] : null
-
+            
             states: [
                 State {
                     name: "pressed"
@@ -78,7 +81,6 @@ RowLayout {
                     }
                 }
             ]
-
             transitions: [
                 Transition {
                     PropertyAnimation {

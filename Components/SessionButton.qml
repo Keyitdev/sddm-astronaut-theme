@@ -8,9 +8,10 @@ import QtQuick.Controls 2.15
 
 Item {
     id: sessionButton
+
     height: root.font.pointSize
     width: parent.width / 2
-    // anchors.horizontalCenter: parent.horizontalCenter
+    
     property var selectedSession: selectSession.currentIndex
     property string textConstantSession
     property int loginButtonWidth
@@ -18,49 +19,38 @@ Item {
 
     ComboBox {
         id: selectSession
+
         // important
         // change also in errorMessage
         height: root.font.pointSize * 2
-        hoverEnabled: true
         anchors.horizontalCenter: parent.horizontalCenter
-        Keys.onPressed: function(event) {
-        if (event.key == Qt.Key_Up && loginButton.state != "enabled" && !popup.opened) {
-            revealSecret.focus = true;
-            revealSecret.state = "focused";
-            currentIndex = currentIndex + 1;
-        }
-        if (event.key == Qt.Key_Up && loginButton.state == "enabled" && !popup.opened) {
-            loginButton.focus = true;
-            loginButton.state = "focused";
-            currentIndex = currentIndex + 1;
-        }
-        if (event.key == Qt.Key_Down && !popup.opened) {
-            systemButtons.children[0].focus = true;
-            systemButtons.children[0].state = "focused";
-            currentIndex = currentIndex - 1;
-        }
-        if ((event.key == Qt.Key_Left || event.key == Qt.Key_Right) && !popup.opened) {
-            popup.open();
-        }
-        }
 
+        hoverEnabled: true
         model: sessionModel
         currentIndex: model.lastIndex
         textRole: "name"
+        
+        Keys.onPressed: function(event) {
+            if ((event.key == Qt.Key_Left || event.key == Qt.Key_Right) && !popup.opened) {
+                popup.open();
+            }
+        }
 
         delegate: ItemDelegate {
             // minus padding
             width: popupHandler.width - 20
             anchors.horizontalCenter: popupHandler.horizontalCenter
+            
             contentItem: Text {
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+
                 text: model.name
                 font.pointSize: root.font.pointSize * 0.8
                 font.family: root.font.family
                 color: config.DropdownTextColor
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
             }
-            // highlighted: parent.highlightedIndex === index
+            
             background: Rectangle {
                 color: selectSession.highlightedIndex === index ? config.DropdownSelectedBackgroundColor : "transparent"
             }
@@ -72,34 +62,37 @@ Item {
 
         contentItem: Text {
             id: displayedItem
+
+            verticalAlignment: Text.AlignVCenter
+            
             text: (config.TranslateSessionSelection || "Session") + " (" + selectSession.currentText + ")"
             color: config.SessionButtonTextColor
-            verticalAlignment: Text.AlignVCenter
             font.pointSize: root.font.pointSize * 0.8
             font.family: root.font.family
+
             Keys.onReleased: parent.popup.open()
         }
 
         background: Rectangle {
-            color: "transparent"
             height: parent.visualFocus ? 2 : 0
             width: displayedItem.implicitWidth
-            // anchors.top: parent.bottom
-            // anchors.left: parent.left
-            // anchors.leftMargin: 3
+
+            color: "transparent"
         }
 
         popup: Popup {
             id: popupHandler
+
+            implicitHeight: contentItem.implicitHeight
             width: sessionButton.width
             y: parent.height - 1
             x:  -popupHandler.width/2 + displayedItem.width/2
-            implicitHeight: contentItem.implicitHeight
             padding: 10
 
             contentItem: ListView {
-                clip: true
                 implicitHeight: contentHeight + 20
+
+                clip: true
                 model: selectSession.popup.visible ? selectSession.delegateModel : null
                 currentIndex: selectSession.highlightedIndex
                 ScrollIndicator.vertical: ScrollIndicator { }
@@ -142,7 +135,6 @@ Item {
                 }
             }
         ]
-
         transitions: [
             Transition {
                 PropertyAnimation {
