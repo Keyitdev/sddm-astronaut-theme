@@ -85,65 +85,6 @@ Pane {
             anchors.right: config.FormPosition == "right" ? parent.right : undefined
             z: 1
         }
-        
-        Button {
-            id: vkb
-            checkable: true
-            onClicked: virtualKeyboard.switchState()
-           
-            Keys.onReturnPressed: {
-                toggle();
-                virtualKeyboard.switchState();
-            }
-            Keys.onEnterPressed: {
-                toggle();
-                virtualKeyboard.switchState();
-            }
-            visible: virtualKeyboard.status == Loader.Ready && config.HideVirtualKeyboard == "false"
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: implicitHeight
-            anchors.horizontalCenter: form.horizontalCenter
-            z: 1
-            contentItem: Text {
-                id: buttonVirtualKeyboard
-                text: config.TranslateVirtualKeyboardButtonOff || "Virtual Keyboard (off)"
-                color: parent.visualFocus ? config.HoverVirtualKeyboardButtonTextColor : config.VirtualKeyboardButtonTextColor
-                font.pointSize: root.font.pointSize * 0.8
-                font.family: root.font.family
-            }
-            background: Rectangle {
-                id: vkbbg
-                color: "transparent"
-            }
-            states: [
-                State {
-                    name: "HoveredAndChecked"
-                    when: vkb.checked && vkb.hovered
-                    PropertyChanges {
-                        target: buttonVirtualKeyboard
-                        text: config.TranslateVirtualKeyboardButtonOn || "Virtual Keyboard (on)"
-                        color: config.HoverVirtualKeyboardButtonTextColor
-                    }
-                },
-                State {
-                    name: "checked"
-                    when: vkb.checked
-                    PropertyChanges {
-                        target: buttonVirtualKeyboard
-                        text: config.TranslateVirtualKeyboardButtonOn || "Virtual Keyboard (on)"
-                    }
-                },
-                State {
-                    name: "hovered"
-                    when: vkb.hovered
-                    PropertyChanges {
-                        target: buttonVirtualKeyboard
-                        text: config.TranslateVirtualKeyboardButtonOff || "Virtual Keyboard (off)"
-                        color: config.HoverVirtualKeyboardButtonTextColor
-                    }
-                }
-            ]
-        }
 
         Loader {
             id: virtualKeyboard
@@ -230,7 +171,7 @@ Pane {
                 }
             ]
         }
-
+        
         Image {
             id: backgroundImage
 
