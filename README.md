@@ -39,7 +39,7 @@ sddm-qt6 qt6-svg
    sudo cp /usr/share/sddm/themes/sddm-astronaut-theme/Fonts/* /usr/share/fonts/
    ```
 
-2. Then edit `/etc/sddm.conf`, so that it looks like this:
+2. Then edit `/etc/sddm.conf` using the following command:
 
     ```sh
     echo "[Theme]
