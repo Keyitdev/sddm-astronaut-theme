@@ -64,7 +64,7 @@ Pane {
             width: parent.width
             anchors.fill: parent
             z: 1
-
+            color: config.DimBackgroundColor
             opacity: config.DimBackground
         }
 
@@ -179,7 +179,7 @@ Pane {
             ]
         }
         
-        Image {
+        AnimatedImage {
             id: backgroundImage
 
             height: parent.height
@@ -197,6 +197,7 @@ Pane {
                                config.BackgroundVerticalAlignment == "bottom" ?
                                Image.AlignBottom : Image.AlignVCenter
 
+            speed: config.BackgroundSpeed == "" ? 1.0 : config.BackgroundSpeed
             source: config.background || config.Background
             fillMode: config.CropBackground == "true" ? Image.PreserveAspectCrop : Image.PreserveAspectFit
             asynchronous: true
@@ -224,10 +225,15 @@ Pane {
 
         MultiEffect {
             id: blur
-
+            
             height: parent.height
-            width: config.FullBlur == "true" ? parent.width : form.width
-            anchors.centerIn: config.FullBlur == "true" ? parent : form
+
+            // width: config.FullBlur == "true" ? parent.width : form.width
+            // anchors.centerIn: config.FullBlur == "true" ? parent : form
+
+            // This solves problem when FullBlur and HaveFormBackground is set to true but PartialBlur is false and FormPosition isn't center.
+            width: (config.FullBlur == "true" && config.PartialBlur == "false" && config.FormPosition != "center" ) ? parent.width - formBackground.width : config.FullBlur == "true" ? parent.width : form.width 
+            anchors.centerIn: config.FullBlur == "true" ? backgroundImage : form
 
             source: config.FullBlur == "true" ? backgroundImage : blurMask
             blurEnabled: true
