@@ -7,6 +7,7 @@ import QtQuick 2.15
 import QtQuick.Layouts 1.15
 import QtQuick.Controls 2.15
 import QtQuick.Effects
+import QtMultimedia
 
 import "Components"
 
@@ -179,8 +180,24 @@ Pane {
             ]
         }
         
+
         AnimatedImage {
             id: backgroundImage
+            
+            MediaPlayer {
+                id: player
+                
+                videoOutput: videoOutput
+                autoPlay: true
+                loops: -1
+            }
+
+            VideoOutput {
+                id: videoOutput
+                
+                fillMode: config.CropBackground == "true" ? Image.PreserveAspectCrop : Image.PreserveAspectFit
+                anchors.fill: parent
+            }
 
             height: parent.height
             width: config.HaveFormBackground == "true" && config.FormPosition != "center" && config.PartialBlur != "true" ? parent.width - formBackground.width : parent.width
@@ -198,12 +215,25 @@ Pane {
                                Image.AlignBottom : Image.AlignVCenter
 
             speed: config.BackgroundSpeed == "" ? 1.0 : config.BackgroundSpeed
-            source: config.background || config.Background
+            source: config.BackgroundPlaceholder
+            paused: config.PauseBackground == "true" ? 1 : 0
             fillMode: config.CropBackground == "true" ? Image.PreserveAspectCrop : Image.PreserveAspectFit
             asynchronous: true
             cache: true
             clip: true
             mipmap: true
+
+            Component.onCompleted:{
+                var fileType = config.Background.substring(config.Background.lastIndexOf(".") + 1)
+                
+                if (fileType === "mp4" || fileType === "mov" || fileType === "avi" || fileType === "webm") {
+                    player.source = Qt.resolvedUrl(config.Background)
+                    player.play();
+                }
+                else{
+                    backgroundImage.source = config.background || config.Background
+                }
+            }
         }
 
         MouseArea {
