@@ -180,6 +180,13 @@ Pane {
             ]
         }
         
+        Image {
+            id: backgroundPlaceholderImage
+
+            z: 10
+            source: config.BackgroundPlaceholder
+            visible: false
+        }
 
         AnimatedImage {
             id: backgroundImage
@@ -189,13 +196,18 @@ Pane {
                 
                 videoOutput: videoOutput
                 autoPlay: true
+                playbackRate: config.BackgroundSpeed == "" ? 1.0 : config.BackgroundSpeed
                 loops: -1
+                onPlayingChanged: {
+                    console.log("Video started.")
+                    backgroundPlaceholderImage.visible = false;
+                }
             }
 
             VideoOutput {
                 id: videoOutput
                 
-                fillMode: config.CropBackground == "true" ? Image.PreserveAspectCrop : Image.PreserveAspectFit
+                fillMode: config.CropBackground == "true" ? VideoOutput.PreserveAspectCrop : VideoOutput.PreserveAspectFit
                 anchors.fill: parent
             }
 
@@ -215,7 +227,6 @@ Pane {
                                Image.AlignBottom : Image.AlignVCenter
 
             speed: config.BackgroundSpeed == "" ? 1.0 : config.BackgroundSpeed
-            source: config.BackgroundPlaceholder
             paused: config.PauseBackground == "true" ? 1 : 0
             fillMode: config.CropBackground == "true" ? Image.PreserveAspectCrop : Image.PreserveAspectFit
             asynchronous: true
@@ -225,8 +236,9 @@ Pane {
 
             Component.onCompleted:{
                 var fileType = config.Background.substring(config.Background.lastIndexOf(".") + 1)
-                
-                if (fileType === "mp4" || fileType === "mov" || fileType === "avi" || fileType === "webm") {
+                const videoFileTypes = ["avi", "mp4", "mov", "mkv", "m4v", "webm"];
+                if (videoFileTypes.includes(fileType)) {
+                    backgroundPlaceholderImage.visible = true;
                     player.source = Qt.resolvedUrl(config.Background)
                     player.play();
                 }
