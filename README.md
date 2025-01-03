@@ -17,17 +17,12 @@ Here are some examples:
 
 ### Dependencies
 
-#### Arch, Void
+[`sddm >= 0.21.0`](https://github.com/sddm/sddm), [`qt6 >= 6.8`](https://doc.qt.io/qt-6/index.html), [`qt6-svg >= 6.8`](https://doc.qt.io/qt-6/qtsvg-index.html), [`qt6-virtualkeyboard >= 6.8`](https://doc.qt.io/qt-6/qtvirtualkeyboard-index.html), [`qt6-multimedia >= 6.8`](https://doc.qt.io/qt-6/qtmultimedia-index.html)
 ```sh
-sddm qt6-svg
-```
-#### Fedora
-```sh
-sddm qt6-qtsvg
-```
-#### OpenSUSE
-```sh
-sddm-qt6 qt6-svg
+sddm qt6-svg qt6-virtualkeyboard qt6-multimedia-ffmpeg     # Arch
+sddm qt6-svg qt6-virtualkeyboard qt6-multimedia            # Void
+sddm qt6-qtsvg qt6-qtvirtualkeyboard qt6-qtmultimedia      # Fedora
+sddm-qt6 qt6-svg qt6-virtualkeyboard qt6-multimedia        # OpenSUSE
 ```
 
 ### Install
