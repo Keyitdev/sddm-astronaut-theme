@@ -75,7 +75,7 @@ select_theme(){
         selected_theme="$answer"
     elif [ "$new_number" -ge 1 ] 2>/dev/null && [ "$new_number" -le 10 ] 2>/dev/null; then
         set -- $themes
-        selected_theme=$(eval echo \$"$new_number")
+        selected_theme=$(echo "$@" | cut -d ' ' -f $(("new_number")))
         echo -e "${green}[*] You selected: $selected_theme ${no_color}"
     else
         echo -e "${red}[*] Error: invalid number or input.${no_color}"
