@@ -66,4 +66,4 @@ Based on the theme [`Sugar Dark for SDDM`](https://github.com/MarianArlt/sddm-su
 ### License
 
 Distributed under the **[GPLv3+](https://www.gnu.org/licenses/gpl-3.0.html) License**.    
-Copyright (C) 2022-2024 Keyitdev.
+Copyright (C) 2022-2025 Keyitdev.
