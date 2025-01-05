@@ -18,6 +18,7 @@ All themes were created for 1080p. However, they should work well in other resol
 
 https://github.com/user-attachments/assets/2cfc947e-4621-4e98-b5f3-07d5e224b80c
 
+<h2><a href="https://youtu.be/4tQ56xh7wBc" target="_blank">Watch more on Youtube!</a></h2>
 <details>
 <summary><h2>Detailed previews</h2></summary>
 
