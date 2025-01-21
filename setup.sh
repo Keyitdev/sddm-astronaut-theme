@@ -27,7 +27,7 @@ install_dependencies(){
     elif [ -x "$(command -v zypper)" ];
     then
         echo -e "${green}[*] Installing packages using zypper.${no_color}"
-        sudo zypper install sddm-qt6 qt6-svg qt6-virtualkeyboard qt6-multimedia 
+        sudo zypper install sddm-qt6 libQt6Svg6 qt6-virtualkeyboard qt6-virtualkeyboard-imports qt6-multimedia qt6-multimedia-imports
     else
         echo -e "${red}[*] FAILED TO INSTALL PACKAGE: Package manager not found. You must manually install dependencies.">&2;
     fi
