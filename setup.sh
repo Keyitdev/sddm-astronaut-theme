@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ## Keyitdev https://github.com/Keyitdev/sddm-astronaut-theme
 ## Copyright (C) 2022-2025 Keyitdev
