@@ -81,8 +81,8 @@ sudo cp -r /usr/share/sddm/themes/sddm-astronaut-theme/Fonts/* /usr/share/fonts/
 ```
 4. Edit `/etc/sddm.conf`
 ```sh
-echo "[Theme]
-Current=sddm-astronaut-theme" | sudo tee /etc/sddm.conf
+[Theme]
+Current=sddm-astronaut-theme
 ```
 5. Edit `/etc/sddm.conf.d/virtualkbd.conf`
 ```sh
