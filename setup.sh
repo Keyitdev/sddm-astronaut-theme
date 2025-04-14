@@ -28,6 +28,10 @@ install_dependencies(){
     then
         echo -e "${green}[*] Installing packages using zypper.${no_color}"
         sudo zypper install sddm-qt6 libQt6Svg6 qt6-virtualkeyboard qt6-virtualkeyboard-imports qt6-multimedia qt6-multimedia-imports
+    elif [ -x "$(command -v apt)" ];
+    then
+        echo -e "${green}[*] Installing packages using apt.${no_color}"
+        sudo apt install -y sddm
     else
         echo -e "${red}[*] FAILED TO INSTALL PACKAGE: Package manager not found. You must manually install dependencies.">&2;
     fi
@@ -90,11 +94,6 @@ select_theme(){
     echo -e "${green}[*] Changed: $line -> $modified_line${no_color}"
 }
 
-enable_sddm(){
-    systemctl disable display-manager.service
-    systemctl enable sddm.service 
-}
-
 while true; do
     clear
     echo -e "${green}sddm-astronaut-theme made by Keyitdev${no_color}"
@@ -105,18 +104,16 @@ while true; do
     echo -e "4. Copy theme from $path_to_git_clone to /usr/share/sddm/themes/."
     echo -e "5. Select theme (/usr/share/sddm/themes/)."
     echo -e "6. Preview the set theme (/usr/share/sddm/themes/)."
-    echo -e "7. Disable other display managers and enable SDDM (systemd)."
-    echo -e "8. Exit."
+    echo -e "7. Exit."
     read -p "[*] Your choice: " x
     case $x in
-        [1]* ) install_dependencies; git_clone; copy_files; select_theme; enable_sddm; exit;;
+        [1]* ) install_dependencies; git_clone; copy_files; select_theme; exit;;
         [2]* ) install_dependencies; exit;;
         [3]* ) git_clone; exit;;
         [4]* ) copy_files; exit;;
         [5]* ) select_theme; exit;;
         [6]* ) sddm-greeter-qt6 --test-mode --theme /usr/share/sddm/themes/sddm-astronaut-theme/; exit;;
-        [7]* ) enable_sddm; exit;;
-        [8]* ) exit;;
+        [7]* ) exit;;
         * )  echo -e "${red}[*] Error: invalid number or input.${no_color}";;
     esac
 done
