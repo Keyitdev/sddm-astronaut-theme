@@ -53,7 +53,7 @@ https://github.com/user-attachments/assets/181d48c2-f152-45f5-b568-21145be180f6
 ```sh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/keyitdev/sddm-astronaut-theme/master/setup.sh)"
 ```
-> Works on distributions using pacman, xbps-install, dnf, zypper.   
+> Works on distributions using pacman, xbps-install, dnf, zypper, apt.   
 > Remember to always read the scripts you run from the internet.
 
 ### Manual Installation
@@ -70,6 +70,10 @@ sddm qt6-svg qt6-virtualkeyboard qt6-multimedia            # Void
 sddm qt6-qtsvg qt6-qtvirtualkeyboard qt6-qtmultimedia      # Fedora
 sddm-qt6 libQt6Svg6 qt6-virtualkeyboard qt6-virtualkeyboard-imports qt6-multimedia qt6-multimedia-imports        # OpenSUSE
 ```
+
+> On Debian-based systems, most commonly used
+> multimedia formats like mp4, mov should work out of the box
+> so the only dependency you need is [`sddm >= 0.21.0`](https://github.com/sddm/sddm)
 
 2. Clone this repository
 ```sh
