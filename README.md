@@ -18,7 +18,7 @@ All themes were created for 1080p. However, they should work well in other resol
 
 https://github.com/user-attachments/assets/2cfc947e-4621-4e98-b5f3-07d5e224b80c
 
-<h2><a href="https://youtu.be/4tQ56xh7wBc" target="_blank">Watch more on Youtube!</a></h2>
+<!-- <h2><a href="https://youtu.be/4tQ56xh7wBc" target="_blank">Watch more on Youtube!</a></h2> -->
 <details>
 <summary><h2>Detailed previews</h2></summary>
 
@@ -69,7 +69,7 @@ sddm qt6-svg qt6-virtualkeyboard qt6-multimedia-ffmpeg     # Arch
 sddm qt6-svg qt6-virtualkeyboard qt6-multimedia            # Void
 sddm qt6-qtsvg qt6-qtvirtualkeyboard qt6-qtmultimedia      # Fedora
 sddm-qt6 libQt6Svg6 qt6-virtualkeyboard qt6-virtualkeyboard-imports qt6-multimedia qt6-multimedia-imports        # OpenSUSE
-sddm libqt6svg6 qt6-virtualkeyboard-plugin qml6-module-qtquick-effects libqt6multimedia6  # Debian
+sddm libqt6svg6 qt6-virtualkeyboard-plugin libqt6multimedia6 qml6-module-qtquick-controls qml6-module-qtquick-effects # Debian Unstable
 ```
 
 2. Clone this repository
