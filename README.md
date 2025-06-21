@@ -69,6 +69,7 @@ sddm qt6-svg qt6-virtualkeyboard qt6-multimedia-ffmpeg     # Arch
 sddm qt6-svg qt6-virtualkeyboard qt6-multimedia            # Void
 sddm qt6-qtsvg qt6-qtvirtualkeyboard qt6-qtmultimedia      # Fedora
 sddm-qt6 libQt6Svg6 qt6-virtualkeyboard qt6-virtualkeyboard-imports qt6-multimedia qt6-multimedia-imports        # OpenSUSE
+sddm libqt6svg6 qt6-virtualkeyboard-plugin qml6-module-qtquick-effects libqt6multimedia6  # Debian
 ```
 
 2. Clone this repository
