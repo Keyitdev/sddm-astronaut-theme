@@ -13,14 +13,25 @@ ColumnLayout {
 
     property int p: config.ScreenPadding == "" ? 0 : config.ScreenPadding
     property string a: config.FormPosition
+    property double inputWidth: Screen.width * 0.175 * config.Scale
 
     Clock {
         id: clock
 
         Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
         // important
-        Layout.preferredHeight: root.height / 3
+        Layout.preferredHeight: config.UserPictureEnabled === "true" ? root.height / 4 : root.height / 3
         Layout.leftMargin: p != "0" ? a == "left" ? -p : a == "right" ? p : 0 : 0
+    }
+
+    Loader {
+        active: config.UserPictureEnabled === "true"
+        source: "UserAvatar.qml"
+        Layout.alignment: Qt.AlignHCenter
+        Layout.preferredHeight: inputWidth / 1.5 // height set as the Avatar size
+        onLoaded: {
+            item.inputWidth = formContainer.inputWidth;
+        }
     }
 
     Input {
