@@ -19,10 +19,15 @@ ColumnLayout {
 
         Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
         // important
-        Layout.preferredHeight: root.height / 3
+        Layout.preferredHeight: root.height / 4
         Layout.leftMargin: p != "0" ? a == "left" ? -p : a == "right" ? p : 0 : 0
     }
 
+    UserAvatar {
+        Layout.alignment: Qt.AlignHCenter
+        Layout.preferredHeight: root.height / 10
+    }
+    
     Input {
         id: input
 
@@ -42,7 +47,7 @@ ColumnLayout {
         
         exposedSession: input.exposeSession
     }
-    
+
     SessionButton {
         id: sessionSelect
 
