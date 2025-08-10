@@ -50,6 +50,7 @@ copy_files(){
     echo -e "${green}[*] Setting up theme.${no_color}"
     echo "[Theme]
     Current=sddm-astronaut-theme" | sudo tee /etc/sddm.conf
+    sudo mkdir -p /etc/sddm.conf.d
     echo "[General]
     InputMethod=qtvirtualkeyboard" | sudo tee /etc/sddm.conf.d/virtualkbd.conf
 }
