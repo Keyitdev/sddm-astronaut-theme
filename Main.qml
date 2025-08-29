@@ -1,12 +1,13 @@
 // Config created by Keyitdev https://github.com/Keyitdev/sddm-astronaut-theme
 // Copyright (C) 2022-2025 Keyitdev
 // Based on https://github.com/MarianArlt/sddm-sugar-dark
+// Modified by Emii-lia https://github.com/Emii-lia/sddm-astronaut-theme-pop-os
 // Distributed under the GPLv3+ License https://www.gnu.org/licenses/gpl-3.0.html
 
-import QtQuick 2.15
+import QtQuick 2.8
 import QtQuick.Layouts 1.15
 import QtQuick.Controls 2.15
-import QtQuick.Effects
+import QGraphicalEffects 1.0
 import QtMultimedia
 
 import "Components"
@@ -192,24 +193,17 @@ Pane {
             id: backgroundImage
             
             MediaPlayer {
-                id: player
-                
-                videoOutput: videoOutput
-                autoPlay: true
-                playbackRate: config.BackgroundSpeed == "" ? 1.0 : config.BackgroundSpeed
-                loops: -1
-                onPlayingChanged: {
-                    console.log("Video started.")
-                    backgroundPlaceholderImage.visible = false;
-                }
-            }
-
-            VideoOutput {
-                id: videoOutput
-                
-                fillMode: config.CropBackground == "true" ? VideoOutput.PreserveAspectCrop : VideoOutput.PreserveAspectFit
-                anchors.fill: parent
-            }
+    		id: player
+ 	 	source: Qt.resolvedUrl(config.Background)
+    		autoPlay: true
+    		onPlaying: backgroundPlaceholderImage.visible = false
+	   }
+	   VideoOutput {
+		id: videoOutput
+		source: player
+		anchors.fill: parent
+		fillMode: config.CropBackground == "true" ? VideoOutput.PreserveAspectCrop : VideoOutput.PreserveAspectFit
+	  }
 
             height: parent.height
             width: config.HaveFormBackground == "true" && config.FormPosition != "center" && config.PartialBlur != "true" ? parent.width - formBackground.width : parent.width
@@ -255,34 +249,18 @@ Pane {
 
         ShaderEffectSource {
             id: blurMask
-
-            height: parent.height
-            width: form.width
-            anchors.centerIn: form
-
             sourceItem: backgroundImage
             sourceRect: Qt.rect(x,y,width,height)
-            visible: config.FullBlur == "true" || config.PartialBlur == "true" ? true : false
+            visible: false
         }
 
-        MultiEffect {
-            id: blur
-            
-            height: parent.height
-
-            // width: config.FullBlur == "true" ? parent.width : form.width
-            // anchors.centerIn: config.FullBlur == "true" ? parent : form
-
-            // This solves problem when FullBlur and HaveFormBackground is set to true but PartialBlur is false and FormPosition isn't center.
-            width: (config.FullBlur == "true" && config.PartialBlur == "false" && config.FormPosition != "center" ) ? parent.width - formBackground.width : config.FullBlur == "true" ? parent.width : form.width 
-            anchors.centerIn: config.FullBlur == "true" ? backgroundImage : form
-
-            source: config.FullBlur == "true" ? backgroundImage : blurMask
-            blurEnabled: true
-            autoPaddingEnabled: false
-            blur: config.Blur == "" ? 2.0 : config.Blur
-            blurMax: config.BlurMax == "" ? 48 : config.BlurMax
-            visible: config.FullBlur == "true" || config.PartialBlur == "true" ? true : false
-        }
+        GaussianBlur {
+	    id: blur
+	    source: config.FullBlur == "true" ? backgroundImage : blurMask
+	    radius: config.Blur == "" ? 8 : config.Blur * 8  // Scale to match MultiEffect's blur
+	    samples: 16
+	    anchors.fill: source
+	    visible: config.FullBlur == "true" || config.PartialBlur == "true"
+}
     }
 }
