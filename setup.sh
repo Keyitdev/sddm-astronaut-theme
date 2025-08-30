@@ -34,7 +34,7 @@ warn() {
     if command -v gum &>/dev/null; then
         gum style --foreground 11 "⚠  $*"
     else
-        echo -e "\e[33m⚠ $*\e[0m"
+        echo -e "\e[33m⚠  $*\e[0m"
     fi
 }
 
@@ -96,7 +96,7 @@ check_gum() {
     if ! command -v gum &>/dev/null; then
         warn "Gum was not found - provides better UI experience"
         if confirm "Install gum?"; then
-            install_gum && { info "Restarting with gum..."; exec "$0" "$@"; } || warn "Using fallback UI"
+            install_gum && { info "Restarting with gum..."; main; } || warn "Using fallback UI"
         fi
     fi
 }
