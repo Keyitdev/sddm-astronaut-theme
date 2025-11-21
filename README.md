@@ -6,7 +6,7 @@
 
 [sddm-astronaut-theme](https://github.com/Keyitdev/sddm-astronaut-theme) is a series of themes for the [SDDM](https://github.com/sddm/sddm/) display manager made by **[Keyitdev](https://github.com/Keyitdev)**.
 
-It's written using the latest version of Qt, which is **Qt6**. Its key features include **virtual keyboard support** and an **installation script**. This theme also support **animated wallpapers**. You can easily change its appearance by choosing another of the ten pre-made themes or creating your own. Each of these themes was created by modifying just one file - **[config](./Themes/astronaut.conf)**.
+It's written using the latest version of Qt, which is **Qt6**. Its key features include **virtual keyboard support** and an **installation script**. This theme also supports **animated wallpapers**. You can easily change its appearance by choosing another of the ten pre-made themes or creating your own. Each of these themes was created by modifying just one file - **[config](./Themes/astronaut.conf)**.
 
 All themes were created for 1080p. However, they should work well in other resolutions.
 
@@ -53,7 +53,7 @@ https://github.com/user-attachments/assets/181d48c2-f152-45f5-b568-21145be180f6
 ```sh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/keyitdev/sddm-astronaut-theme/master/setup.sh)"
 ```
-> Works on distributions using pacman, xbps-install, dnf, zypper.   
+> Works on distributions using pacman, xbps-install, dnf, zypper.
 > Remember to always read the scripts you run from the internet.
 
 ### Manual Installation
@@ -103,7 +103,7 @@ All available configs are in [Themes](./Themes/) directory.
 
 ## Previewing a theme
 
-You can preview the set theme without logging out by runnning:
+You can preview the set theme without logging out by running:
 ```sh
 sddm-greeter-qt6 --test-mode --theme /usr/share/sddm/themes/sddm-astronaut-theme/
 ```
@@ -111,9 +111,9 @@ sddm-greeter-qt6 --test-mode --theme /usr/share/sddm/themes/sddm-astronaut-theme
 
 ## Sources
 
-Initially the theme was independed fork of [MarianArlt's theme](https://github.com/MarianArlt/sddm-sugar-dark) but now the project has come a long way and started to significantly deviate from the original.
-Many of the wallpapers and fonts used in this project are very popular and copied from one user to another, so I don't know who the original creator is. 
-I also redesigned many of them, but here are links to some of the orginal artists who created these wonderful wallpapers:
+Initially the theme was independent fork of [MarianArlt's theme](https://github.com/MarianArlt/sddm-sugar-dark), but now the project has come a long way and started to significantly deviate from the original.
+Many of the wallpapers and fonts used in this project are very popular and copied from one user to another, so I don't know who the original creator is.
+I also redesigned many of them, but here are links to some of the original artists who created these wonderful wallpapers:
 
 - Astronaut: [wallpaper](https://wallhaven.cc/w/e76pew), [font](https://fonts.google.com/specimen/Open+Sans/about)
 - Black hole: [wallpaper](https://images2.alphacoders.com/114/1141632.jpg), [font](https://www.1001fonts.com/espacion-font.html)
@@ -124,7 +124,7 @@ I also redesigned many of them, but here are links to some of the orginal artist
 - Hyprland Kath: [wallpaper](https://motionbgs.com/andvari-last-origin), [font](https://www.1001fonts.com/pixelon-font.html)
 - Pixel sakura: [wallpaper](https://imgur.com/gallery/sakura-tree-with-petals-flying-off-t5tg4N8), [font](https://www.1001fonts.com/arcadeclassic-font.html)
 - Jake the dog: [wallpaper](https://motionbgs.com/jake-the-dog), [font](https://fontmeme.com/fonts/thunderman-font/)
-  
+
 ## Supporting project
 
 You can support me simply by dropping a **star** on **[github](https://github.com/Keyitdev/sddm-astronaut-theme)** or giving a **subscription** on **[YouTube](http://www.youtube.com/channel/UCVoGVyAP2sHPQyegwBMJKyQ?sub_confirmation=1)**.
@@ -133,5 +133,5 @@ If you enjoyed it and would like to show your appreciation, you can make a **[do
 
 [![Ko-fi](https://img.shields.io/badge/support_me_on_ko--fi-F16061?style=for-the-badge&logo=kofi&logoColor=f5f5f5)](https://ko-fi.com/keyitdev)
 
-Distributed under the **[GPLv3+](https://www.gnu.org/licenses/gpl-3.0.html) License**.    
+Distributed under the **[GPLv3+](https://www.gnu.org/licenses/gpl-3.0.html) License**.
 Copyright (C) 2022-2025 Keyitdev.
