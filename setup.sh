@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ## SDDM Astronaut Theme Installer
 ## Based on original by Keyitdev https://github.com/Keyitdev/sddm-astronaut-theme
