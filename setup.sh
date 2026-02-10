@@ -4,7 +4,7 @@
 ## Based on original by Keyitdev https://github.com/Keyitdev/sddm-astronaut-theme
 ## Copyright (C) 2022-2025 Keyitdev
 
-# Script works in Arch, Fedora, Ubuntu. Didn't tried in Void and openSUSE
+# Script works in Arch, Fedora, Ubuntu. Didn't try in Void and openSUSE
 
 set -euo pipefail
 
