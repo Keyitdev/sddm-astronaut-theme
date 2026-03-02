@@ -119,20 +119,20 @@ install_deps() {
 
 # Clone repository
 clone_repo() {
-    [[ -d "$PATH_TO_GIT_CLONE" ]] && mv "$PATH_TO_GIT_CLONE" "${PATH_TO_GIT_CLONE}_$DATE"
+    [[ -d "$PATH_TO_GIT_CLONE" ]] && rm -rf "$PATH_TO_GIT_CLONE"
     spin "Cloning repository..." git clone -b master --depth 1 "$THEME_REPO" "$PATH_TO_GIT_CLONE"
     info "Repository cloned to $PATH_TO_GIT_CLONE"
 }
 
 # Install theme
 install_theme() {
-    local src="$HOME/$THEME_NAME"
+    local src="${1:-$HOME/$THEME_NAME}"
     local dst="$THEMES_DIR/$THEME_NAME"
 
-    [[ ! -d "$src" ]] && { error "Clone repository first"; return 1;}
+    [[ ! -d "$src" ]] && { error "Source directory not found: $src"; return 1;}
 
-    # Backup and copy
-    [[ -d "$dst" ]] && sudo mv "$dst" "${dst}_$DATE"
+    # Remove existing install and copy fresh
+    [[ -d "$dst" ]] && sudo rm -rf "$dst"
     sudo mkdir -p "$dst"
     spin "Installing theme files..." sudo cp -r "$src"/* "$dst"/
 
@@ -140,14 +140,31 @@ install_theme() {
     [[ -d "$dst/Fonts" ]] && spin "Installing fonts..." sudo cp -r "$dst/Fonts"/* /usr/share/fonts/
 
     # Configure SDDM
-    echo "[Theme]
-    Current=$THEME_NAME" | sudo tee /etc/sddm.conf >/dev/null
+    printf '[Theme]\nCurrent=%s\n' "$THEME_NAME" | sudo tee /etc/sddm.conf >/dev/null
 
     sudo mkdir -p /etc/sddm.conf.d
-    echo "[General]
-    InputMethod=qtvirtualkeyboard" | sudo tee /etc/sddm.conf.d/virtualkbd.conf >/dev/null
+    printf '[General]\nInputMethod=qtvirtualkeyboard\n' | sudo tee /etc/sddm.conf.d/virtualkbd.conf >/dev/null
 
     info "Theme installed"
+    info "Available themes:"
+    for theme in "${THEMES[@]}"; do
+        echo "    - $theme"
+    done
+}
+
+# Install from local repo (no clone needed)
+install_local() {
+    local script_dir
+    script_dir="$(dirname "$(realpath "$0")")"
+    install_theme "$script_dir"
+    info "Installed from local files: $script_dir"
+}
+
+# Remove the git clone staging folder from $HOME
+cleanup_clone() {
+    [[ ! -d "$PATH_TO_GIT_CLONE" ]] && { warn "No clone found at $PATH_TO_GIT_CLONE"; return; }
+    rm -rf "$PATH_TO_GIT_CLONE"
+    info "Removed $PATH_TO_GIT_CLONE"
 }
 
 # Select theme variant
@@ -212,9 +229,11 @@ main() {
             "📦 Install Dependencies" \
             "📥 Clone Repository" \
             "📂 Install Theme" \
+            "🔄 Install Local Theme" \
             "🔧 Enable SDDM Service" \
             "🎨 Select Theme Variant" \
             "✨ Preview the set theme" \
+            "🗑️  Clean Up Clone" \
             "❌ Exit")
 
         case "$choice" in
@@ -222,9 +241,11 @@ main() {
             "📦 Install Dependencies") install_deps ;;
             "📥 Clone Repository") clone_repo ;;
             "📂 Install Theme") install_theme ;;
+            "🔄 Install Local Theme") install_local ;;
             "🔧 Enable SDDM Service") enable_sddm ;;
             "🎨 Select Theme Variant") select_theme ;;
             "✨ Preview the set theme") preview_theme;;
+            "🗑️  Clean Up Clone") cleanup_clone ;;
             "❌ Exit") info "Goodbye!"; exit 0 ;;
         esac
 
