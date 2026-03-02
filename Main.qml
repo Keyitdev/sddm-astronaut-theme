@@ -235,6 +235,7 @@ Pane {
             mipmap: true
 
             Component.onCompleted:{
+                if (!config.Background) return
                 var fileType = config.Background.substring(config.Background.lastIndexOf(".") + 1)
                 const videoFileTypes = ["avi", "mp4", "mov", "mkv", "m4v", "webm"];
                 if (videoFileTypes.includes(fileType)) {
@@ -243,7 +244,7 @@ Pane {
                     player.play();
                 }
                 else{
-                    backgroundImage.source = config.background
+                    backgroundImage.source = config.Background
                 }
             }
         }
