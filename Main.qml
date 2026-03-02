@@ -243,7 +243,7 @@ Pane {
                     player.play();
                 }
                 else{
-                    backgroundImage.source = config.background || config.Background
+                    backgroundImage.source = config.background
                 }
             }
         }
