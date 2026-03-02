@@ -188,7 +188,7 @@ preview_theme(){
     fi
 
 
-    local theme="$(sed -n 's|^ConfigFile=Themes/\(.*\)\.conf|\1|p' $METADATA)"
+    local theme="$(sed -n 's|^ConfigFile=Themes/\(.*\)\.conf|\1|p' "$METADATA")"
     info "Preview closed ($theme theme found)." 
     info "Log file: $log_file"
 }
