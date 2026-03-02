@@ -16,8 +16,10 @@ readonly METADATA="$THEMES_DIR/$THEME_NAME/metadata.desktop"
 readonly DATE=$(date +%s)
 
 readonly -a THEMES=(
-    "astronaut" "black_hole" "cyberpunk" "hyprland_kath" "jake_the_dog"
-    "japanese_aesthetic" "pixel_sakura" "pixel_sakura_static"
+    "astronaut" "black_hole" "blurred_sunset_while_raining" "cyberpunk"
+    "fish_tank_graphic" "fish_tank_real" "hyprland_kath" "jake_the_dog"
+    "japanese_aesthetic" "koi_feed" "moon_fishing" "ocean_night"
+    "pixel_sakura" "pixel_sakura_static" "planar_horizon"
     "post-apocalyptic_hacker" "purple_leaves"
 )
 
