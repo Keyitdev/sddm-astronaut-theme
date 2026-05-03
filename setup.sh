@@ -159,12 +159,121 @@ select_theme() {
     info "Selected theme: $theme"
 }
 
+_disable_dm_systemd() {
+    sudo systemctl disable display-manager.service 2>/dev/null || true
+}
+_disable_dm_openrc() {
+    for dm in gdm lightdm lxdm emptty greetd; do
+        sudo rc-update del "$dm" default 2>/dev/null || true
+    done
+}
+_disable_dm_runit() {
+    local runsvdir
+    runsvdir=$(_runit_runsvdir)
+    for dm in gdm lightdm lxdm emptty greetd; do
+        sudo rm -f "$runsvdir/$dm" 2>/dev/null || true
+    done
+}
+_disable_dm_dinit() {
+    for dm in gdm lightdm lxdm emptty greetd; do
+        sudo rm -f "/etc/dinit.d/boot.d/$dm" 2>/dev/null || true
+        sudo dinitctl disable "$dm" 2>/dev/null || true
+    done
+}
+
+_runit_runsvdir() {
+    if   [ -d /run/runit/service ];          then echo "/run/runit/service"
+    elif [ -d /etc/runit/runsvdir/default ]; then echo "/etc/runit/runsvdir/default"
+    else
+        error "Cannot find runit service directory"
+        return 1
+    fi
+}
+
+detect_init() {
+    # Pass 1: PID 1 comm (most reliable - no external deps)
+    local pid1_comm
+    pid1_comm=$(cat /proc/1/comm 2>/dev/null || true)
+    case "$pid1_comm" in
+        systemd)    echo "systemd";  return ;;
+        dinit)      echo "dinit";    return ;;
+        runit)      echo "runit";    return ;;
+        openrc-init|openrc) echo "openrc"; return ;;
+    esac
+
+    # Pass 2: characteristic binaries / directories
+    command -v dinitctl      &>/dev/null && { echo "dinit";   return; }
+    command -v rc-service    &>/dev/null && { echo "openrc";  return; }
+    { command -v sv &>/dev/null && [ -d /etc/sv ]; } && { echo "runit"; return; }
+    command -v systemctl     &>/dev/null && { echo "systemd"; return; }
+
+    echo "unknown"
+}
+
 # Enable SDDM
 enable_sddm() {
-    command -v systemctl &>/dev/null || { error "systemctl not found"; return 1; }
+    local init
+    init=$(detect_init)
+    info "Detected init system: $init"
 
-    sudo systemctl disable display-manager.service 2>/dev/null || true
-    sudo systemctl enable sddm.service
+    case "$init" in
+        systemd)
+            _disable_dm_systemd
+            sudo systemctl enable --now sddm.service
+            ;;
+
+        openrc)
+            _disable_dm_openrc
+            sudo rc-update add sddm default
+            # Start immediately if we are in a live session
+            sudo rc-service sddm start 2>/dev/null || true
+            ;;
+
+        runit)
+            local runsvdir
+            runsvdir=$(_runit_runsvdir)
+
+            if [ ! -d /etc/sv/sddm ]; then
+                error "/etc/sv/sddm not found - is sddm-runit (or equivalent) installed?"
+                return 1
+            fi
+
+            _disable_dm_runit
+            sudo ln -sf /etc/sv/sddm "$runsvdir/sddm"
+            info "sddm symlinked into $runsvdir"
+            ;;
+
+        dinit)
+            if [ ! -f /etc/dinit.d/sddm ]; then
+                error "/etc/dinit.d/sddm not found - is sddm-dinit (or equivalent) installed?"
+                return 1
+            fi
+
+            _disable_dm_dinit
+            # boot.d symlink makes the service start automatically at boot
+            sudo mkdir -p /etc/dinit.d/boot.d
+            sudo ln -sf /etc/dinit.d/sddm /etc/dinit.d/boot.d/sddm
+
+            # Also enable & start in the running session
+            if command -v dinitctl &>/dev/null; then
+                sudo dinitctl enable sddm  2>/dev/null || true
+                sudo dinitctl start  sddm  2>/dev/null || true
+            fi
+            ;;
+
+        # ── Unknown / manual fallback ─────────────────────
+        *)
+            warn "Could not detect init system automatically."
+            warn "Please enable sddm manually:"
+            echo ""
+            echo "  systemd  -  sudo systemctl enable --now sddm"
+            echo "  openrc   -  sudo rc-update add sddm default"
+            echo "  runit    -  sudo ln -s /etc/sv/sddm /run/runit/service/"
+            echo "  dinit    -  sudo ln -s /etc/dinit.d/sddm /etc/dinit.d/boot.d/sddm"
+            return 1
+            ;;
+    esac
+
     info "SDDM enabled"
     warn "Reboot required"
 }
