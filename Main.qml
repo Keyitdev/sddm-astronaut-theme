@@ -15,7 +15,7 @@ Pane {
     id: root
 
     height: config.ScreenHeight || Screen.height
-    width: config.ScreenWidth || Screen.ScreenWidth
+    width: config.ScreenWidth || Screen.width
     padding: config.ScreenPadding
 
     LayoutMirroring.enabled: config.RightToLeftLayout == "true" ? true : Qt.application.layoutDirection === Qt.RightToLeft
@@ -227,7 +227,7 @@ Pane {
                                Image.AlignBottom : Image.AlignVCenter
 
             speed: config.BackgroundSpeed == "" ? 1.0 : config.BackgroundSpeed
-            paused: config.PauseBackground == "true" ? 1 : 0
+            paused: config.PauseBackground == "true"
             fillMode: config.CropBackground == "true" ? Image.PreserveAspectCrop : Image.PreserveAspectFit
             asynchronous: true
             cache: true
@@ -235,6 +235,7 @@ Pane {
             mipmap: true
 
             Component.onCompleted:{
+                if (!config.Background) return
                 var fileType = config.Background.substring(config.Background.lastIndexOf(".") + 1)
                 const videoFileTypes = ["avi", "mp4", "mov", "mkv", "m4v", "webm"];
                 if (videoFileTypes.includes(fileType)) {
@@ -243,7 +244,7 @@ Pane {
                     player.play();
                 }
                 else{
-                    backgroundImage.source = config.background || config.Background
+                    backgroundImage.source = config.Background
                 }
             }
         }
