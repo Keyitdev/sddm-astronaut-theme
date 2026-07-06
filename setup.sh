@@ -81,7 +81,7 @@ install_gum() {
         dnf) sudo dnf install -y gum ;;
         zypper) sudo zypper install -y gum ;;
         xbps-install) sudo xbps-install -y gum ;;
-        # refrence https://github.com/basecamp/omakub/issues/222
+        # reference https://github.com/basecamp/omakub/issues/222
         apt)
             sudo mkdir -p /etc/apt/keyrings
             curl -fsSL https://repo.charm.sh/apt/gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/charm.gpg
@@ -295,7 +295,6 @@ preview_theme(){
     if kill -0 "$greeter_pid" 2>/dev/null; then
         kill "$greeter_pid"
     fi
-
 
     local theme="$(sed -n 's|^ConfigFile=Themes/\(.*\)\.conf|\1|p' $METADATA)"
     info "Preview closed ($theme theme found)."
