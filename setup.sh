@@ -111,7 +111,7 @@ install_deps() {
         xbps-install) sudo xbps-install -y sddm qt6-svg qt6-virtualkeyboard qt6-multimedia ;;
         dnf) sudo dnf install -y sddm qt6-qtsvg qt6-qtvirtualkeyboard qt6-qtmultimedia ;;
         zypper) sudo zypper install -y sddm libQt6Svg6 qt6-virtualkeyboard qt6-multimedia ;;
-        apt) sudo apt update && sudo apt install -y sddm qt6-svg-dev qml6-module-qtquick-virtualkeyboard qt6-multimedia-dev ;;
+        apt) sudo apt update && sudo apt install -y sddm qt6-svg-dev qml6-module-qtquick-virtualkeyboard qt6-multimedia-dev qml6-module-qtquick-controls qml6-module-qtquick-effects libxcb-cursor0 ;;
         *) error "Unsupported package manager"; return 1 ;;
     esac
     info "Dependencies installed"
@@ -153,7 +153,7 @@ install_theme() {
 # Select theme variant
 select_theme() {
     [[ ! -f "$METADATA" ]] && { error "Install theme first"; return 1; }
-    
+
     local theme=$(choose "${THEMES[@]}" || echo "astronaut")
     sudo sed -i "s|^ConfigFile=.*|ConfigFile=Themes/${theme}.conf|" "$METADATA"
     info "Selected theme: $theme"
@@ -280,7 +280,7 @@ enable_sddm() {
 
 preview_theme(){
     local log_file="/tmp/${THEME_NAME}_$DATE.txt"
-    
+
     sddm-greeter-qt6 --test-mode --theme /usr/share/sddm/themes/sddm-astronaut-theme/ > $log_file 2>&1 &
     greeter_pid=$!
 
@@ -298,7 +298,7 @@ preview_theme(){
 
 
     local theme="$(sed -n 's|^ConfigFile=Themes/\(.*\)\.conf|\1|p' $METADATA)"
-    info "Preview closed ($theme theme found)." 
+    info "Preview closed ($theme theme found)."
     info "Log file: $log_file"
 }
 
