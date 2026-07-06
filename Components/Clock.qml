@@ -42,7 +42,7 @@ Column {
         id: dateLabel
 
         anchors.horizontalCenter: parent.horizontalCenter
-        
+
         color: config.DateTextColor
         font.pointSize: root.font.pointSize * 2
         font.bold: true

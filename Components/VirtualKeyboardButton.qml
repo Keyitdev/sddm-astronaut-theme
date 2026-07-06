@@ -15,7 +15,7 @@ Item {
         visible: virtualKeyboard.status == Loader.Ready && config.HideVirtualKeyboard == "false"
         checkable: true
         onClicked: virtualKeyboard.switchState()
-        
+
         Keys.onReturnPressed: {
             toggle();
             virtualKeyboard.switchState();

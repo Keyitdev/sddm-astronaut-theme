@@ -20,7 +20,7 @@ RowLayout {
 
     Repeater {
         id: systemButtons
-        
+
         model: [shutdown, reboot, suspend, hibernate]
 
         RoundButton {
@@ -37,7 +37,7 @@ RowLayout {
             display: AbstractButton.TextUnderIcon
             visible: config.HideSystemButtons != "true" && (config.BypassSystemButtonsChecks == "true" ? 1 : modelData[2])
             hoverEnabled: true
-            
+
             background: Rectangle {
                 height: 2
                 width: parent.width
@@ -51,7 +51,7 @@ RowLayout {
                 index == 0 ? sddm.powerOff() : index == 1 ? sddm.reboot() : index == 2 ? sddm.suspend() : sddm.hibernate()
             }
             KeyNavigation.left: index > 0 ? parent.children[index-1] : null
-            
+
             states: [
                 State {
                     name: "pressed"

@@ -9,11 +9,36 @@ import QtQuick.Controls 2.15
 
 Column {
     id: inputContainer
-    
+
     Layout.fillWidth: true
 
     property ComboBox exposeSession: sessionSelect.exposeSession
     property bool failed
+
+    function triggerLogin() {
+        var typedUser = username.text
+        var targetUser = typedUser
+
+        if (config.UseRealName == "true") {
+            for (var i = 0; i < userRegistry.list.length; i++) {
+                var u = userRegistry.list[i]
+                if (typedUser === u.realName || typedUser === u.name) {
+                    targetUser = u.name
+                    break
+                }
+            }
+        } else {
+            for (var j = 0; j < userRegistry.list.length; j++) {
+                var u2 = userRegistry.list[j]
+                if (typedUser === u2.name) {
+                    targetUser = u2.name
+                    break
+                }
+            }
+        }
+
+        sddm.login(targetUser, password.text, sessionSelect.selectedSession)
+    }
 
     Item {
         id: errorMessageField
@@ -28,13 +53,13 @@ Column {
 
             width: parent.width
             horizontalAlignment: Text.AlignHCenter
-            
+
             text: failed ? config.TranslateLoginFailedWarning || textConstants.loginFailed + "!" : keyboard.capsLock ? config.TranslateCapslockWarning || textConstants.capslockWarning : null
             font.pointSize: root.font.pointSize * 0.8
             font.italic: true
             color: config.WarningColor
             opacity: 0
-            
+
             states: [
                 State {
                     name: "fail"
@@ -81,10 +106,13 @@ Column {
 
             model: userModel
             currentIndex: model.lastIndex
-            textRole: "name"
+            textRole: config.UseRealName == "true" ? "realName" : "name"
+            valueRole: "name"
             hoverEnabled: true
+            displayText: config.UseRealName == "true" ? (currentText ? currentText : currentValue) : currentText
+
             onActivated: {
-                username.text = currentText
+                username.text = displayText
             }
 
             property var popkey: config.RightToLeftLayout == "true" ? Qt.Key_Right : Qt.Key_Left
@@ -101,18 +129,18 @@ Column {
                 //  minus padding
                 width: popupHandler.width - 20
                 anchors.horizontalCenter: popupHandler.horizontalCenter
-                
+
                 contentItem: Text {
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
 
-                    text: model.name
+                    text: config.UseRealName == "true" ? (model.realName || model.name) : model.name
                     font.pointSize: root.font.pointSize * 0.8
-                    font.capitalization: Font.AllLowercase
+                    font.capitalization: Font.MixedCase
                     font.family: root.font.family
                     color: config.DropdownTextColor
                 }
-                
+
                 background: Rectangle {
                     color: selectUser.highlightedIndex === index ? config.DropdownSelectedBackgroundColor : "transparent"
                 }
@@ -120,19 +148,19 @@ Column {
 
             indicator: Button {
                 id: usernameIcon
-                    
+
                 width: selectUser.height * 1
                 height: parent.height
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.leftMargin: selectUser.height * 0
-                
+
                 icon.height: parent.height * 0.25
                 icon.width: parent.height * 0.25
                 enabled: false
                 icon.color: config.UserIconColor
                 icon.source: Qt.resolvedUrl("../Assets/User.svg")
-                    
+
                 background: Rectangle {
                     color: "transparent"
                     border.color: "transparent"
@@ -156,7 +184,7 @@ Column {
 
                 contentItem: ListView {
                     implicitHeight: contentHeight + 20
-                    
+
                     clip: true
                     model: selectUser.popup.visible ? selectUser.delegateModel : null
                     currentIndex: selectUser.highlightedIndex
@@ -220,15 +248,15 @@ Column {
             horizontalAlignment: TextInput.AlignHCenter
             z: 1
 
-            text: config.ForceLastUser == "true" ? selectUser.currentText : null
+            text: config.ForceLastUser == "true" ? selectUser.displayText : null
             color: config.LoginFieldTextColor
             font.bold: true
-            font.capitalization: config.AllowUppercaseLettersInUsernames == "false" ? Font.AllLowercase : Font.MixedCase
+            font.capitalization: Font.MixedCase
             placeholderText: config.TranslatePlaceholderUsername || textConstants.userName
             placeholderTextColor: config.PlaceholderTextColor
             selectByMouse: true
             renderType: Text.QtRendering
-            
+
             onFocusChanged:{
                 if(focus)
                     selectAll()
@@ -241,8 +269,8 @@ Column {
                 border.width: parent.activeFocus ? 2 : 1
                 radius: config.RoundCorners || 0
             }
-            
-            onAccepted: config.AllowUppercaseLettersInUsernames == "false" ? sddm.login(username.text.toLowerCase(), password.text, sessionSelect.selectedSession) : sddm.login(username.text, password.text, sessionSelect.selectedSession)
+
+            onAccepted: triggerLogin()
             KeyNavigation.down: passwordIcon
 
             states: [
@@ -261,24 +289,24 @@ Column {
             ]
         }
     }
-    
+
     Item {
         id: passwordField
 
         height: root.font.pointSize * 4.5
         width: parent.width / 2
         anchors.horizontalCenter: parent.horizontalCenter
-        
+
         Button {
             id: passwordIcon
-            
+
             height: parent.height
             width: selectUser.height * 1
             anchors.left: parent.left
             anchors.leftMargin: selectUser.height * 0
             anchors.verticalCenter: parent.verticalCenter
             z: 2
-            
+
             icon.height: parent.height * 0.25
             icon.width: parent.height * 0.25
             icon.color: config.PasswordIconColor
@@ -350,7 +378,7 @@ Column {
             width: parent.width
             anchors.centerIn: parent
             horizontalAlignment: TextInput.AlignHCenter
-            
+
             font.bold: true
             color: config.PasswordFieldTextColor
             focus: config.PasswordFocus == "true" ? true : false
@@ -361,7 +389,7 @@ Column {
             passwordMaskDelay: config.HideCompletePassword == "true" ? undefined : 1000
             renderType: Text.QtRendering
             selectByMouse: true
-            
+
             background: Rectangle {
                 color: config.PasswordFieldBackgroundColor
                 opacity: 0.2
@@ -369,7 +397,7 @@ Column {
                 border.width: parent.activeFocus ? 2 : 1
                 radius: config.RoundCorners || 0
             }
-            onAccepted: config.AllowUppercaseLettersInUsernames == "false" ? sddm.login(username.text.toLowerCase(), password.text, sessionSelect.selectedSession) : sddm.login(username.text, password.text, sessionSelect.selectedSession)
+            onAccepted: triggerLogin()
             KeyNavigation.down: loginButton
         }
 
@@ -394,7 +422,7 @@ Column {
                     duration: 150
                 }
             }
-        ]        
+        ]
     }
 
     Item {
@@ -407,7 +435,7 @@ Column {
         anchors.horizontalCenter: parent.horizontalCenter
 
         visible: config.HideLoginButton == "true" ? false : true
-        
+
         Button {
             id: loginButton
 
@@ -415,7 +443,7 @@ Column {
             implicitWidth: parent.width
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
-            
+
             text: config.TranslateLogin || textConstants.login
             enabled: config.AllowEmptyPassword == "true" || username.text != "" && password.text != "" ? true : false
             hoverEnabled: true
@@ -502,11 +530,28 @@ Column {
                 }
             ]
 
-            onClicked: config.AllowUppercaseLettersInUsernames == "false" ? sddm.login(username.text.toLowerCase(), password.text, sessionSelect.selectedSession) : sddm.login(username.text, password.text, sessionSelect.selectedSession)
+            onClicked: triggerLogin()
             Keys.onReturnPressed: clicked()
             Keys.onEnterPressed: clicked()
-            
+
             KeyNavigation.down: config.HideSystemButtons == "true" ? virtualKeyboard : systemButtons.children[0]
+        }
+    }
+
+    Item {
+        id: userRegistry
+        visible: false
+        property var list: []
+
+        Repeater {
+            model: userModel
+            Item {
+                Component.onCompleted: {
+                    var currentList = userRegistry.list
+                    currentList.push({ "name": model.name, "realName": model.realName || "" })
+                    userRegistry.list = currentList
+                }
+            }
         }
     }
 

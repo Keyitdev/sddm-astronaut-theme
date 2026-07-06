@@ -11,7 +11,7 @@ Item {
 
     height: root.font.pointSize
     width: parent.width / 2
-    
+
     property var selectedSession: selectSession.currentIndex
     property string textConstantSession
     property int loginButtonWidth
@@ -29,7 +29,7 @@ Item {
         model: sessionModel
         currentIndex: model.lastIndex
         textRole: "name"
-        
+
         Keys.onPressed: function(event) {
             if ((event.key == Qt.Key_Left || event.key == Qt.Key_Right) && !popup.opened) {
                 popup.open();
@@ -40,7 +40,7 @@ Item {
             // minus padding
             width: popupHandler.width - 20
             anchors.horizontalCenter: popupHandler.horizontalCenter
-            
+
             contentItem: Text {
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
@@ -50,7 +50,7 @@ Item {
                 font.family: root.font.family
                 color: config.DropdownTextColor
             }
-            
+
             background: Rectangle {
                 color: selectSession.highlightedIndex === index ? config.DropdownSelectedBackgroundColor : "transparent"
             }
@@ -64,7 +64,7 @@ Item {
             id: displayedItem
 
             verticalAlignment: Text.AlignVCenter
-            
+
             text: (config.TranslateSessionSelection || "Session") + " (" + selectSession.currentText + ")"
             color: config.SessionButtonTextColor
             font.pointSize: root.font.pointSize * 0.8
