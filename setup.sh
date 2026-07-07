@@ -168,10 +168,8 @@ _disable_dm_openrc() {
     done
 }
 _disable_dm_runit() {
-    local runsvdir
-    runsvdir=$(_runit_runsvdir)
     for dm in gdm lightdm lxdm emptty greetd; do
-        sudo rm -f "$runsvdir/$dm" 2>/dev/null || true
+        sudo rm -f "/var/service/$dm" 2>/dev/null || true
     done
 }
 _disable_dm_dinit() {
@@ -181,15 +179,7 @@ _disable_dm_dinit() {
     done
 }
 
-_runit_runsvdir() {
-    if   [ -d /run/runit/service ];          then echo "/run/runit/service"
-    elif [ -d /etc/runit/runsvdir/default ]; then echo "/etc/runit/runsvdir/default"
-    else
-        error "Cannot find runit service directory"
-        return 1
-    fi
-}
-
+# Detect Init System
 detect_init() {
     # Pass 1: PID 1 comm (most reliable - no external deps)
     local pid1_comm
@@ -230,17 +220,14 @@ enable_sddm() {
             ;;
 
         runit)
-            local runsvdir
-            runsvdir=$(_runit_runsvdir)
-
             if [ ! -d /etc/sv/sddm ]; then
                 error "/etc/sv/sddm not found - is sddm-runit (or equivalent) installed?"
                 return 1
             fi
 
             _disable_dm_runit
-            sudo ln -sf /etc/sv/sddm "$runsvdir/sddm"
-            info "sddm symlinked into $runsvdir"
+            sudo ln -sf /etc/sv/sddm "/var/service/"
+            info "sddm symlinked into /var/service/sddm"
             ;;
 
         dinit)
@@ -268,7 +255,7 @@ enable_sddm() {
             echo ""
             echo "  systemd  -  sudo systemctl enable --now sddm"
             echo "  openrc   -  sudo rc-update add sddm default"
-            echo "  runit    -  sudo ln -s /etc/sv/sddm /run/runit/service/"
+            echo "  runit    -  sudo ln -s /etc/sv/sddm /var/service/"
             echo "  dinit    -  sudo ln -s /etc/dinit.d/sddm /etc/dinit.d/boot.d/sddm"
             return 1
             ;;
