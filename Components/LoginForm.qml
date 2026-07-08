@@ -16,10 +16,18 @@ ColumnLayout {
 
     Clock {
         id: clock
-
         Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
         // important
         Layout.preferredHeight: root.height / 3
+        Layout.leftMargin: p != "0" ? a == "left" ? -p : a == "right" ? p : 0 : 0
+    }
+
+    ProfilePicture {
+        id: profilePicture
+        visible: false
+        Layout.alignment: Qt.AlignHCenter
+        Layout.preferredWidth: root.height / 7
+        Layout.preferredHeight: root.height / 7
         Layout.leftMargin: p != "0" ? a == "left" ? -p : a == "right" ? p : 0 : 0
     }
 

@@ -15,6 +15,21 @@ Column {
     property ComboBox exposeSession: sessionSelect.exposeSession
     property bool failed
 
+    // Custom addition: exposes the face icon of the currently typed/selected
+    // user so it can be shown in ProfilePicture, above the login field
+    property url currentUserIcon: {
+        var typedUser = username.text
+        for (var i = 0; i < userRegistry.list.length; i++) {
+            var u = userRegistry.list[i]
+            if (typedUser === "") {
+                if (i === selectUser.currentIndex) return u.icon || ""
+            } else if (typedUser === u.realName || typedUser === u.name) {
+                return u.icon || ""
+            }
+        }
+        return ""
+    }
+
     function triggerLogin() {
         var typedUser = username.text
         var targetUser = typedUser
@@ -548,7 +563,7 @@ Column {
             Item {
                 Component.onCompleted: {
                     var currentList = userRegistry.list
-                    currentList.push({ "name": model.name, "realName": model.realName || "" })
+                    currentList.push({ "name": model.name, "realName": model.realName || "", "icon": model.icon || "" })
                     userRegistry.list = currentList
                 }
             }
