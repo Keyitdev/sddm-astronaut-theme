@@ -2,70 +2,122 @@
 // Copyright (C) 2022-2025 Keyitdev
 // Based on https://github.com/MarianArlt/sddm-sugar-dark
 // Distributed under the GPLv3+ License https://www.gnu.org/licenses/gpl-3.0.html
-
 import QtQuick 2.15
 import QtQuick.Layouts 1.15
 import SddmComponents 2.0 as SDDM
-
-ColumnLayout {
+Item {
     id: formContainer
     SDDM.TextConstants { id: textConstants }
 
-    property int p: config.ScreenPadding == "" ? 0 : config.ScreenPadding
-    property string a: config.FormPosition
+    readonly property real fontUnit: root.font.pointSize
 
-    Clock {
-        id: clock
-        Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
-        // important
-        Layout.preferredHeight: root.height / 3
-        Layout.leftMargin: p != "0" ? a == "left" ? -p : a == "right" ? p : 0 : 0
+    readonly property real clockTopMargin: (Number(config.ClockTopMargin) || 0) * fontUnit
+    readonly property real profilePictureTopMargin: (Number(config.ProfilePictureTopMargin) || 0) * fontUnit
+    readonly property real loginInputTopMargin: (Number(config.LoginInputTopMargin) || 0) * fontUnit
+    readonly property real systemButtonsBottomMargin: (Number(config.SystemButtonsBottomMargin) || 0) * fontUnit
+    readonly property real sessionSelectBottomMargin: (Number(config.SessionSelectBottomMargin) || 0) * fontUnit
+    readonly property real virtualKeyboardButtonBottomMargin: (Number(config.VirtualKeyboardButtonBottomMargin) || 0) * fontUnit
+
+    ColumnLayout {
+        id: topGroup
+        spacing: 0
+        anchors.top: parent.top
+        anchors.horizontalCenter: parent.horizontalCenter
+
+        Rectangle {
+            id: clockBox
+            color: "transparent"
+            Layout.alignment: Qt.AlignHCenter
+            Layout.topMargin: clockTopMargin
+            Layout.preferredHeight: clock.implicitHeight + (fontUnit * 1.5)
+            implicitWidth: clock.implicitWidth + (fontUnit * 3)
+            radius: 20
+            Layout.preferredWidth: implicitWidth
+            Clock {
+                anchors.fill: parent
+                id: clock
+                Layout.alignment: Qt.AlignHCenter
+            }
+        }
+        Rectangle {
+            id: profilePictureBox
+            color: "transparent"
+            Layout.alignment: Qt.AlignHCenter
+            Layout.topMargin: profilePictureTopMargin
+            Layout.preferredHeight: profilePicture.height
+            implicitWidth: profilePicture.width + (fontUnit * 3)
+            Layout.preferredWidth: implicitWidth
+            ProfilePicture {
+                id: profilePicture
+                visible: config.ShowProfilePicture == "true" ? true : false
+                anchors.centerIn: parent
+                width: fontUnit * 11
+                height: fontUnit * 11
+            }
+        }
+        Rectangle {
+            id: inputBox
+            color: "transparent"
+            Layout.alignment: Qt.AlignHCenter
+            Layout.topMargin: loginInputTopMargin
+            Layout.preferredHeight: input.implicitHeight
+            implicitWidth: input.implicitWidth
+            Layout.preferredWidth: implicitWidth
+            Input {
+                id: input
+                anchors.centerIn: parent
+                width: fontUnit * 60
+            }
+        }
     }
 
-    ProfilePicture {
-        id: profilePicture
-        visible: false
-        Layout.alignment: Qt.AlignHCenter
-        Layout.preferredWidth: root.height / 7
-        Layout.preferredHeight: root.height / 7
-        Layout.leftMargin: p != "0" ? a == "left" ? -p : a == "right" ? p : 0 : 0
-    }
+    ColumnLayout {
+        id: bottomGroup
+        spacing: 0
+        anchors.bottom: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
 
-    Input {
-        id: input
-
-        Layout.alignment: Qt.AlignVCenter
-        Layout.preferredHeight: root.height / 10
-        Layout.leftMargin: p != "0" ? a == "left" ? -p : a == "right" ? p : 0 : 0
-        Layout.topMargin:  0
-    }
-
-    SystemButtons {
-        id: systemButtons
-
-        Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
-        Layout.preferredHeight: root.height / 5
-        Layout.maximumHeight: root.height / 5
-        Layout.leftMargin: p != "0" ? a == "left" ? -p : a == "right" ? p : 0 : 0
-
-        exposedSession: input.exposeSession
-    }
-
-    SessionButton {
-        id: sessionSelect
-
-        Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
-        Layout.preferredHeight: root.height / 54
-        Layout.maximumHeight: root.height / 54
-        Layout.leftMargin: p != "0" ? a == "left" ? -p : a == "right" ? p : 0 : 0
-    }
-
-    VirtualKeyboardButton {
-        id: virtualKeyboardButton
-
-        Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-        Layout.preferredHeight: root.height / 27
-        Layout.maximumHeight: root.height / 27
-        Layout.leftMargin: p != "0" ? a == "left" ? -p : a == "right" ? p : 0 : 0
+        Rectangle {
+            id: systemButtonsBox
+            color: "transparent"
+            Layout.alignment: Qt.AlignHCenter
+            Layout.bottomMargin: systemButtonsBottomMargin
+            Layout.preferredHeight: systemButtons.implicitHeight
+            implicitWidth: systemButtons.implicitWidth
+            Layout.preferredWidth: implicitWidth
+            SystemButtons {
+                id: systemButtons
+                exposedSession: input.exposeSession
+                anchors.centerIn: parent
+            }
+        }
+        Rectangle {
+            id: sessionSelectBox
+            color: "transparent"
+            Layout.alignment: Qt.AlignHCenter
+            Layout.bottomMargin: sessionSelectBottomMargin
+            Layout.preferredHeight: sessionSelect.height
+            implicitWidth: sessionSelect.width
+            Layout.preferredWidth: implicitWidth
+            SessionButton {
+                id: sessionSelect
+                anchors.centerIn: parent
+                width: fontUnit * 30
+            }
+        }
+        Rectangle {
+            id: virtualKeyboardButtonBox
+            color: "transparent"
+            Layout.alignment: Qt.AlignHCenter
+            Layout.bottomMargin: virtualKeyboardButtonBottomMargin
+            Layout.preferredHeight: virtualKeyboardButton.height
+            implicitWidth: virtualKeyboardButton.width
+            Layout.preferredWidth: implicitWidth
+            VirtualKeyboardButton {
+                id: virtualKeyboardButton
+                anchors.centerIn: parent
+                width: fontUnit * 30
+            }
+        }
     }
 }

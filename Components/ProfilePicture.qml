@@ -3,7 +3,7 @@ import QtQuick.Effects
 
 Item {
     id: profilePicture
-    // visible: false
+
     property url userIcon: input.currentUserIcon
     property bool hasCustomIcon: userIcon != ""
 

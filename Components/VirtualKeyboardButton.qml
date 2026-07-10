@@ -6,9 +6,14 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 
 Item {
+    id: virtualKeyboardButtonRoot
+
+    height: virtualKeyboardButton.height
+    width: parent.width / 2
+
     Button {
         id: virtualKeyboardButton
-
+        height: root.font.pointSize
         anchors.horizontalCenter: parent.horizontalCenter
         z: 1
 
@@ -27,6 +32,9 @@ Item {
 
         contentItem: Text {
             id: virtualKeyboardButtonText
+
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
 
             text: config.TranslateVirtualKeyboardButtonOff || "Virtual Keyboard (off)"
             font.pointSize: root.font.pointSize * 0.8

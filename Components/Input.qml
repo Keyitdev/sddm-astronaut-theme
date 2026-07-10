@@ -15,8 +15,8 @@ Column {
     property ComboBox exposeSession: sessionSelect.exposeSession
     property bool failed
 
-    // Custom addition: exposes the face icon of the currently typed/selected
-    // user so it can be shown in ProfilePicture, above the login field
+    readonly property real fontUnit: root.font.pointSize
+
     property url currentUserIcon: {
         var typedUser = username.text
         for (var i = 0; i < userRegistry.list.length; i++) {
@@ -56,58 +56,58 @@ Column {
     }
 
     Item {
-        id: errorMessageField
+            id: errorMessageField
 
-        // change also in selectSession
-        height: root.font.pointSize * 2
-        width: parent.width / 2
-        anchors.horizontalCenter: parent.horizontalCenter
+            height: fontUnit * 1.5
+            width: parent.width / 2
+            anchors.horizontalCenter: parent.horizontalCenter
 
-        Label {
-            id: errorMessage
+            Label {
+                id: errorMessage
 
-            width: parent.width
-            horizontalAlignment: Text.AlignHCenter
+                width: parent.width
+                horizontalAlignment: Text.AlignHCenter
 
-            text: failed ? config.TranslateLoginFailedWarning || textConstants.loginFailed + "!" : keyboard.capsLock ? config.TranslateCapslockWarning || textConstants.capslockWarning : null
-            font.pointSize: root.font.pointSize * 0.8
-            font.italic: true
-            color: config.WarningColor
-            opacity: 0
+                text: failed ? config.TranslateLoginFailedWarning || textConstants.loginFailed + "!" : keyboard.capsLock ? config.TranslateCapslockWarning || textConstants.capslockWarning : ""
 
-            states: [
-                State {
-                    name: "fail"
-                    when: failed
-                    PropertyChanges {
-                        target: errorMessage
-                        opacity: 1
+                font.pointSize: root.font.pointSize * 0.8
+                font.italic: true
+                color: config.WarningColor
+                opacity: 0
+
+                states: [
+                    State {
+                        name: "fail"
+                        when: failed
+                        PropertyChanges {
+                            target: errorMessage
+                            opacity: 1
+                        }
+                    },
+                    State {
+                        name: "capslock"
+                        when: keyboard.capsLock
+                        PropertyChanges {
+                            target: errorMessage
+                            opacity: 1
+                        }
                     }
-                },
-                State {
-                    name: "capslock"
-                    when: keyboard.capsLock
-                    PropertyChanges {
-                        target: errorMessage
-                        opacity: 1
+                ]
+                transitions: [
+                    Transition {
+                        PropertyAnimation {
+                            properties: "opacity"
+                            duration: 100
+                        }
                     }
-                }
-            ]
-            transitions: [
-                Transition {
-                    PropertyAnimation {
-                        properties: "opacity"
-                        duration: 100
-                    }
-                }
-            ]
+                ]
+            }
         }
-    }
 
     Item {
         id: usernameField
 
-        height: root.font.pointSize * 4.5
+        height: root.font.pointSize * 4
         width: parent.width / 2
         anchors.horizontalCenter: parent.horizontalCenter
 
@@ -142,7 +142,7 @@ Column {
 
             delegate: ItemDelegate {
                 //  minus padding
-                width: popupHandler.width - 20
+                width: popupHandler.width - (fontUnit * 1.5)
                 anchors.horizontalCenter: popupHandler.horizontalCenter
 
                 contentItem: Text {
@@ -170,8 +170,8 @@ Column {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.leftMargin: selectUser.height * 0
 
-                icon.height: parent.height * 0.25
-                icon.width: parent.height * 0.25
+                icon.height: parent.height * 0.3
+                icon.width: parent.height * 0.3
                 enabled: false
                 icon.color: config.UserIconColor
                 icon.source: Qt.resolvedUrl("../Assets/User.svg")
@@ -195,10 +195,10 @@ Column {
                 y: parent.height - username.height / 3
                 x: config.RightToLeftLayout == "true" ? -loginButton.width + selectUser.width : 0
                 rightMargin: config.RightToLeftLayout == "true" ? root.padding + usernameField.width / 2 : undefined
-                padding: 10
+                padding: fontUnit * 0.75
 
                 contentItem: ListView {
-                    implicitHeight: contentHeight + 20
+                    implicitHeight: contentHeight + (fontUnit * 1.5)
 
                     clip: true
                     model: selectUser.popup.visible ? selectUser.delegateModel : null
@@ -308,7 +308,7 @@ Column {
     Item {
         id: passwordField
 
-        height: root.font.pointSize * 4.5
+        height: root.font.pointSize * 4
         width: parent.width / 2
         anchors.horizontalCenter: parent.horizontalCenter
 
@@ -322,8 +322,8 @@ Column {
             anchors.verticalCenter: parent.verticalCenter
             z: 2
 
-            icon.height: parent.height * 0.25
-            icon.width: parent.height * 0.25
+            icon.height: parent.height * 0.3
+            icon.width: parent.height * 0.3
             icon.color: config.PasswordIconColor
             icon.source: Qt.resolvedUrl("../Assets/Password2.svg")
 
@@ -443,9 +443,7 @@ Column {
     Item {
         id: login
 
-        // important
-        // try 4 or 9 ...
-        height: root.font.pointSize * 9
+        height: loginButton.implicitHeight + (fontUnit * 3.7)
         width: parent.width / 2
         anchors.horizontalCenter: parent.horizontalCenter
 

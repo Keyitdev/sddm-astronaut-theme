@@ -25,7 +25,6 @@ RowLayout {
 
         RoundButton {
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            Layout.topMargin: root.font.pointSize * 6.5
 
             text: modelData[1]
             font.pointSize: root.font.pointSize * 0.8

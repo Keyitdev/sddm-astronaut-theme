@@ -9,7 +9,7 @@ import QtQuick.Controls 2.15
 Item {
     id: sessionButton
 
-    height: root.font.pointSize
+    height: selectSession.height
     width: parent.width / 2
 
     property var selectedSession: selectSession.currentIndex
@@ -20,9 +20,7 @@ Item {
     ComboBox {
         id: selectSession
 
-        // important
-        // change also in errorMessage
-        height: root.font.pointSize * 2
+        height: root.font.pointSize
         anchors.horizontalCenter: parent.horizontalCenter
 
         hoverEnabled: true
