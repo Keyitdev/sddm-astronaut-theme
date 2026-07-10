@@ -27,10 +27,10 @@ RowLayout {
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
 
             text: modelData[1]
-            font.pointSize: root.font.pointSize * 0.8
+            font.pointSize: rootFontSize * 0.8
             icon.source: modelData ? Qt.resolvedUrl("../Assets/" + modelData[0] + ".svg") : ""
-            icon.height: 2 * Math.round((root.font.pointSize * 3) / 2)
-            icon.width: 2 * Math.round((root.font.pointSize * 3) / 2)
+            icon.height: 2 * Math.round((rootFontSize * 3) / 2)
+            icon.width: 2 * Math.round((rootFontSize * 3) / 2)
             icon.color: config.SystemButtonsIconsColor
             palette.buttonText: config.SystemButtonsIconsColor
             display: AbstractButton.TextUnderIcon

@@ -20,7 +20,7 @@ Item {
     ComboBox {
         id: selectSession
 
-        height: root.font.pointSize
+        height: rootHeightUnit
         anchors.horizontalCenter: parent.horizontalCenter
 
         hoverEnabled: true
@@ -44,7 +44,7 @@ Item {
                 horizontalAlignment: Text.AlignHCenter
 
                 text: model.name
-                font.pointSize: root.font.pointSize * 0.8
+                font.pointSize: rootFontSize
                 font.family: root.font.family
                 color: config.DropdownTextColor
             }
@@ -65,7 +65,7 @@ Item {
 
             text: (config.TranslateSessionSelection || "Session") + " (" + selectSession.currentText + ")"
             color: config.SessionButtonTextColor
-            font.pointSize: root.font.pointSize * 0.8
+            font.pointSize: rootFontSize * 0.8
             font.family: root.font.family
 
             Keys.onReleased: parent.popup.open()
@@ -83,7 +83,7 @@ Item {
 
             implicitHeight: contentItem.implicitHeight
             width: sessionButton.width
-            y: parent.height - 1
+            y: parent.height + rootHeightUnit
             x:  -popupHandler.width/2 + displayedItem.width/2
             padding: 10
 

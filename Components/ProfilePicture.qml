@@ -10,7 +10,7 @@ Item {
     Rectangle {
         anchors.fill: avatarImage
         radius: width / 2
-        color: config.LoginFieldBackgroundColor || "#000000"
+        color: config.ProfilePictureBorderColor
         opacity: 0.2
         z: -1
     }
@@ -33,7 +33,7 @@ Item {
         id: circleMask
 
         anchors.fill: avatarImage
-        radius: width / 2
+        radius: config.ProfilePictureRoundedCorners || 0
         visible: false
         layer.enabled: true
     }
@@ -49,9 +49,9 @@ Item {
         id: ringBorder
 
         anchors.fill: parent
-        radius: width / 2
+        radius: config.ProfilePictureRoundedCorners || 0
         color: "transparent"
-        border.width: 3
-        border.color: config.DateTextColor || "#ffffff"
+        border.width: config.ProfilePictureBorderWidth || 2
+        border.color: config.ProfilePictureBorderColor
     }
 }

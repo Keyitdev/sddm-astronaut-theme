@@ -17,7 +17,7 @@ Column {
 
         anchors.horizontalCenter: parent.horizontalCenter
 
-        font.pointSize: root.font.pointSize * 3
+        font.pointSize: rootFontSize * 3
         color: config.HeaderTextColor
         renderType: Text.QtRendering
         text: config.HeaderText
@@ -28,7 +28,7 @@ Column {
 
         anchors.horizontalCenter: parent.horizontalCenter
 
-        font.pointSize: root.font.pointSize * 9
+        font.pointSize: rootFontSize * 9
         font.bold: true
         color: config.TimeTextColor
         renderType: Text.QtRendering
@@ -44,7 +44,7 @@ Column {
         anchors.horizontalCenter: parent.horizontalCenter
 
         color: config.DateTextColor
-        font.pointSize: root.font.pointSize * 2
+        font.pointSize: rootFontSize * 2
         font.bold: true
         renderType: Text.QtRendering
 

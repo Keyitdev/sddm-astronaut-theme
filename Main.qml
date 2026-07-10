@@ -15,7 +15,7 @@ Pane {
     id: root
 
     height: config.ScreenHeight || Screen.height
-    width: config.ScreenWidth || Screen.ScreenWidth
+    width: config.ScreenWidth || Screen.width
     padding: config.ScreenPadding
 
     LayoutMirroring.enabled: config.RightToLeftLayout == "true" ? true : Qt.application.layoutDirection === Qt.RightToLeft
@@ -27,7 +27,11 @@ Pane {
     palette.buttonText: config.HoverSystemButtonsIconsColor
 
     font.family: config.Font
-    font.pointSize: config.FontSize !== "" ? config.FontSize : parseInt(height / 80) || 13
+    // font.pointSize: config.FontSize !== "" ? config.FontSize : parseInt(height / 80) || 13
+    //
+    property real rootFontSize: config.FontSize !== "" ? config.FontSize : (height / 90) || 12
+    property real rootHeightUnit: config.HeightUnit !== "" ? config.HeightUnit : (height / 90) || 12
+    property real rootWidthUnit: config.WidthUnit !== "" ? config.WidthUnit : (width / 160) || 12
 
     focus: true
 

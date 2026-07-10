@@ -11,11 +11,13 @@ Column {
     id: inputContainer
 
     Layout.fillWidth: true
+    spacing: 0
 
     property ComboBox exposeSession: sessionSelect.exposeSession
     property bool failed
 
-    readonly property real fontUnit: root.font.pointSize
+    readonly property real passwordFieldTopMargin: (Number(config.PasswordFieldTopMargin) || 0) * rootHeightUnit
+    readonly property real loginButtonTopMargin: (Number(config.LoginButtonTopMargin) || 0) * rootHeightUnit
 
     property url currentUserIcon: {
         var typedUser = username.text
@@ -58,7 +60,7 @@ Column {
     Item {
             id: errorMessageField
 
-            height: fontUnit * 1.5
+            height: rootHeightUnit * 1.5
             width: parent.width / 2
             anchors.horizontalCenter: parent.horizontalCenter
 
@@ -70,7 +72,7 @@ Column {
 
                 text: failed ? config.TranslateLoginFailedWarning || textConstants.loginFailed + "!" : keyboard.capsLock ? config.TranslateCapslockWarning || textConstants.capslockWarning : ""
 
-                font.pointSize: root.font.pointSize * 0.8
+                font.pointSize: rootFontSize
                 font.italic: true
                 color: config.WarningColor
                 opacity: 0
@@ -107,7 +109,7 @@ Column {
     Item {
         id: usernameField
 
-        height: root.font.pointSize * 4
+        height: username.height
         width: parent.width / 2
         anchors.horizontalCenter: parent.horizontalCenter
 
@@ -142,7 +144,7 @@ Column {
 
             delegate: ItemDelegate {
                 //  minus padding
-                width: popupHandler.width - (fontUnit * 1.5)
+                width: popupHandler.width - (rootWidthUnit * 1.5)
                 anchors.horizontalCenter: popupHandler.horizontalCenter
 
                 contentItem: Text {
@@ -150,7 +152,7 @@ Column {
                     horizontalAlignment: Text.AlignHCenter
 
                     text: config.UseRealName == "true" ? (model.realName || model.name) : model.name
-                    font.pointSize: root.font.pointSize * 0.8
+                    font.pointSize: rootFontSize
                     font.capitalization: Font.MixedCase
                     font.family: root.font.family
                     color: config.DropdownTextColor
@@ -168,10 +170,10 @@ Column {
                 height: parent.height
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
-                anchors.leftMargin: selectUser.height * 0
+                anchors.leftMargin: selectUser.height * 0.2
 
-                icon.height: parent.height * 0.3
-                icon.width: parent.height * 0.3
+                icon.height: parent.height * 0.4
+                icon.width: parent.height * 0.4
                 enabled: false
                 icon.color: config.UserIconColor
                 icon.source: Qt.resolvedUrl("../Assets/User.svg")
@@ -195,10 +197,10 @@ Column {
                 y: parent.height - username.height / 3
                 x: config.RightToLeftLayout == "true" ? -loginButton.width + selectUser.width : 0
                 rightMargin: config.RightToLeftLayout == "true" ? root.padding + usernameField.width / 2 : undefined
-                padding: fontUnit * 0.75
+                padding: rootHeightUnit * 0.75
 
                 contentItem: ListView {
-                    implicitHeight: contentHeight + (fontUnit * 1.5)
+                    implicitHeight: contentHeight + (rootHeightUnit * 1.5)
 
                     clip: true
                     model: selectUser.popup.visible ? selectUser.delegateModel : null
@@ -258,9 +260,12 @@ Column {
             id: username
 
             anchors.centerIn: parent
-            height: root.font.pointSize * 3
+            height: rootHeightUnit * 3
             width: parent.width
+            font.pointSize: rootFontSize
             horizontalAlignment: TextInput.AlignHCenter
+            leftPadding: selectUser.width
+            rightPadding: selectUser.width
             z: 1
 
             text: config.ForceLastUser == "true" ? selectUser.displayText : null
@@ -306,9 +311,15 @@ Column {
     }
 
     Item {
+        id: passwordFieldSpacer
+        width: 1
+        height: passwordFieldTopMargin
+    }
+
+    Item {
         id: passwordField
 
-        height: root.font.pointSize * 4
+        height: password.height
         width: parent.width / 2
         anchors.horizontalCenter: parent.horizontalCenter
 
@@ -318,12 +329,12 @@ Column {
             height: parent.height
             width: selectUser.height * 1
             anchors.left: parent.left
-            anchors.leftMargin: selectUser.height * 0
+            anchors.leftMargin: selectUser.height * 0.2
             anchors.verticalCenter: parent.verticalCenter
             z: 2
 
-            icon.height: parent.height * 0.3
-            icon.width: parent.height * 0.3
+            icon.height: parent.height * 0.4
+            icon.width: parent.height * 0.4
             icon.color: config.PasswordIconColor
             icon.source: Qt.resolvedUrl("../Assets/Password2.svg")
 
@@ -389,10 +400,13 @@ Column {
         TextField {
             id: password
 
-            height: root.font.pointSize * 3
+            height: rootHeightUnit * 3
             width: parent.width
+            font.pointSize: rootFontSize
             anchors.centerIn: parent
             horizontalAlignment: TextInput.AlignHCenter
+            leftPadding: passwordIcon.width
+            rightPadding: passwordIcon.width
 
             font.bold: true
             color: config.PasswordFieldTextColor
@@ -441,9 +455,15 @@ Column {
     }
 
     Item {
+        id: loginButtonSpacer
+        width: 1
+        height: loginButtonTopMargin
+    }
+
+    Item {
         id: login
 
-        height: loginButton.implicitHeight + (fontUnit * 3.7)
+        height: loginButton.height
         width: parent.width / 2
         anchors.horizontalCenter: parent.horizontalCenter
 
@@ -452,7 +472,7 @@ Column {
         Button {
             id: loginButton
 
-            height: root.font.pointSize * 3
+            height: rootHeightUnit * 3
             implicitWidth: parent.width
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
@@ -466,7 +486,7 @@ Column {
                 verticalAlignment: Text.AlignVCenter
 
                 font.bold: true
-                font.pointSize: root.font.pointSize
+                font.pointSize: rootFontSize
                 font.family: root.font.family
                 color: config.LoginButtonTextColor
                 text: parent.text

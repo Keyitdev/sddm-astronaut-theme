@@ -13,7 +13,7 @@ Item {
 
     Button {
         id: virtualKeyboardButton
-        height: root.font.pointSize
+        height: rootHeightUnit
         anchors.horizontalCenter: parent.horizontalCenter
         z: 1
 
@@ -37,7 +37,7 @@ Item {
             horizontalAlignment: Text.AlignHCenter
 
             text: config.TranslateVirtualKeyboardButtonOff || "Virtual Keyboard (off)"
-            font.pointSize: root.font.pointSize * 0.8
+            font.pointSize: rootFontSize * 0.8
             font.family: root.font.family
             color: parent.visualFocus ? config.HoverVirtualKeyboardButtonTextColor : config.VirtualKeyboardButtonTextColor
         }

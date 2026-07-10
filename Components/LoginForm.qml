@@ -9,14 +9,12 @@ Item {
     id: formContainer
     SDDM.TextConstants { id: textConstants }
 
-    readonly property real fontUnit: root.font.pointSize
-
-    readonly property real clockTopMargin: (Number(config.ClockTopMargin) || 0) * fontUnit
-    readonly property real profilePictureTopMargin: (Number(config.ProfilePictureTopMargin) || 0) * fontUnit
-    readonly property real loginInputTopMargin: (Number(config.LoginInputTopMargin) || 0) * fontUnit
-    readonly property real systemButtonsBottomMargin: (Number(config.SystemButtonsBottomMargin) || 0) * fontUnit
-    readonly property real sessionSelectBottomMargin: (Number(config.SessionSelectBottomMargin) || 0) * fontUnit
-    readonly property real virtualKeyboardButtonBottomMargin: (Number(config.VirtualKeyboardButtonBottomMargin) || 0) * fontUnit
+    readonly property real clockTopMargin: (Number(config.ClockTopMargin) || 0) * rootHeightUnit
+    readonly property real profilePictureTopMargin: (Number(config.ProfilePictureTopMargin) || 0) * rootHeightUnit
+    readonly property real loginInputTopMargin: (Number(config.LoginInputTopMargin) || 0) * rootHeightUnit
+    readonly property real systemButtonsBottomMargin: (Number(config.SystemButtonsBottomMargin) || 0) * rootHeightUnit
+    readonly property real sessionSelectBottomMargin: (Number(config.SessionSelectBottomMargin) || 0) * rootHeightUnit
+    readonly property real virtualKeyboardButtonBottomMargin: (Number(config.VirtualKeyboardButtonBottomMargin) || 0) * rootHeightUnit
 
     ColumnLayout {
         id: topGroup
@@ -29,8 +27,8 @@ Item {
             color: "transparent"
             Layout.alignment: Qt.AlignHCenter
             Layout.topMargin: clockTopMargin
-            Layout.preferredHeight: clock.implicitHeight + (fontUnit * 1.5)
-            implicitWidth: clock.implicitWidth + (fontUnit * 3)
+            Layout.preferredHeight: clock.implicitHeight + (rootHeightUnit * 1.5)
+            implicitWidth: clock.implicitWidth + (rootWidthUnit * 3)
             radius: 20
             Layout.preferredWidth: implicitWidth
             Clock {
@@ -45,14 +43,14 @@ Item {
             Layout.alignment: Qt.AlignHCenter
             Layout.topMargin: profilePictureTopMargin
             Layout.preferredHeight: profilePicture.height
-            implicitWidth: profilePicture.width + (fontUnit * 3)
+            implicitWidth: profilePicture.width + (rootWidthUnit * 3)
             Layout.preferredWidth: implicitWidth
             ProfilePicture {
                 id: profilePicture
                 visible: config.ShowProfilePicture == "true" ? true : false
                 anchors.centerIn: parent
-                width: fontUnit * 11
-                height: fontUnit * 11
+                width: rootHeightUnit * 11
+                height: rootHeightUnit * 11
             }
         }
         Rectangle {
@@ -66,7 +64,7 @@ Item {
             Input {
                 id: input
                 anchors.centerIn: parent
-                width: fontUnit * 60
+                width: rootWidthUnit * 65
             }
         }
     }
@@ -102,7 +100,7 @@ Item {
             SessionButton {
                 id: sessionSelect
                 anchors.centerIn: parent
-                width: fontUnit * 30
+                width: rootWidthUnit * 32.5
             }
         }
         Rectangle {
@@ -116,7 +114,7 @@ Item {
             VirtualKeyboardButton {
                 id: virtualKeyboardButton
                 anchors.centerIn: parent
-                width: fontUnit * 30
+                width: rootWidthUnit * 32.5
             }
         }
     }
