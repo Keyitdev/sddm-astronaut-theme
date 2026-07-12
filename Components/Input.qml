@@ -119,6 +119,7 @@ Column {
             width: parent.height
             height: parent.height
             anchors.left: parent.left
+            anchors.leftMargin: selectUser.height * 0.2
             z: 2
 
             model: userModel
@@ -170,7 +171,7 @@ Column {
                 height: parent.height
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
-                anchors.leftMargin: selectUser.height * 0.2
+
 
                 icon.height: parent.height * 0.4
                 icon.width: parent.height * 0.4
