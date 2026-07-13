@@ -246,9 +246,9 @@ enable_sddm() {
             sv=$(_runit_sv)
             runsvdir=$(_runit_runsvdir)
 
-            if command -v pacman >/dev/null 2>&1; then
+            if [ -f /etc/os-release ] && grep -q 'ID=artix' /etc/os-release; then
                 sudo pacman --needed -S sddm-runit
-                info "sddm-runit installed. As additional pkg."
+                info "sddm-runit installed for Artix Linux"
             fi
 
             if [ ! -d "$sv/sddm" ]; then
