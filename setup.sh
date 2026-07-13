@@ -246,6 +246,11 @@ enable_sddm() {
             sv=$(_runit_sv)
             runsvdir=$(_runit_runsvdir)
 
+            if command -v pacman >/dev/null 2>&1; then
+                sudo pacman --needed -S sddm-runit
+                info "sddm-runit installed. As additional pkg."
+            fi
+
             if [ ! -d "$sv/sddm" ]; then
                 error "$sv/sddm not found - is sddm-runit (or equivalent) installed?"
                 return 1
