@@ -1,5 +1,5 @@
 // Config created by Keyitdev https://github.com/Keyitdev/sddm-astronaut-theme
-// Copyright (C) 2022-2025 Keyitdev
+// Copyright (C) 2022-2026 Keyitdev
 // Distributed under the GPLv3+ License https://www.gnu.org/licenses/gpl-3.0.html
 
 import QtQuick 2.15
@@ -14,6 +14,7 @@ Item {
     Button {
         id: virtualKeyboardButton
         height: rootHeightUnit
+        width: parent.width
         anchors.horizontalCenter: parent.horizontalCenter
         z: 1
 
@@ -37,7 +38,7 @@ Item {
             horizontalAlignment: Text.AlignHCenter
 
             text: config.TranslateVirtualKeyboardButtonOff || "Virtual Keyboard (off)"
-            font.pointSize: rootFontSize * 0.8
+            font.pixelSize: rootFontSize * 1.06
             font.family: root.font.family
             color: parent.visualFocus ? config.HoverVirtualKeyboardButtonTextColor : config.VirtualKeyboardButtonTextColor
         }

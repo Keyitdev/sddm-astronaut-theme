@@ -1,5 +1,5 @@
 // Config created by Keyitdev https://github.com/Keyitdev/sddm-astronaut-theme
-// Copyright (C) 2022-2025 Keyitdev
+// Copyright (C) 2022-2026 Keyitdev
 // Based on https://github.com/MarianArlt/sddm-sugar-dark
 // Distributed under the GPLv3+ License https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -72,7 +72,7 @@ Column {
 
                 text: failed ? config.TranslateLoginFailedWarning || textConstants.loginFailed + "!" : keyboard.capsLock ? config.TranslateCapslockWarning || textConstants.capslockWarning : ""
 
-                font.pointSize: rootFontSize
+                font.pixelSize: rootFontSize * 1.33
                 font.italic: true
                 color: config.WarningColor
                 opacity: 0
@@ -148,12 +148,17 @@ Column {
                 width: popupHandler.width - (rootWidthUnit * 1.5)
                 anchors.horizontalCenter: popupHandler.horizontalCenter
 
+                topPadding: rootScaleUnit * 6
+                bottomPadding: rootScaleUnit * 6
+                leftPadding: rootScaleUnit * 12
+                rightPadding: rootScaleUnit * 12
+
                 contentItem: Text {
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
 
                     text: config.UseRealName == "true" ? (model.realName || model.name) : model.name
-                    font.pointSize: rootFontSize
+                    font.pixelSize: rootFontSize * 1.06
                     font.capitalization: Font.MixedCase
                     font.family: root.font.family
                     color: config.DropdownTextColor
@@ -196,7 +201,7 @@ Column {
                 implicitHeight: contentItem.implicitHeight
                 width: usernameField.width
                 y: parent.height - username.height / 3
-                x: config.RightToLeftLayout == "true" ? -loginButton.width + selectUser.width : 0
+                x: config.RightToLeftLayout == "true" ? (-loginButton.width + selectUser.width + selectUser.anchors.leftMargin) : 0 - selectUser.anchors.leftMargin
                 rightMargin: config.RightToLeftLayout == "true" ? root.padding + usernameField.width / 2 : undefined
                 padding: rootHeightUnit * 0.75
 
@@ -210,7 +215,7 @@ Column {
                 }
 
                 background: Rectangle {
-                    radius: config.RoundCorners / 2
+                    radius: (rootScaleUnit * config.RoundCorners) / 2
                     color: config.DropdownBackgroundColor
                     layer.enabled: true
                 }
@@ -263,7 +268,7 @@ Column {
             anchors.centerIn: parent
             height: rootHeightUnit * 3
             width: parent.width
-            font.pointSize: rootFontSize
+            font.pixelSize: rootFontSize * 1.33
             horizontalAlignment: TextInput.AlignHCenter
             leftPadding: selectUser.width
             rightPadding: selectUser.width
@@ -287,8 +292,8 @@ Column {
                 color: config.LoginFieldBackgroundColor
                 opacity: 0.2
                 border.color: "transparent"
-                border.width: parent.activeFocus ? 2 : 1
-                radius: config.RoundCorners || 0
+                border.width: parent.activeFocus ? (rootScaleUnit * 2) : (rootScaleUnit * 1)
+                radius: rootScaleUnit * config.RoundCorners || 0
             }
 
             onAccepted: triggerLogin()
@@ -327,11 +332,10 @@ Column {
         Button {
             id: passwordIcon
 
+            width: parent.height
             height: parent.height
-            width: selectUser.height * 1
             anchors.left: parent.left
             anchors.leftMargin: selectUser.height * 0.2
-            anchors.verticalCenter: parent.verticalCenter
             z: 2
 
             icon.height: parent.height * 0.4
@@ -403,7 +407,7 @@ Column {
 
             height: rootHeightUnit * 3
             width: parent.width
-            font.pointSize: rootFontSize
+            font.pixelSize: rootFontSize * 1.33
             anchors.centerIn: parent
             horizontalAlignment: TextInput.AlignHCenter
             leftPadding: passwordIcon.width
@@ -424,8 +428,8 @@ Column {
                 color: config.PasswordFieldBackgroundColor
                 opacity: 0.2
                 border.color: "transparent"
-                border.width: parent.activeFocus ? 2 : 1
-                radius: config.RoundCorners || 0
+                border.width: parent.activeFocus ? (rootScaleUnit * 2) : (rootScaleUnit * 1)
+                radius: rootScaleUnit * config.RoundCorners || 0
             }
             onAccepted: triggerLogin()
             KeyNavigation.down: loginButton
@@ -487,7 +491,7 @@ Column {
                 verticalAlignment: Text.AlignVCenter
 
                 font.bold: true
-                font.pointSize: rootFontSize
+                font.pixelSize: rootFontSize * 1.33
                 font.family: root.font.family
                 color: config.LoginButtonTextColor
                 text: parent.text
@@ -499,7 +503,7 @@ Column {
 
                 color: config.LoginButtonBackgroundColor
                 opacity: 0.2
-                radius: config.RoundCorners || 0
+                radius: rootScaleUnit * config.RoundCorners || 0
             }
 
             states: [

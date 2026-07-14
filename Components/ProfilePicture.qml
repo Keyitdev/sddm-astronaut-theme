@@ -1,3 +1,7 @@
+// Config created by Keyitdev https://github.com/Keyitdev/sddm-astronaut-theme
+// Copyright (C) 2022-2026 Keyitdev
+// Distributed under the GPLv3+ License https://www.gnu.org/licenses/gpl-3.0.html
+
 import QtQuick
 import QtQuick.Effects
 
@@ -33,7 +37,7 @@ Item {
         id: circleMask
 
         anchors.fill: avatarImage
-        radius: config.ProfilePictureRoundedCorners || 0
+        radius: rootScaleUnit * config.ProfilePictureRoundedCorners || 0
         visible: false
         layer.enabled: true
     }
@@ -49,9 +53,9 @@ Item {
         id: ringBorder
 
         anchors.fill: parent
-        radius: config.ProfilePictureRoundedCorners || 0
+        radius: rootScaleUnit * config.ProfilePictureRoundedCorners || 0
         color: "transparent"
-        border.width: config.ProfilePictureBorderWidth || 2
+        border.width: rootScaleUnit * config.ProfilePictureBorderWidth || 2
         border.color: config.ProfilePictureBorderColor
     }
 }

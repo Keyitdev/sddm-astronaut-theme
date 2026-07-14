@@ -1,5 +1,5 @@
 // Config created by Keyitdev https://github.com/Keyitdev/sddm-astronaut-theme
-// Copyright (C) 2022-2025 Keyitdev
+// Copyright (C) 2022-2026 Keyitdev
 // Based on https://github.com/MarianArlt/sddm-sugar-dark
 // Distributed under the GPLv3+ License https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -21,6 +21,7 @@ Item {
         id: selectSession
 
         height: rootHeightUnit
+        width: parent.width
         anchors.horizontalCenter: parent.horizontalCenter
 
         hoverEnabled: true
@@ -36,15 +37,20 @@ Item {
 
         delegate: ItemDelegate {
             // minus padding
-            width: popupHandler.width - 20
+            width: popupHandler.width - (rootScaleUnit * 20)
             anchors.horizontalCenter: popupHandler.horizontalCenter
+
+            topPadding: rootScaleUnit * 6
+            bottomPadding: rootScaleUnit * 6
+            leftPadding: rootScaleUnit * 12
+            rightPadding: rootScaleUnit * 12
 
             contentItem: Text {
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
 
                 text: model.name
-                font.pointSize: rootFontSize
+                font.pixelSize: rootFontSize * 1.06
                 font.family: root.font.family
                 color: config.DropdownTextColor
             }
@@ -62,18 +68,19 @@ Item {
             id: displayedItem
 
             verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
 
             text: (config.TranslateSessionSelection || "Session") + " (" + selectSession.currentText + ")"
             color: config.SessionButtonTextColor
-            font.pointSize: rootFontSize * 0.8
+            font.pixelSize: rootFontSize * 1.06
             font.family: root.font.family
 
             Keys.onReleased: parent.popup.open()
         }
 
         background: Rectangle {
-            height: parent.visualFocus ? 2 : 0
-            width: displayedItem.implicitWidth
+            height: parent.visualFocus ? (rootScaleUnit * 2) : 0
+            width: parent.width
 
             color: "transparent"
         }
@@ -84,11 +91,11 @@ Item {
             implicitHeight: contentItem.implicitHeight
             width: sessionButton.width
             y: parent.height + rootHeightUnit
-            x:  -popupHandler.width/2 + displayedItem.width/2
-            padding: 10
+            x: 0
+            padding: rootScaleUnit * 10
 
             contentItem: ListView {
-                implicitHeight: contentHeight + 20
+                implicitHeight: contentHeight + (rootScaleUnit * 20)
 
                 clip: true
                 model: selectSession.popup.visible ? selectSession.delegateModel : null
@@ -97,7 +104,7 @@ Item {
             }
 
             background: Rectangle {
-                radius: config.RoundCorners / 2
+                radius: (rootScaleUnit * config.RoundCorners) / 2
                 color: config.DropdownBackgroundColor
                 layer.enabled: true
             }

@@ -1,10 +1,9 @@
 // Config created by Keyitdev https://github.com/Keyitdev/sddm-astronaut-theme
-// Copyright (C) 2022-2025 Keyitdev
+// Copyright (C) 2022-2026 Keyitdev
 // Based on https://github.com/MarianArlt/sddm-sugar-dark
 // Distributed under the GPLv3+ License https://www.gnu.org/licenses/gpl-3.0.html
 
 import QtQuick 2.15
-import QtQuick.Layouts 1.15
 import QtQuick.Controls 2.15
 import QtQuick.Effects
 import QtMultimedia
@@ -14,8 +13,8 @@ import "Components"
 Pane {
     id: root
 
-    height: config.ScreenHeight || Screen.height
-    width: config.ScreenWidth || Screen.width
+    height: Screen.height
+    width: Screen.width
     padding: config.ScreenPadding
 
     LayoutMirroring.enabled: config.RightToLeftLayout == "true" ? true : Qt.application.layoutDirection === Qt.RightToLeft
@@ -27,11 +26,16 @@ Pane {
     palette.buttonText: config.HoverSystemButtonsIconsColor
 
     font.family: config.Font
-    // font.pointSize: config.FontSize !== "" ? config.FontSize : parseInt(height / 80) || 13
-    //
-    property real rootFontSize: config.FontSize !== "" ? config.FontSize : (height / 90) || 12
-    property real rootHeightUnit: config.HeightUnit !== "" ? config.HeightUnit : (height / 90) || 12
-    property real rootWidthUnit: config.WidthUnit !== "" ? config.WidthUnit : (width / 160) || 12
+
+    function safeOffset(val) {
+        var n = Number(val)
+        return (val === "" || val === undefined || val === null || isNaN(n)) ? 0 : n
+    }
+
+    property real rootFontSize: (config.FontSize !== "" && config.FontSize !== undefined ? Number(config.FontSize) : (height / 90)) + safeOffset(config.FontSizeOffset)
+    property real rootHeightUnit: (config.HeightUnit !== "" && config.HeightUnit !== undefined ? Number(config.HeightUnit) : (height / 90)) + safeOffset(config.HeightUnitOffset)
+    property real rootWidthUnit: (config.WidthUnit !== "" && config.WidthUnit !== undefined ? Number(config.WidthUnit) : (width / 160)) + safeOffset(config.WidthUnitOffset)
+    property real rootScaleUnit: (config.ScaleUnit !== "" && config.ScaleUnit !== undefined ? Number(config.ScaleUnit) : (height / 1080)) + safeOffset(config.ScaleUnitOffset)
 
     focus: true
 
@@ -270,23 +274,29 @@ Pane {
         }
 
         MultiEffect {
-            id: blur
+                    id: blur
 
-            height: parent.height
+                    height: parent.height
 
-            // width: config.FullBlur == "true" ? parent.width : form.width
-            // anchors.centerIn: config.FullBlur == "true" ? parent : form
+                    // width: config.FullBlur == "true" ? parent.width : form.width
+                    // anchors.centerIn: config.FullBlur == "true" ? parent : form
 
-            // This solves problem when FullBlur and HaveFormBackground is set to true but PartialBlur is false and FormPosition isn't center.
-            width: (config.FullBlur == "true" && config.PartialBlur == "false" && config.FormPosition != "center" ) ? parent.width - formBackground.width : config.FullBlur == "true" ? parent.width : form.width
-            anchors.centerIn: config.FullBlur == "true" ? backgroundImage : form
+                    // This solves problem when FullBlur and HaveFormBackground is set to true but PartialBlur is false and FormPosition isn't center.
+                    width: (config.FullBlur == "true" && config.PartialBlur == "false" && config.FormPosition != "center" ) ? parent.width - formBackground.width : config.FullBlur == "true" ? parent.width : form.width
+                    anchors.centerIn: config.FullBlur == "true" ? backgroundImage : form
 
-            source: config.FullBlur == "true" ? backgroundImage : blurMask
-            blurEnabled: true
-            autoPaddingEnabled: false
-            blur: config.Blur == "" ? 2.0 : config.Blur
-            blurMax: config.BlurMax == "" ? 48 : config.BlurMax
-            visible: config.FullBlur == "true" || config.PartialBlur == "true" ? true : false
-        }
+                    source: config.FullBlur == "true" ? backgroundImage : blurMask
+                    blurEnabled: true
+                    autoPaddingEnabled: false
+
+                    property real parsedBlur: config.Blur === "" ? 2.0 : parseFloat(config.Blur)
+                    property real scaledBlur: parsedBlur * root.rootScaleUnit
+
+                    blur: Math.min(1.0, scaledBlur)
+                    blurMax: config.BlurMax !== "" ? parseInt(config.BlurMax, 10) : 48
+                    blurMultiplier: Math.max(0.0, scaledBlur - 1.0)
+
+                    visible: config.FullBlur == "true" || config.PartialBlur == "true" ? true : false
+                }
     }
 }

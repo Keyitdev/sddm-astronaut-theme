@@ -1,5 +1,5 @@
 // Config created by Keyitdev https://github.com/Keyitdev/sddm-astronaut-theme
-// Copyright (C) 2022-2025 Keyitdev
+// Copyright (C) 2022-2026 Keyitdev
 // Based on https://github.com/MarianArlt/sddm-sugar-dark
 // Distributed under the GPLv3+ License https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -17,7 +17,7 @@ Column {
 
         anchors.horizontalCenter: parent.horizontalCenter
 
-        font.pointSize: rootFontSize * 3
+        font.pixelSize: rootFontSize * 4
         color: config.HeaderTextColor
         renderType: Text.QtRendering
         text: config.HeaderText
@@ -28,7 +28,7 @@ Column {
 
         anchors.horizontalCenter: parent.horizontalCenter
 
-        font.pointSize: rootFontSize * 9
+        font.pixelSize: rootFontSize * 12
         font.bold: true
         color: config.TimeTextColor
         renderType: Text.QtRendering
@@ -44,7 +44,7 @@ Column {
         anchors.horizontalCenter: parent.horizontalCenter
 
         color: config.DateTextColor
-        font.pointSize: rootFontSize * 2
+        font.pixelSize: rootFontSize * 2.66
         font.bold: true
         renderType: Text.QtRendering
 
