@@ -2,8 +2,8 @@
 // Copyright (C) 2022-2026 Keyitdev
 // Distributed under the GPLv3+ License https://www.gnu.org/licenses/gpl-3.0.html
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Controls
 
 Item {
     id: virtualKeyboardButtonRoot
@@ -18,7 +18,7 @@ Item {
         anchors.horizontalCenter: parent.horizontalCenter
         z: 1
 
-        visible: virtualKeyboard.status == Loader.Ready && config.HideVirtualKeyboard == "false"
+        visible: virtualKeyboard.status == Loader.Ready && config.ShowVirtualKeyboard == "true"
         checkable: true
         onClicked: virtualKeyboard.switchState()
 

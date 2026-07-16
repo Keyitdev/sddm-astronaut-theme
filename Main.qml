@@ -3,8 +3,8 @@
 // Based on https://github.com/MarianArlt/sddm-sugar-dark
 // Distributed under the GPLv3+ License https://www.gnu.org/licenses/gpl-3.0.html
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Controls
 import QtQuick.Effects
 import QtMultimedia
 
@@ -40,22 +40,22 @@ Pane {
     focus: true
 
     property bool leftleft: config.HaveFormBackground == "true" &&
-                            config.PartialBlur == "false" &&
+                            config.PartialBlur != "true" &&
                             config.FormPosition == "left" &&
                             config.BackgroundHorizontalAlignment == "left"
 
     property bool leftcenter: config.HaveFormBackground == "true" &&
-                              config.PartialBlur == "false" &&
+                              config.PartialBlur != "true" &&
                               config.FormPosition == "left" &&
                               config.BackgroundHorizontalAlignment == "center"
 
     property bool rightright: config.HaveFormBackground == "true" &&
-                              config.PartialBlur == "false" &&
+                              config.PartialBlur != "true" &&
                               config.FormPosition == "right" &&
                               config.BackgroundHorizontalAlignment == "right"
 
     property bool rightcenter: config.HaveFormBackground == "true" &&
-                               config.PartialBlur == "false" &&
+                               config.PartialBlur != "true" &&
                                config.FormPosition == "right" &&
                                config.BackgroundHorizontalAlignment == "center"
 
@@ -85,7 +85,7 @@ Pane {
             z: 1
 
             color: config.FormBackgroundColor
-            visible: config.HaveFormBackground == "true" ? true : false
+            visible: config.HaveFormBackground == "true"
             opacity: config.PartialBlur == "true" ? 0.3 : 1
         }
 
@@ -235,7 +235,7 @@ Pane {
                                Image.AlignBottom : Image.AlignVCenter
 
             speed: config.BackgroundSpeed == "" ? 1.0 : config.BackgroundSpeed
-            paused: config.PauseBackground == "true" ? 1 : 0
+            paused: config.PauseBackground == "true"
             fillMode: config.CropBackground == "true" ? Image.PreserveAspectCrop : Image.PreserveAspectFit
             asynchronous: true
             cache: true
@@ -251,7 +251,7 @@ Pane {
                     player.play();
                 }
                 else{
-                    backgroundImage.source = config.background || config.Background
+                    backgroundImage.source = config.Background
                 }
             }
         }
@@ -270,7 +270,7 @@ Pane {
 
             sourceItem: backgroundImage
             sourceRect: Qt.rect(x,y,width,height)
-            visible: config.FullBlur == "true" || config.PartialBlur == "true" ? true : false
+            visible: config.FullBlur == "true" || config.PartialBlur == "true"
         }
 
         MultiEffect {
@@ -282,7 +282,7 @@ Pane {
                     // anchors.centerIn: config.FullBlur == "true" ? parent : form
 
                     // This solves problem when FullBlur and HaveFormBackground is set to true but PartialBlur is false and FormPosition isn't center.
-                    width: (config.FullBlur == "true" && config.PartialBlur == "false" && config.FormPosition != "center" ) ? parent.width - formBackground.width : config.FullBlur == "true" ? parent.width : form.width
+                    width: config.FullBlur == "true" ? (config.HaveFormBackground == "true" && config.PartialBlur != "true" && config.FormPosition != "center" ? parent.width - formBackground.width : parent.width) : form.width
                     anchors.centerIn: config.FullBlur == "true" ? backgroundImage : form
 
                     source: config.FullBlur == "true" ? backgroundImage : blurMask
@@ -296,7 +296,7 @@ Pane {
                     blurMax: config.BlurMax !== "" ? parseInt(config.BlurMax, 10) : 48
                     blurMultiplier: Math.max(0.0, scaledBlur - 1.0)
 
-                    visible: config.FullBlur == "true" || config.PartialBlur == "true" ? true : false
+                    visible: config.FullBlur == "true" || config.PartialBlur == "true"
                 }
     }
 }

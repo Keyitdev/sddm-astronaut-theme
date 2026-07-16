@@ -3,8 +3,8 @@
 // Based on https://github.com/MarianArlt/sddm-sugar-dark
 // Distributed under the GPLv3+ License https://www.gnu.org/licenses/gpl-3.0.html
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Controls
 
 Item {
     id: sessionButton
@@ -13,8 +13,6 @@ Item {
     width: parent.width / 2
 
     property var selectedSession: selectSession.currentIndex
-    property string textConstantSession
-    property int loginButtonWidth
     property ComboBox exposeSession: selectSession
 
     ComboBox {

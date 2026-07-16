@@ -3,8 +3,8 @@
 // Based on https://github.com/MarianArlt/sddm-sugar-dark
 // Distributed under the GPLv3+ License https://www.gnu.org/licenses/gpl-3.0.html
 
-import QtQuick 2.15
-import QtQuick.Layouts 1.15
+import QtQuick
+import QtQuick.Layouts
 import SddmComponents 2.0 as SDDM
 
 Item {
@@ -49,7 +49,7 @@ Item {
             Layout.preferredWidth: implicitWidth
             ProfilePicture {
                 id: profilePicture
-                visible: config.ShowProfilePicture == "true" ? true : false
+                visible: config.ShowProfilePicture == "true"
                 anchors.centerIn: parent
                 width: rootHeightUnit * 11
                 height: rootHeightUnit * 11
@@ -87,7 +87,6 @@ Item {
             Layout.preferredWidth: implicitWidth
             SystemButtons {
                 id: systemButtons
-                exposedSession: input.exposeSession
                 anchors.centerIn: parent
             }
         }

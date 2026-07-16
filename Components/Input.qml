@@ -3,9 +3,9 @@
 // Based on https://github.com/MarianArlt/sddm-sugar-dark
 // Distributed under the GPLv3+ License https://www.gnu.org/licenses/gpl-3.0.html
 
-import QtQuick 2.15
-import QtQuick.Layouts 1.15
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
 
 Column {
     id: inputContainer
@@ -19,40 +19,30 @@ Column {
     readonly property real passwordFieldTopMargin: (Number(config.PasswordFieldTopMargin) || 0) * rootHeightUnit
     readonly property real loginButtonTopMargin: (Number(config.LoginButtonTopMargin) || 0) * rootHeightUnit
 
-    property url currentUserIcon: {
-        var typedUser = username.text
+    function findRegisteredUser(typedUser, matchRealName) {
         for (var i = 0; i < userRegistry.list.length; i++) {
-            var u = userRegistry.list[i]
-            if (typedUser === "") {
-                if (i === selectUser.currentIndex) return u.icon || ""
-            } else if (typedUser === u.realName || typedUser === u.name) {
-                return u.icon || ""
+            var candidate = userRegistry.list[i]
+            if (typedUser === candidate.name || (matchRealName && typedUser === candidate.realName)) {
+                return candidate
             }
         }
-        return ""
+        return null
+    }
+
+    property url currentUserIcon: {
+        var typedUser = username.text
+        if (typedUser === "") {
+            var highlighted = userRegistry.list[selectUser.currentIndex]
+            return highlighted ? (highlighted.icon || "") : ""
+        }
+        var match = findRegisteredUser(typedUser, true)
+        return match ? (match.icon || "") : ""
     }
 
     function triggerLogin() {
         var typedUser = username.text
-        var targetUser = typedUser
-
-        if (config.UseRealName == "true") {
-            for (var i = 0; i < userRegistry.list.length; i++) {
-                var u = userRegistry.list[i]
-                if (typedUser === u.realName || typedUser === u.name) {
-                    targetUser = u.name
-                    break
-                }
-            }
-        } else {
-            for (var j = 0; j < userRegistry.list.length; j++) {
-                var u2 = userRegistry.list[j]
-                if (typedUser === u2.name) {
-                    targetUser = u2.name
-                    break
-                }
-            }
-        }
+        var match = findRegisteredUser(typedUser, config.UseRealName == "true")
+        var targetUser = match ? match.name : typedUser
 
         sddm.login(targetUser, password.text, sessionSelect.selectedSession)
     }
@@ -415,12 +405,12 @@ Column {
 
             font.bold: true
             color: config.PasswordFieldTextColor
-            focus: config.PasswordFocus == "true" ? true : false
+            focus: config.PasswordFocus == "true"
             echoMode: passwordIcon.checked ? TextInput.Normal : TextInput.Password
             placeholderText: config.TranslatePlaceholderPassword || textConstants.password
             placeholderTextColor: config.PlaceholderTextColor
             passwordCharacter: "•"
-            passwordMaskDelay: config.HideCompletePassword == "true" ? undefined : 1000
+            passwordMaskDelay: config.ShowLastPasswordCharacter == "true" ? 1000 : undefined
             renderType: Text.QtRendering
             selectByMouse: true
 
@@ -472,7 +462,7 @@ Column {
         width: parent.width / 2
         anchors.horizontalCenter: parent.horizontalCenter
 
-        visible: config.HideLoginButton == "true" ? false : true
+        visible: config.ShowLoginButton == "true"
 
         Button {
             id: loginButton
@@ -483,7 +473,7 @@ Column {
             anchors.verticalCenter: parent.verticalCenter
 
             text: config.TranslateLogin || textConstants.login
-            enabled: config.AllowEmptyPassword == "true" || username.text != "" && password.text != "" ? true : false
+            enabled: config.AllowEmptyPassword == "true" || (username.text != "" && password.text != "")
             hoverEnabled: true
 
             contentItem: Text {
@@ -572,7 +562,7 @@ Column {
             Keys.onReturnPressed: clicked()
             Keys.onEnterPressed: clicked()
 
-            KeyNavigation.down: config.HideSystemButtons == "true" ? virtualKeyboard : systemButtons.children[0]
+            KeyNavigation.down: config.ShowSystemButtons == "true" ? systemButtons.children[0] : virtualKeyboard
         }
     }
 
